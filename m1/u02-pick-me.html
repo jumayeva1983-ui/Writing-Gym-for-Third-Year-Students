@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pick Me! CV and cover letter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u02-pick-me">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<!-- ============ SHEET 1 ============ -->
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 1 · Unit 2</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Pick Me!</h1>
+      <p class="sub"><span class="hl">CV</span> and <span class="hl">cover letter</span></p>
+    </div>
+    <span class="badge">Unit 2</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> match every requirement in the advert with <b>evidence</b>, and let the evidence speak for you.</p>
+  </div>
+
+  <!-- LOOK -->
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">Aziz wants a part-time job. Same applicant, two ways to sell himself. Which line would make <b>you</b> read on?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A job advert on a board">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="50" y="12" width="100" height="96" style="fill:#fffef9"/>
+            <path d="M64 32 h72 M64 48 h60 M64 62 h66 M64 76 h50 M64 90 h56" style="stroke:var(--soft);stroke-width:2.2"/>
+            <circle cx="100" cy="12" r="5" style="fill:var(--red);stroke:var(--red)"/>
+          </g>
+        </svg>
+        <p><b>The advert:</b> Blue Domes Travel</p>
+        <p class="msg">Part-time Junior Translator. You will translate tour descriptions from Uzbek into English and answer emails from foreign tourists.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A yawning reader">
+          <g class="doodle" filter="url(#wobble)">
+            <circle cx="100" cy="50" r="30"/><path d="M86 44 h8 M106 44 h8"/><ellipse cx="100" cy="64" rx="8" ry="6"/>
+            <path d="M140 24 q8 -6 14 0 M150 36 q8 -6 14 0" style="stroke:var(--soft)"/>
+          </g>
+        </svg>
+        <p><b>Tell:</b> the reader yawns</p>
+        <p class="msg">I am a hardworking, responsible and communicative person with good English.</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A reader with a star">
+          <g class="doodle" filter="url(#wobble)">
+            <circle cx="90" cy="54" r="30"/><circle cx="80" cy="46" r="3"/><circle cx="100" cy="46" r="3"/><path d="M78 64 q12 10 24 0"/>
+            <path d="M150 22 l6 14 l15 1 l-12 9 l4 15 l-13 -8 l-13 8 l4 -15 l-12 -9 l15 -1 z" style="fill:var(--hl)"/>
+          </g>
+        </svg>
+        <p class="ink"><b>Show:</b> the reader reads on</p>
+        <p class="msg">Answered around 15 English emails a week from guests of a family guesthouse in Bukhara.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the second line has an <b>action verb</b>, a <b>task</b> and a <b>number</b>. It matches the advert.</p>
+  </div>
+
+  <!-- RULE -->
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: three trains</h2></div>
+    <h3 class="ink" style="font-size:28px">The CV train (one page, newest first)</h3>
+    <div class="rules">
+      <div class="train apply">
+        <span class="car engine">NAME</span><span class="link">→</span>
+        <span class="car">PROFILE<br><span class="small">2 lines: who + what you want</span></span><span class="link">→</span>
+        <span class="car">EDUCATION</span><span class="link">→</span>
+        <span class="car">EXPERIENCE</span><span class="link">→</span>
+        <span class="car">SKILLS + LANGUAGES<br><span class="small">CEFR levels</span></span>
+      </div>
+    </div>
+    <h3 class="ink" style="font-size:28px">The achievement train (every CV line)</h3>
+    <div class="rules">
+      <div class="train apply">
+        <span class="car engine d">ACTION VERB</span><span class="link">+</span>
+        <span class="car">TASK</span><span class="link">+</span>
+        <span class="car">RESULT<br><span class="small">a number if you can</span></span>
+      </div>
+      <p class="eg">Translated + 25 museum labels into English + for the city museum's new hall.</p>
+    </div>
+    <h3 class="ink" style="font-size:28px">The letter train (one page)</h3>
+    <div class="rules">
+      <div class="train apply">
+        <span class="car engine s">1 THE JOB</span><span class="link">→</span>
+        <span class="car">2 EVIDENCE<br><span class="small">match the advert</span></span><span class="link">→</span>
+        <span class="car">3 WHY YOU, WHY THEM</span><span class="link">→</span>
+        <span class="car">4 CV + INTERVIEW</span><span class="link">→</span>
+        <span class="car">5 THANKS</span>
+      </div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Tarjimai hol</b> ≠ CV. Tarjimai hol hayot yo<span class="ap">ʻ</span>lini hikoya qiladi; CV esa qisqa bo<span class="ap">ʻ</span>limlar va dalillardan iborat.</p>
+        <p style="margin-top:6px"><b>Obyektivka</b>dagi tug<span class="ap">ʻ</span>ilgan sana, oilaviy holat, millat CV ga yozilmaydi.</p>
+        <p style="margin-top:6px">Avval ism, keyin familiya: <b>Aziz Karimov</b> (otasining ismisiz).</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">Marital status: single</span> ✗<br>
+        <span class="strike">I was born in 2004 in…</span> ✗<br>
+        <span class="strike">Hobbies: listening music</span> ✗<br>
+        <span class="strike">English: perfect</span> ✗ → English: C1<br>
+        <span class="strike">Hoping for your positive answer</span> ✗</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<!-- ============ SHEET 2 ============ -->
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- EX 1 -->
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Keep it or cut it?</h2><span class="time">~4 min</span></div>
+    <p class="how">These lines are from Aziz's first CV. Which ones belong in an English CV? Circle one. Then press the red pen.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Date of birth: 04.09.2004</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>2. Translated 25 museum labels from Uzbek into English for the city museum.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>3. Marital status: single</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>4. English: C1 (CEFR); Russian: B2</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>5. I was born in Samarkand and finished School No. 7 with excellent marks.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>6. 2023–present · BA Foreign Language and Literature (English)</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>7. Hobbies: listening music, sleeping</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>8. Proofread the English pages of the faculty website.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Duty or achievement?</h2><span class="time">~4 min</span></div>
+    <p class="how">A <b>duty</b> says what the job was. An <b>achievement</b> says what you did and what changed. Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Responsible for the club's Instagram page.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>2. Grew the club's Instagram page from 150 to 900 followers in one year.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>3. Helping tourists at the guesthouse.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>4. Answered around 15 English emails a week from guesthouse guests.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>5. Organised a city tour for 30 exchange students.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>6. Was a member of the debate club.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>7. Duties included translation.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+      <div class="rowpick"><span>8. Trained four new volunteers to use the museum's booking system.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">duty</button><span>/</span><button type="button">achievement</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Advert detective</h2><span class="time">~5 min</span></div>
+    <div class="advert">
+      <h3>BLUE DOMES TRAVEL</h3>
+      <p class="what">Part-time Junior Translator (English) · 15 hours a week</p>
+      <ul>
+        <li>Translate tour descriptions from Uzbek into English</li>
+        <li>Answer emails from foreign tourists</li>
+        <li>Check the English on our website</li>
+        <li><b>Essential:</b> third-year student of English or above; reliable with deadlines</li>
+        <li><b>Desirable:</b> a second foreign language</li>
+      </ul>
+      <p class="small" style="text-align:center">Apply with a CV and cover letter to Ms Gulnora Tosheva, Office Manager.</p>
+    </div>
+    <p class="how">Match each requirement with Aziz's best evidence. Choose a letter.</p>
+    <div class="task">
+      <p><b>a</b> Proofread the English pages of the faculty website, correcting over 60 errors.<br>
+      <b>b</b> Translated 25 museum labels from Uzbek into English for the city museum.<br>
+      <b>c</b> Russian: B2; German: A2.<br>
+      <b>d</b> Answered around 15 English emails a week from guests of a family guesthouse.<br>
+      <b>e</b> Produced all 12 issues of the debate club newsletter on time.</p>
+    </div>
+    <div class="order">
+      <div class="ordrow"><select id="adv0" data-ans="b" aria-label="Evidence"><option value="">?</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select><span>Translate tour descriptions from Uzbek into English</span></div>
+      <div class="ordrow"><select id="adv1" data-ans="d" aria-label="Evidence"><option value="">?</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select><span>Answer emails from foreign tourists</span></div>
+      <div class="ordrow"><select id="adv2" data-ans="a" aria-label="Evidence"><option value="">?</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select><span>Check the English on our website</span></div>
+      <div class="ordrow"><select id="adv3" data-ans="e" aria-label="Evidence"><option value="">?</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select><span>Reliable with deadlines</span></div>
+      <div class="ordrow"><select id="adv4" data-ans="c" aria-label="Evidence"><option value="">?</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select><span>A second foreign language</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<!-- ============ SHEET 3 ============ -->
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- EX 4 -->
+  <div class="ex">
+    <div class="exhead"><span class="num">4</span><h2>Make it count</h2><span class="time">~6 min</span></div>
+    <p class="how">Turn each duty into an achievement: <b>action verb + task + result</b>. Invent realistic details. Use a different verb each time.</p>
+    <div class="sticky" style="max-width:560px;flex:none;transform:rotate(-.6deg)">
+      <p><b>Verb bank:</b> organised · translated · designed · coordinated · presented · trained · wrote · improved · ran · managed</p>
+    </div>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Member of the student council.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="mk-1" data-ph="Represented … / Organised …"></div></div></div>
+      <div class="sw"><p class="from">2. Helped my aunt in her café in summer.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="mk-2" data-ph="Served … / Managed …"></div></div></div>
+      <div class="sw"><p class="from">3. Responsible for the English club.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="mk-3" data-ph="Ran … / Coordinated …"></div></div></div>
+      <div class="sw"><p class="from">4. Took part in a translation competition.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="mk-4" data-ph="Won … / Translated …"></div></div></div>
+      <div class="sw"><p class="from">5. Teaching English to my neighbour's children.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="mk-5" data-ph="Taught … / Prepared …"></div></div></div>
+    </div>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Order it!</h2><span class="time">~4 min</span></div>
+    <p class="how">Here is the body of Aziz's cover letter to Ms Tosheva, but the sentences are mixed up. Put them in order: 1 to 6.</p>
+    <div class="order">
+      <div class="ordrow"><select id="ord-0" data-ans="4" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><span>I would be glad to help Blue Domes Travel present the heritage of Uzbekistan in clear, accurate English.</span></div>
+      <div class="ordrow"><select id="ord-1" data-ans="1" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><span>I am writing to apply for the part-time position of Junior Translator advertised on your website.</span></div>
+      <div class="ordrow"><select id="ord-2" data-ans="6" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><span>Thank you for considering my application.</span></div>
+      <div class="ordrow"><select id="ord-3" data-ans="3" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><span>I have also translated 25 museum labels from Uzbek into English for our city museum.</span></div>
+      <div class="ordrow"><select id="ord-4" data-ans="5" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><span>I enclose my CV and would be glad to discuss my application at an interview.</span></div>
+      <div class="ordrow"><select id="ord-5" data-ans="2" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><span>Last summer I answered around 15 English emails a week for a family guesthouse in Bukhara, so I know what foreign visitors ask before a trip.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">These lines are from Aziz's <b>first</b> letter. Rewrite each one so that it sounds confident and professional. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">Dear Sir! I am Aziz Karimov, a student of the university.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">I want to apply to the vacancy of translator.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">I have big experience in translation.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">You will not regret choosing me!</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">I enclose my CV, which gives further details of my experience.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">Hoping for your positive answer. With deep respect, Aziz</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+    </div>
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<!-- ============ SHEET 4 ============ -->
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- EX 7 -->
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Letter corner</h2><span class="time">~25 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> Apply for the Blue Domes Travel job (Exercise 3) with <b>your own</b> experience. First match the advert with your evidence. Then write the letter, paragraph by paragraph.<br>
+      <b>Target: 180–250 words.</b></p>
+
+      <div class="para">
+        <div class="ptag"><b>M</b><span>Matching table</span></div>
+        <div class="card3">
+          <span class="lab">Advert 1</span><div class="write" contenteditable="true" id="m-1" data-ph="translate tour descriptions → my evidence: …"></div>
+          <span class="lab">Advert 2</span><div class="write" contenteditable="true" id="m-2" data-ph="answer tourists' emails → my evidence: …"></div>
+          <span class="lab">Advert 3</span><div class="write" contenteditable="true" id="m-3" data-ph="check the website / deadlines / languages → …"></div>
+        </div>
+      </div>
+
+      <div class="para" id="letter">
+        <div class="ptag"><b>1</b><span>The job</span></div>
+        <p class="frame">Dear Ms Tosheva, I am writing to apply for …………</p>
+        <div class="write" style="--rows:3" contenteditable="true" id="L-1" data-wc></div>
+        <div class="ptag"><b>2</b><span>Evidence that matches the advert</span></div>
+        <div class="write" style="--rows:5" contenteditable="true" id="L-2" data-wc data-ph="As … , I … . I have also …"></div>
+        <div class="ptag"><b>3</b><span>Why you, why them</span></div>
+        <div class="write" style="--rows:3" contenteditable="true" id="L-3" data-wc data-ph="I would bring … / I am particularly interested in Blue Domes Travel because …"></div>
+        <div class="ptag"><b>4</b><span>CV, interview, thanks</span></div>
+        <div class="write" style="--rows:3" contenteditable="true" id="L-4" data-wc data-ph="I enclose my CV … I would be glad to … Thank you for …"></div>
+        <p class="frame">Yours sincerely, (full name)</p>
+        <div class="wcbar" data-count="letter" data-min="180" data-max="250" data-low="Keep going: is every requirement matched with evidence?" data-high="Too long for one page: cut what the employer does not need.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t1">The first sentence names the job.</label>
+        <label><input type="checkbox" id="t2">Each requirement in the advert has a piece of evidence.</label>
+        <label><input type="checkbox" id="t3">Evidence, not adjectives: no “hardworking”, “responsible”.</label>
+        <label><input type="checkbox" id="t4">One paragraph says what Blue Domes Travel gains.</label>
+        <label><input type="checkbox" id="t5">I ask for an interview politely, without pressure.</label>
+        <label><input type="checkbox" id="t6">Dear Ms Tosheva … Yours sincerely, with my full name.</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can tell what belongs in an English CV and what does not.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can turn a duty into an achievement with a verb, a task and a result.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can build a cover letter that matches the advert, move by move.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for your portfolio.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Keep it or cut it?</h3><ol><li>cut</li><li>keep</li><li>cut</li><li>keep</li><li>cut</li><li>keep</li><li>cut</li><li>keep</li></ol></div>
+      <div><h3>2. Duty or achievement?</h3><ol><li>duty</li><li>achievement</li><li>duty</li><li>achievement</li><li>achievement</li><li>duty</li><li>duty</li><li>achievement</li></ol></div>
+      <div><h3>3. Advert detective</h3><ol><li>b</li><li>d</li><li>a</li><li>e</li><li>c</li></ol></div>
+      <div><h3>4. Make it count</h3><p>Answers vary. Examples: 1 Represented 200 second-year students on the student council. 2 Served customers and kept daily sales records in a family café during two summers. 3 Ran weekly meetings of the English club for 25 members. 4 Won second prize in a regional translation competition. 5 Taught English to three primary school children twice a week for a year.</p></div>
+      <div><h3>5. Order it!</h3><p>From top to bottom: 4, 1, 6, 3, 5, 2.</p></div>
+      <div><h3>6. Red pen</h3><ol type="a"><li>Dear Ms Tosheva, (name known; comma, not !; no self-introduction)</li><li>I am writing to apply for the position of Junior Translator.</li><li>I have considerable experience of translation. / Better: give evidence (I have translated 25 museum labels…).</li><li>I would be glad to discuss my application at an interview.</li><li>Correct ✓</li><li>Thank you for considering my application. Yours sincerely, Aziz Karimov</li></ol></div>
+      <div><h3>7. Letter corner</h3><p>Answers vary. Check: four or five paragraphs in the order of the letter train; every requirement matched with evidence; a paragraph on what the company gains; a polite request for an interview; Dear Ms Tosheva … Yours sincerely and full name; 180–250 words.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">4</span>
+</section>
+
+</main>
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

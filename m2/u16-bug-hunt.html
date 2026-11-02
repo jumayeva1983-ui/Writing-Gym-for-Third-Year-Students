@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bug Hunt: correcting common grammar errors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u16-bug-hunt">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 2 · Unit 16</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Bug Hunt</h1>
+      <p class="sub">correcting common <span class="hl">grammar errors</span></p>
+    </div>
+    <span class="badge">Unit 16</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> find the bug, <b>name</b> it, fix it, and say <b>which rule</b> it broke.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A student wrote a short report about a weekend podcast project. Three sentences have bugs. Can you see them before you read the labels?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A beetle under a magnifying glass">
+          <g class="doodle" filter="url(#wobble)">
+            <ellipse cx="88" cy="62" rx="22" ry="28" style="fill:#fffef9"/><path d="M88 34 v56 M66 52 l-16 -8 M66 66 l-18 0 M66 80 l-16 8 M110 52 l16 -8 M110 66 l18 0 M110 80 l16 8"/>
+            <circle cx="88" cy="30" r="9"/>
+            <path d="M126 22 l20 20 M146 22 l-20 20" style="stroke:var(--red)"/>
+          </g></svg>
+        <p><b>Agreement bug</b></p>
+        <p class="msg">The quality of the first episodes <span class="strike">were</span> poor.<br><span class="small">Head noun: <i>quality</i> → <b>was</b></span></p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A beetle under a magnifying glass">
+          <g class="doodle" filter="url(#wobble)">
+            <ellipse cx="88" cy="62" rx="22" ry="28" style="fill:#fffef9"/><path d="M88 34 v56 M66 52 l-16 -8 M66 66 l-18 0 M66 80 l-16 8 M110 52 l16 -8 M110 66 l18 0 M110 80 l16 8"/>
+            <circle cx="88" cy="30" r="9"/>
+            <path d="M126 22 l20 20 M146 22 l-20 20" style="stroke:var(--red)"/>
+          </g></svg>
+        <p><b>Boundary bug</b></p>
+        <p class="msg">The microphone was cheap<span class="strike">,</span> the sound was noisy.<br><span class="small">Comma splice → <b>cheap, so the sound</b></span></p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A beetle under a magnifying glass">
+          <g class="doodle" filter="url(#wobble)">
+            <ellipse cx="88" cy="62" rx="22" ry="28" style="fill:#fffef9"/><path d="M88 34 v56 M66 52 l-16 -8 M66 66 l-18 0 M66 80 l-16 8 M110 52 l16 -8 M110 66 l18 0 M110 80 l16 8"/>
+            <circle cx="88" cy="30" r="9"/>
+            <path d="M126 22 l20 20 M146 22 l-20 20" style="stroke:var(--red)"/>
+          </g></svg>
+        <p class="ink"><b>Small-word bug</b></p>
+        <p class="msg">Our team bought <span class="strike">a</span> new equipment.<br><span class="small"><i>Equipment</i> is uncountable → <b>new equipment</b></span></p>
+      </div>
+    </div>
+    <p class="how">Spot it: most bugs are not random. They come from <b>one rule</b> that the writer has not checked, so the same bug appears again and again.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: four bug traps</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">AGREE</span><span class="link">→</span><span class="car">find the head noun</span><span class="car">The list of guests for the next episodes <b>is</b> ready.</span><span class="car">each / the number of → singular</span></div>
+      <div class="train apply"><span class="car engine s">STOP</span><span class="link">→</span><span class="car">two full sentences + comma = bug</span><span class="car">fix: <b>.</b> &nbsp;or&nbsp; <b>;</b> &nbsp;or&nbsp; <b>, and / but / so</b> &nbsp;or&nbsp; <b>because / although</b></span></div>
+      <div class="train apply"><span class="car engine l">A / THE</span><span class="link">→</span><span class="car">countable?</span><span class="car">singular?</span><span class="car">does the reader know which one?</span></div>
+      <div class="train apply"><span class="car engine m">PREP</span><span class="link">→</span><span class="car">depend <b>on</b></span><span class="car">consist <b>of</b></span><span class="car">focus <b>on</b></span><span class="car">discuss <b>–</b></span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>uchta epizod</b> → three episode<b>s</b><br><span class="small">(sondan keyin ham ko<span class="ap">ʻ</span>plik!)</span></p>
+        <p style="margin-top:6px"><b>ma<span class="ap">ʼ</span>lumotlar, maslahatlar</b> → information, advice<br><span class="small">(-s qo<span class="ap">ʻ</span>shilmaydi)</span></p>
+        <p style="margin-top:6px"><b>-dan iborat</b> → consist <b>of</b> &nbsp; <b>haqida gaplashmoq</b> → discuss (–)</p>
+        <p style="margin-top:6px">O<span class="ap">ʻ</span>zbekcha qo<span class="ap">ʻ</span>shma gapdagi vergul inglizchada ko<span class="ap">ʻ</span>pincha <b>xato</b>.</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">The number of listeners have …</span> ✗<br>
+        <span class="strike">…, however, …</span> between two sentences ✗<br>
+        <span class="strike">Because it was late.</span> (alone) ✗<br>
+        <span class="strike">researches, informations, advices</span> ✗<br>
+        <span class="strike">an useful tip</span> ✗<br>
+        <span class="strike">discuss about</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Singular or plural?</h2><span class="time">~4 min</span></div>
+    <p class="how">Find the head noun first. Then circle the verb that agrees with it.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The voices of the two presenters ___ clear on headphones.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">sounds</button><span>/</span><button type="button">sound</button></span></span></div>
+      <div class="rowpick"><span>2. Each episode ___ about 20 minutes.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">lasts</button><span>/</span><button type="button">last</button></span></span></div>
+      <div class="rowpick"><span>3. The number of listeners ___ doubled since October.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">has</button><span>/</span><button type="button">have</button></span></span></div>
+      <div class="rowpick"><span>4. A number of listeners ___ sent us questions.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">has</button><span>/</span><button type="button">have</button></span></span></div>
+      <div class="rowpick"><span>5. The feedback from the first listeners ___ mostly positive.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">was</button><span>/</span><button type="button">were</button></span></span></div>
+      <div class="rowpick"><span>6. One of our guests ___ a radio journalist.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">was</button><span>/</span><button type="button">were</button></span></span></div>
+      <div class="rowpick"><span>7. There ___ three short sections in every episode.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">is</button><span>/</span><button type="button">are</button></span></span></div>
+      <div class="rowpick"><span>8. Editing the recordings ___ longer than recording them.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">takes</button><span>/</span><button type="button">take</button></span></span></div>
+      <div class="rowpick"><span>9. The equipment for the studio ___ borrowed from the media centre.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">was</button><span>/</span><button type="button">were</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Name the bug</h2><span class="time">~4 min</span></div>
+    <p class="how">Name the bug: <b>CS</b> comma splice, <b>RO</b> run-on, <b>F</b> fragment, or <b>OK</b>.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The first episode was too long, we cut it to 20 minutes.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>2. Because the studio was busy on Mondays.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>3. We recorded on Fridays the studio was free then.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>4. The guests were nervous at first, but they relaxed quickly.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>5. Listening to the first recordings again, which was painful.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>6. The sound was better in the second month; we had a new microphone.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>7. Our teacher liked the idea, however, she asked for a shorter format.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+      <div class="rowpick"><span>8. Is difficult to find guests during exams.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">CS</button><span>/</span><button type="button">RO</button><span>/</span><button type="button">F</button><span>/</span><button type="button">OK</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Choose the repair</h2><span class="time">~4 min</span></div>
+    <p class="how">Each sentence has a comma splice. Which repair is correct <b>and</b> keeps the meaning? Circle a, b or c.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. <i>The studio was booked, we recorded in the library.</i><br>a) The studio was booked, therefore we recorded in the library.<br>b) Because the studio was booked, we recorded in the library.<br>c) The studio was booked we recorded in the library.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>2. <i>Some listeners wanted longer episodes, others preferred short ones.</i><br>a) Some listeners wanted longer episodes, while others preferred short ones.<br>b) Some listeners wanted longer episodes, others, preferred short ones.<br>c) Some listeners wanted longer episodes. Because others preferred short ones.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>3. <i>The guest was late, the interview started at 18:30.</i><br>a) The guest was late, however the interview started at 18:30.<br>b) The guest was late, and, the interview started at 18:30.<br>c) The guest was late, so the interview started at 18:30.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>4. <i>We had no money for music, we used free tracks.</i><br>a) We had no money for music; therefore, we used free tracks.<br>b) We had no money for music, therefore, we used free tracks.<br>c) Having no money for music. We used free tracks.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>A, an, the or nothing?</h2><span class="time">~4 min</span></div>
+    <p class="how"><b>a</b>, <b>an</b>, <b>the</b> or <b>–</b> (no article)? Ask: countable? singular? does the reader know which one?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Our podcast is ___ English-language podcast for first-year students.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">an</button><span>/</span><button type="button">the</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>2. ___ first episode was about student life in the city.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">A</button><span>/</span><button type="button">An</button><span>/</span><button type="button">The</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>3. We interviewed ___ university librarian.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">an</button><span>/</span><button type="button">the</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>4. She gave us ___ useful advice on online databases.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">a</button><span>/</span><button type="button">an</button><span>/</span><button type="button">the</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>5. ___ podcasts are popular with students who travel by bus.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">A</button><span>/</span><button type="button">An</button><span>/</span><button type="button">The</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>6. The guest in ___ third episode was a local author.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">a</button><span>/</span><button type="button">an</button><span>/</span><button type="button">the</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>7. We need about ___ hour to edit each episode.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">an</button><span>/</span><button type="button">the</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>8. ___ Uzbek version of the podcast is planned for next year.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">A</button><span>/</span><button type="button">An</button><span>/</span><button type="button">The</button><span>/</span><button type="button">–</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Pick the preposition</h2><span class="time">~3 min</span></div>
+    <p class="how">Choose the preposition. <b>–</b> means no preposition.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The length of an episode depends ___ the guest.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>2. Each episode consists ___ three parts.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>3. In the last episode, we discussed ___ exam stress.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>4. The podcast had a positive effect ___ our speaking skills.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>5. Our teacher explained the editing software ___ us.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>6. The second season will focus ___ careers.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>7. This format is similar ___ a radio show.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+      <div class="rowpick"><span>8. Several listeners emphasised ___ the need for transcripts.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">on</button><span>/</span><button type="button">of</button><span>/</span><button type="button">to</button><span>/</span><button type="button">–</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time: debug it</h2><span class="time">~5 min</span></div>
+    <p class="how">Debug each sentence and write the fixed version. <span class="red">Careful: one line has no bug!</span> Tick “correct” if there is nothing to fix.</p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">The comments of our first listener was very kind.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">We did not have a studio, we recorded in an empty classroom.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">Each of the presenters prepares five questions before an interview.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">Our team bought a new equipment for the studio.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">In next episode we will discuss about online learning.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Writing corner: debug the report</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> This is the project report paragraph for the department bulletin. It has <b>12 bugs</b>. First plan your hunt, then write the debugged paragraph, then log three bugs.</p>
+      <div class="task"><p>The English Club podcast started in September, it now has 14 episodes. Each episode last about 20 minutes and consist of three parts: news, an interview and a listener question. The number of listeners have grown every month. Because students can listen on the bus. At first, the quality of the recordings were poor, we had only a phone and a cheap microphone. In November the department lent us a better equipment. The feedback from listeners are mostly positive, but a number of them has asked for transcripts. In the next season we want to focus to careers and discuss about job interviews.</p></div>
+      <div class="para">
+        <div class="ptag"><b>1</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Reader</span><div class="write" contenteditable="true" id="pl-who" data-ph="Who reads the bulletin? What do they expect?"></div>
+          <span class="lab">Passes</span><div class="write" contenteditable="true" id="pl-pass" data-ph="Which bugs will I hunt first, second, third?"></div>
+        </div>
+      </div>
+      <div class="para" id="textD">
+        <div class="ptag"><b>2</b><span>The debugged paragraph (85–120 words)</span></div>
+        <div class="write" style="--rows:8" contenteditable="true" id="D-text" data-wc data-ph="The English Club podcast started in September and …"></div>
+        <div class="wcbar" data-count="textD" data-min="85" data-max="120" data-low="Keep going: copy and fix the whole paragraph." data-high="Too long: fix the bugs, do not add new content.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="para">
+        <div class="ptag"><b>3</b><span>My bug log: bug → fix → rule</span></div>
+        <div class="card3">
+          <span class="lab">Bug 1</span><div class="write" contenteditable="true" id="lg-1" data-ph="have grown → has grown: the head is “number”"></div>
+          <span class="lab">Bug 2</span><div class="write" contenteditable="true" id="lg-2" data-ph="… → … because …"></div>
+          <span class="lab">Bug 3</span><div class="write" contenteditable="true" id="lg-3" data-ph="… → … because …"></div>
+        </div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">every verb agrees with its head noun</label>
+        <label><input type="checkbox" id="t1">no two sentences joined by a comma alone</label>
+        <label><input type="checkbox" id="t2">no sentence without a main clause</label>
+        <label><input type="checkbox" id="t3">every singular countable noun has a/an/the or another determiner</label>
+        <label><input type="checkbox" id="t4">prepositions checked (focus on, discuss –)</label>
+        <label><input type="checkbox" id="t5">I changed only what was wrong</label>
+        <label><input type="checkbox" id="t6">each log line names a rule</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can find the head noun and make the verb agree with it.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can spot and repair comma splices, run-ons and fragments.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can choose articles and prepositions and explain my choice.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and keep the file for your IS3 Grammar Accuracy Journal, or send it to your teacher.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Singular or plural?</h3><ol><li>sound (head: voices)</li><li>lasts</li><li>has</li><li>have</li><li>was</li><li>was (head: one)</li><li>are</li><li>takes</li><li>was (uncountable)</li></ol></div>
+      <div><h3>2. Name the bug</h3><ol><li>CS</li><li>F</li><li>RO</li><li>OK</li><li>F</li><li>OK</li><li>CS</li><li>F (no subject: It is difficult …)</li></ol></div>
+      <div><h3>3. Choose the repair</h3><ol><li>b</li><li>a</li><li>c</li><li>a</li></ol><p>The other options keep a comma splice, add wrong commas or create a fragment.</p></div>
+      <div><h3>4. Articles</h3><ol><li>an</li><li>The</li><li>a (“you-” sound)</li><li>– (advice is uncountable)</li><li>– (general statement)</li><li>the</li><li>an (silent h)</li><li>An (vowel sound)</li></ol></div>
+      <div><h3>5. Prepositions</h3><ol><li>on</li><li>of</li><li>–</li><li>on</li><li>to</li><li>on</li><li>to</li><li>–</li></ol></div>
+      <div><h3>6. Debug it</h3><ol type="a"><li>The comments of our first listener were very kind.</li><li>We did not have a studio, so we recorded in an empty classroom. / … a studio; we recorded …</li><li>Correct ✓</li><li>Our team bought new equipment for the studio.</li><li>In the next episode, we will discuss online learning.</li></ol></div>
+      <div><h3>7. Writing corner</h3><p>Bugs: comma splice (September, it); last → lasts; consist → consists; have → has; fragment (Because students …); were → was; comma splice (poor, we had); a better equipment → better equipment; are → is; has → have; focus to → focus on; discuss about → discuss.</p><p>Debugged version (103 words): The English Club podcast started in September and now has 14 episodes. Each episode lasts about 20 minutes and consists of three parts: news, an interview and a listener question. The number of listeners has grown every month, partly because students can listen on the bus. At first, the quality of the recordings was poor because we had only a phone and a cheap microphone. In November, the department lent us better equipment. The feedback from listeners is mostly positive, but a number of them have asked for transcripts. In the next season, we want to focus on careers and discuss job interviews.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

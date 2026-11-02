@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dear who? Formal & informal letters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+</style>
+</head>
+<body data-store="trainer-l12-dear-who">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<!-- ============ SHEET 1 ============ -->
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="top">
+    <span class="series">Letter Writing Trainer</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+
+  <div class="title">
+    <div>
+      <h1>Dear who?</h1>
+      <p class="sub"><span class="hl">formal</span> &amp; <span class="hl">informal</span> letters</p>
+    </div>
+    <span class="badge">Lesson 12</span>
+  </div>
+
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> choose the right voice for the reader — and keep it from the first word to the <u>last</u>.</p>
+  </div>
+
+  <!-- LOOK -->
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~2 min</span></div>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 140" role="img" aria-label="Two friends waving">
+          <g class="doodle" filter="url(#wobble)">
+            <circle cx="66" cy="44" r="14"/><path d="M60 48 q6 6 12 0"/>
+            <path d="M66 58 L66 98 M66 98 L54 128 M66 98 L78 128 M66 70 L46 54 M66 70 L86 82"/>
+            <circle cx="136" cy="44" r="14"/><path d="M130 48 q6 6 12 0"/>
+            <path d="M136 58 L136 98 M136 98 L124 128 M136 98 L148 128 M136 70 L156 54 M136 70 L116 82"/>
+          </g>
+          <text x="100" y="20" text-anchor="middle" style="font-family:var(--note);font-size:20px;fill:var(--ink)">"Hi Aziz! Guess what?"</text>
+        </svg>
+        <p><b>Informal</b> — a friend</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 140" role="img" aria-label="A teacher at a board">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="96" y="30" width="86" height="58" style="fill:#e7f1e9"/>
+            <path d="M108 50 h40 M108 62 h56 M108 74 h30" style="stroke:var(--soft);stroke-width:2.2"/>
+            <circle cx="60" cy="46" r="14"/><path d="M54 50 q6 5 12 0"/><path d="M48 38 q12 -14 24 0"/>
+            <path d="M60 60 L60 100 M60 100 L48 128 M60 100 L72 128 M60 72 L96 60 M60 72 L42 88"/>
+          </g>
+          <text x="100" y="18" text-anchor="middle" style="font-family:var(--note);font-size:18px;fill:var(--ink)">"Dear Ms Karimova, …"</text>
+        </svg>
+        <p><b>Semi-formal</b> — a teacher</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 140" role="img" aria-label="An office building">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="62" y="30" width="76" height="98" style="fill:#fffef9"/>
+            <path d="M76 44 h12 v12 h-12 z M112 44 h12 v12 h-12 z M76 70 h12 v12 h-12 z M112 70 h12 v12 h-12 z M90 104 h20 v24 h-20 z"/>
+            <path d="M40 128 h120"/>
+          </g>
+          <text x="100" y="20" text-anchor="middle" style="font-family:var(--note);font-size:18px;fill:var(--ink)">"Dear Sir or Madam, I am …"</text>
+        </svg>
+        <p class="ink"><b>Formal</b> — a company, an official</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULE -->
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: start and finish on the same train</h2></div>
+    <div class="rules">
+      <div class="train apply">
+        <span class="car engine">FORMAL<br><span class="small">no name</span></span><span class="link">+</span>
+        <span class="car">Dear Sir or Madam,</span><span class="link">…</span>
+        <span class="car">Yours faithfully,</span>
+      </div>
+      <div class="train apply">
+        <span class="car engine d">FORMAL<br><span class="small">name known</span></span><span class="link">+</span>
+        <span class="car">Dear Mr Rashidov,</span><span class="link">…</span>
+        <span class="car">Yours sincerely,</span>
+      </div>
+      <div class="train apply">
+        <span class="car engine s">SEMI-FORMAL<br><span class="small">teacher, colleague</span></span><span class="link">+</span>
+        <span class="car">Dear Ms Karimova,</span><span class="link">…</span>
+        <span class="car">Kind regards, / Best regards,</span>
+      </div>
+      <div class="train apply">
+        <span class="car engine m">INFORMAL<br><span class="small">friend, family</span></span><span class="link">+</span>
+        <span class="car">Hi Aziz, / Dear Aziz,</span><span class="link">…</span>
+        <span class="car">Best wishes, / See you soon, / Love,</span>
+      </div>
+      <p class="eg">Every letter: <b>Hello</b> – <b>Why</b> – <b>What</b> – <b>Next</b> – <b>Bye</b> · each What paragraph: <b>P</b>oint – <b>D</b>etails – <b>R</b>eaction/Request</p>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Formal</b> = “Siz”, rasmiy:<br>Hurmatli janob yoki xonim, …</p>
+        <p style="margin-top:6px"><b>Informal</b> = “sen”, döstona:<br>Salom, Aziz! Qalaysan?</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">Dear Sir or Madam … Yours sincerely</span> ✗<br>
+        <span class="strike">Hi Mr Rashidov!</span> ✗<br>
+        <span class="strike">I'm writing to complain</span> ✗ <span class="small">(formal: I am)</span><br>
+        <span class="strike">Lots of love</span> to a manager ✗</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 1 -->
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Formal or informal?</h2><span class="time">~4 min</span></div>
+    <p class="how">Read each sentence. Circle <b>F</b> (formal) or <b>I</b> (informal). Then press the red pen.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. I would be grateful if you could reply soon.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>2. Can't wait to see you!</span><span class="pw"><span class="pick" data-ans="1"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>3. I am writing to enquire about the course fees.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>4. Guess what happened last week?</span><span class="pw"><span class="pick" data-ans="1"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>5. Please accept my apologies for the delay.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>6. Drop me a line when you're free.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>7. I regret to inform you that I am unable to attend.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+      <div class="rowpick"><span>8. Thanks a million for the present!</span><span class="pw"><span class="pick" data-ans="1"><button type="button">F</button><span>/</span><button type="button">I</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+  <span class="pgno">1</span>
+</section>
+
+<!-- ============ SHEET 2 ============ -->
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Find the partner</h2><span class="time">~3 min</span></div>
+    <p class="how">Circle the sign-off that goes with each salutation.</p>
+    <ol class="items">
+      <li>Dear Sir or Madam, <span class="small">…</span> <span class="pick" data-ans="0"><button type="button">Yours faithfully,</button><span>/</span><button type="button">Yours sincerely,</button><span>/</span><button type="button">Love,</button></span></li>
+      <li>Dear Mr Rashidov, <span class="small">…</span> <span class="pick" data-ans="1"><button type="button">Yours faithfully,</button><span>/</span><button type="button">Yours sincerely,</button><span>/</span><button type="button">Cheers,</button></span></li>
+      <li>Hi Malika, <span class="small">…</span> <span class="pick" data-ans="2"><button type="button">Yours faithfully,</button><span>/</span><button type="button">Yours sincerely,</button><span>/</span><button type="button">Best wishes,</button></span></li>
+      <li>Dear Ms Karimova, <span class="small">(email to your teacher) …</span> <span class="pick" data-ans="0"><button type="button">Kind regards,</button><span>/</span><button type="button">Lots of love,</button><span>/</span><button type="button">See ya,</button></span></li>
+      <li>Dear Customer Services Manager, <span class="small">…</span> <span class="pick" data-ans="1"><button type="button">Yours sincerely,</button><span>/</span><button type="button">Yours faithfully,</button><span>/</span><button type="button">Take care,</button></span></li>
+    </ol>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>WRAP detective</h2><span class="time">~5 min</span></div>
+    <div class="task">
+      <p><b>Task.</b> You bought a pair of headphones from an online shop. They stopped working after a week, and the shop has not answered your email. Write a letter to the customer service manager. In your letter:</p>
+      <ul style="margin:0;padding-left:26px">
+        <li>explain the problem;</li>
+        <li>say what you have already done;</li>
+        <li>say what you want the shop to do.</li>
+      </ul>
+    </div>
+    <div class="card3">
+      <span class="lab">W  Who?</span><div class="write" contenteditable="true" id="w-who" data-ph="Who is the reader? Do I know the name?"></div>
+      <span class="lab">R  Reason?</span><div class="write" contenteditable="true" id="w-reason" data-ph="Why am I writing? (complain, ask, apologise …)"></div>
+      <span class="lab">A  All points?</span><div class="write" style="--rows:3" contenteditable="true" id="w-all" data-ph="1 … 2 … 3 …"></div>
+      <span class="lab">P  Pitch?</span><div class="write" contenteditable="true" id="w-pitch" data-ph="Formal / semi-formal / informal? Polite but firm?"></div>
+    </div>
+    <p class="how">Now circle the best salutation for this letter.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>Salutation</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Hi there,</button><span>/</span><button type="button">Dear Shop,</button><span>/</span><button type="button">Dear Sir or Madam,</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">4</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">These sentences are from the headphones letter. Make them formal. <span class="red">Careful: one sentence is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">Hi! I'm writing to complain about my headphones.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">They stopped working after a week, which is totally rubbish.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">I am writing to complain about the headphones I ordered from your website on 3 October.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">I want my money back ASAP.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">Write back soon!</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">Dear Sir or Madam, … Yours sincerely, Aziz</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+    </div>
+  </div>
+  <span class="pgno">2</span>
+</section>
+
+<!-- ============ SHEET 3 ============ -->
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Magic switch</h2><span class="time">~6 min</span></div>
+    <p class="how">Same message, new voice. Change <b class="ink">informal</b> into <b class="ink">formal</b>.</p>
+    <div class="sticky" style="max-width:560px;flex:none;transform:rotate(-.6deg)">
+      <p><b>Three tricks:</b><br>1. Full forms: I'm → I am<br>2. Polite frames: I would be grateful if you could …<br>3. Formal words: get → receive, ask → enquire, sorry → apologise</p>
+    </div>
+    <div class="switch">
+      <div class="sw"><p class="from">1. I'm writing to say sorry.</p><div class="to"><span class="arrow">→</span><span class="done">I am writing to apologise.</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. Can you send me more info?</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw-2" data-ph="I would be grateful …"></div></div></div>
+      <div class="sw"><p class="from">3. I want my money back.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw-3" data-ph="I would like …"></div></div></div>
+      <div class="sw"><p class="from">4. Thanks a lot for your help!</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw-4" data-ph="Thank you …"></div></div></div>
+      <div class="sw"><p class="from">5. I didn't get your email.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw-5" data-ph="I have not …"></div></div></div>
+    </div>
+    <p class="how" style="margin-top:6px">And now back the other way: <b class="ink">formal</b> into <b class="ink">informal</b> (a letter to a friend).</p>
+    <div class="switch">
+      <div class="sw"><p class="from">6. I regret to inform you that I am unable to attend.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw-6" data-ph="I'm really sorry, but …"></div></div></div>
+      <div class="sw"><p class="from">7. I look forward to hearing from you.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw-7" data-ph="Write …"></div></div></div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Letter corner</h2><span class="time">~20 min</span></div>
+    <div class="corner" id="letter">
+      <p><b>Your turn.</b> Write the headphones letter (Exercise 3) with <b>Hello – Why – What – Next – Bye</b>. Use <b>P-D-R</b> in the What paragraphs. <b>Target: 180–240 words.</b></p>
+      <div class="para">
+        <div class="ptag"><b>H</b><span>Hello + Why</span></div>
+        <p class="frame">Dear …………, I am writing to complain about …………, which I ordered from your website on …………</p>
+        <div class="write" style="--rows:3" contenteditable="true" id="L-h" data-wc></div>
+      </div>
+      <div class="para">
+        <div class="ptag"><b>W</b><span>What 1: the problem (P-D-R)</span></div>
+        <p class="frame">Unfortunately, …………. After only …………, ………… . This was very disappointing because …………</p>
+        <div class="write" style="--rows:4" contenteditable="true" id="L-w1" data-wc></div>
+      </div>
+      <div class="para">
+        <div class="ptag"><b>W</b><span>What 2: what you have done (P-D-R)</span></div>
+        <p class="frame">On …………, I sent an email to ………… . However, I have not yet received …………</p>
+        <div class="write" style="--rows:4" contenteditable="true" id="L-w2" data-wc></div>
+      </div>
+      <div class="para">
+        <div class="ptag"><b>N</b><span>Next + Bye</span></div>
+        <p class="frame">I would therefore be grateful if you could ………… . I look forward to hearing from you. Yours …………, (full name)</p>
+        <div class="write" style="--rows:4" contenteditable="true" id="L-n" data-wc></div>
+      </div>
+      <div class="wcbar" data-count="letter" data-min="180" data-max="240" data-low="Keep going: add more details (P-D-R) to the What paragraphs.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t1">Dear Sir or Madam … Yours faithfully</label>
+        <label><input type="checkbox" id="t2">The reason in the first sentence</label>
+        <label><input type="checkbox" id="t3">All three task points</label>
+        <label><input type="checkbox" id="t4">Polite but firm request</label>
+        <label><input type="checkbox" id="t5">No I'm, no !, no slang</label>
+        <label><input type="checkbox" id="t6">My full name at the end</label>
+      </div>
+      <p class="how" style="margin-top:8px"><b>Bonus (informal):</b> tell your friend Aziz what happened in three chatty sentences.</p>
+      <div class="write" style="--rows:3" contenteditable="true" id="bonus" data-ph="Hi Aziz, you won't believe what happened with my new headphones …"></div>
+    </div>
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can hear the difference between formal and informal.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I always match <b>Dear …</b> and <b>Yours …</b></span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can plan a letter with WRAP and write Hello – Why – What – Next – Bye.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Take a screenshot of your letter corner (or press “Print / save as PDF”) and send it to your teacher.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Formal or informal</h3><ol><li>F</li><li>I</li><li>F</li><li>I</li><li>F</li><li>I</li><li>F</li><li>I</li></ol></div>
+      <div><h3>2. Find the partner</h3><ol><li>Yours faithfully,</li><li>Yours sincerely,</li><li>Best wishes,</li><li>Kind regards,</li><li>Yours faithfully, (no personal name)</li></ol></div>
+      <div><h3>3. WRAP</h3><p>W: customer service manager, name unknown. R: to complain. A: the problem; the email already sent with no answer; a refund or a replacement. P: formal, polite but firm. Salutation: Dear Sir or Madam,</p></div>
+      <div><h3>4. Red pen</h3><ol type="a"><li>Dear Sir or Madam, I am writing to complain about my headphones.</li><li>… after a week, which is very disappointing.</li><li>Correct ✓</li><li>I would like a full refund as soon as possible.</li><li>I look forward to hearing from you.</li><li>Dear Sir or Madam, … Yours faithfully, Aziz Karimov</li></ol></div>
+      <div><h3>5. Magic switch</h3><ol start="2"><li>I would be grateful if you could send me further information.</li><li>I would like a full refund.</li><li>Thank you very much for your assistance.</li><li>I have not received your email.</li><li>I'm really sorry, but I can't come.</li><li>Write soon! / Can't wait to hear from you!</li></ol></div>
+      <div><h3>6. Letter corner</h3><p>Answers vary. Check: Dear Sir or Madam … Yours faithfully; reason in the first sentence; all three points with details; a clear request; formal register; 180–240 words.</p></div>
+    </div>
+  </details>
+  <span class="pgno">3</span>
+</section>
+
+</main>
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'letter-trainer';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add evidence to the Proof paragraph.') : n > max ? 'A little too long: cut anything the advert did not ask for.' : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+
+</html>

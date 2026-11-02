@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find Me Online: peer review and research identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u29-find-me-online">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 29</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Find Me Online</h1>
+      <p class="sub">peer review and your <span class="hl">research identity</span></p>
+    </div>
+    <span class="badge">Unit 29</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> review like a colleague (<b>specific, ranked, respectful</b>), then make sure readers can <b>find the right you</b>.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">Nodir (a fictional student) wrote a short paper on sleep and exam results. Three reviewers sent one comment each. Which one would you want to receive?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A storm cloud">
+          <g class="doodle" filter="url(#wobble)"><path d="M50 70 q-20 0 -20 -18 q0 -18 22 -18 q6 -20 30 -18 q20 -18 42 0 q26 -4 28 20 q18 4 14 22 q-2 12 -18 12 Z" style="fill:var(--pink)"/><path d="M90 84 l-10 18 h14 l-8 16" style="stroke:var(--red)"/></g></svg>
+        <p><b>The thunderstorm</b></p>
+        <p class="msg">“Your statistics are a disaster. Did you even read your own tables?”</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="Fog lines">
+          <g class="doodle" filter="url(#wobble)"><path d="M30 40 h140 M20 60 h120 M50 80 h130 M30 100 h100"/></g></svg>
+        <p><b>The fog</b></p>
+        <p class="msg">“Quite good overall, but some parts could be better. Minor revision maybe.”</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A magnifying glass with a tick">
+          <g class="doodle" filter="url(#wobble)"><circle cx="80" cy="56" r="30"/><path d="M102 78 l30 30"/><path d="M66 56 l10 10 l20 -22" style="stroke:var(--green)"/></g></svg>
+        <p class="ink"><b>The colleague</b></p>
+        <p class="msg">“Major issue 1: Table 2 shows that students who slept longer had higher marks, but the Discussion says that sleep <i>causes</i> better marks. Could this be phrased as a link rather than a cause, since the study did not test one?”</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the colleague says <b>where</b> (Table 2, the Discussion), <b>why</b> it matters (cause vs link) and <b>what</b> could change, and never attacks the writer.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: rank it, place it, explain it, then be findable</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">SUMMARY</span><span class="link">→</span><span class="car">aim, method, main finding</span><span class="car">one real strength</span></div>
+      <div class="train apply"><span class="car engine m">MAJOR ISSUES</span><span class="link">→</span><span class="car">could the conclusions be wrong?</span><span class="car">numbered: 1, 2, 3</span></div>
+      <div class="train apply"><span class="car engine d">MINOR ISSUES</span><span class="link">→</span><span class="car">page and line</span><span class="car">wording, references, format</span></div>
+      <div class="train apply"><span class="car engine l">RECOMMENDATION</span><span class="link">→</span><span class="car">accept · minor · major · reject</span><span class="car">the editor decides</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Find me online</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">ONE NAME</span><span class="link">→</span><span class="car">one Latin spelling</span><span class="car">list the others in ORCID</span></div>
+      <div class="train apply"><span class="car engine s">ORCID iD</span><span class="link">→</span><span class="car">free, for a whole career</span><span class="car">16 characters: 0000-0002-1825-0097 <span class="small">(ORCID’s example record)</span></span></div>
+      <div class="train apply"><span class="car engine m">BIO</span><span class="link">→</span><span class="car">third person, 50–80 words</span><span class="car">no phone, no address</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Hurmatli muallif, …</b> → <b>I have a few suggestions.</b></p>
+        <p style="margin-top:6px"><b>mavzu dolzarb</b> → the topic is <b>timely</b> <span class="small">(“actual” emas)</span></p>
+        <p style="margin-top:6px"><b>… qayta yozish kerak</b> → <b>could be revised</b></p>
+        <p style="margin-top:6px"><b>O<span class="ap">ʻ</span>, G<span class="ap">ʻ</span></b> → bitta shaklni tanlang, qolganlarini ORCID yozuvingizga kiriting</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">The author is lazy.</span> ✗<br>
+        <span class="strike">Reject.</span> ✗ (no reason)<br>
+        <span class="strike">showing the draft to a friend</span> ✗<br>
+        <span class="strike">a phone number in your bio</span> ✗<br>
+        <span class="strike">three spellings of your name</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Major or minor?</h2><span class="time">~4 min</span></div>
+    <p class="how">These comments are about a (fictional) survey of 40 students on mobile dictionaries. <b>Major</b> or <b>minor</b>? Circle.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The survey asked only students who already use mobile dictionaries, so the paper cannot compare users with non-users.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>2. “Dictionary” is misspelt in the title of Table 1.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>3. The conclusion says dictionaries improve vocabulary, but vocabulary was never tested.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>4. Page 4, line 2: “a lot of” could be “many”.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>5. The Methods section does not give the questions, so nobody could repeat the survey.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>6. One source has no page numbers in the reference list.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>7. The percentages in Figure 2 add up to 112&nbsp;%, so some results may be wrong.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+      <div class="rowpick"><span>8. Figure 1 would be easier to read in black and white.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">major</button><span>/</span><button type="button">minor</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Colleague or critic?</h2><span class="time">~3 min</span></div>
+    <p class="how">Which comment sounds like a <b>colleague</b>? Circle A or B.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. <b>A</b> Your introduction is boring. <b>B</b> The introduction could state the research gap earlier, perhaps in the second paragraph.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">A</button><span>/</span><button type="button">B</button></span></span></div>
+      <div class="rowpick"><span>2. <b>A</b> It is not clear from the Methods section how the 40 students were chosen. <b>B</b> You obviously chose your friends.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">A</button><span>/</span><button type="button">B</button></span></span></div>
+      <div class="rowpick"><span>3. <b>A</b> Bad English everywhere!!! <b>B</b> Several sentences in Section 3 are very long; splitting them would help the reader.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">A</button><span>/</span><button type="button">B</button></span></span></div>
+      <div class="rowpick"><span>4. <b>A</b> The data do not appear to support the claim on page 6. <b>B</b> This claim is rubbish.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">A</button><span>/</span><button type="button">B</button></span></span></div>
+      <div class="rowpick"><span>5. <b>A</b> I recommend major revision: the findings are useful, but the conclusion needs to match the sample. <b>B</b> Reject.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">A</button><span>/</span><button type="button">B</button></span></span></div>
+      <div class="rowpick"><span>6. <b>A</b> Why would anyone study this? <b>B</b> The paper could explain who will benefit from the findings.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">A</button><span>/</span><button type="button">B</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Reviewer ethics</h2><span class="time">~3 min</span></div>
+    <p class="how">Is the reviewer doing the right thing? Circle <b>OK</b> or <b>not OK</b>.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. She says no to a paper on chemistry because she studies linguistics.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">OK</button><span>/</span><button type="button">not OK</button></span></span></div>
+      <div class="rowpick"><span>2. He sends the draft to his group chat to ask what his friends think.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">not OK</button></span></span></div>
+      <div class="rowpick"><span>3. She tells the editor that the author is her neighbour and close friend.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">OK</button><span>/</span><button type="button">not OK</button></span></span></div>
+      <div class="rowpick"><span>4. He copies a clever survey question from the paper into his own questionnaire.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">not OK</button></span></span></div>
+      <div class="rowpick"><span>5. She writes “page 3, line 7” next to each minor comment.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">OK</button><span>/</span><button type="button">not OK</button></span></span></div>
+      <div class="rowpick"><span>6. He finishes the report a month after the deadline without telling the editor.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">not OK</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>ORCID facts</h2><span class="time">~3 min</span></div>
+    <p class="how">True or false? Circle.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Two researchers can have the same name but never the same ORCID iD.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">true</button><span>/</span><button type="button">false</button></span></span></div>
+      <div class="rowpick"><span>2. You lose your ORCID iD when you change your surname.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">true</button><span>/</span><button type="button">false</button></span></span></div>
+      <div class="rowpick"><span>3. You can choose who sees each item of your ORCID record.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">true</button><span>/</span><button type="button">false</button></span></span></div>
+      <div class="rowpick"><span>4. <i>orcid.org/0000-0002-1825</i> is a complete iD.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">true</button><span>/</span><button type="button">false</button></span></span></div>
+      <div class="rowpick"><span>5. A university repository can give readers free access to full texts.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">true</button><span>/</span><button type="button">false</button></span></span></div>
+      <div class="rowpick"><span>6. A Google Scholar profile never makes mistakes, so you do not need to check it.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">true</button><span>/</span><button type="button">false</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Bio or not?</h2><span class="time">~3 min</span></div>
+    <p class="how">Which sentence belongs in an <b>academic bio</b>? Circle a or b.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. a) I am Laylo and I really like phonetics. b) Laylo Hamidova is a third-year student of English philology.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button></span></span></div>
+      <div class="rowpick"><span>2. a) Her research interests include pronunciation teaching. b) She is a very talented and clever researcher.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">b</button></span></span></div>
+      <div class="rowpick"><span>3. a) Call her on 99 000 00 00! b) ORCID: https://orcid.org/[her iD]</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button></span></span></div>
+      <div class="rowpick"><span>4. a) She is currently studying how first-year students learn word stress. b) She is doing some stuff about stress.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">b</button></span></span></div>
+      <div class="rowpick"><span>5. a) She was born on 3 March in Namangan. b) She plans to become a teacher of phonetics.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">Red pen: each line of this bio has one problem. Rewrite it. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">Hi! My name is Javohir Ergashev.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">Javohir Ergashev is a third-year student of English philology at the university.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">He is super interested in, like, translation of songs.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">He is the best translator in his group.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">His home address is 12 Navoiy Street, flat 5.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">In some journals he is J. Ergashev, in others Dzhavokhir Ergashev and Javohir Ergashov.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex7">
+    <div class="exhead"><span class="num">7</span><h2>Order the report</h2><span class="time">~4 min</span></div>
+    <p class="how">These sentences come from one reviewer report on a (fictional) paper about online quizzes, but they are mixed up. Choose a number (1–5) for each.</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o7-0" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>1. The Discussion claims that quizzes raise marks in all subjects, but only one English course was studied.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-1" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>I recommend major revision: the study is useful once the claims match the data.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-2" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The paper reports a one-term study of weekly online quizzes in an English course and finds that average quiz scores rose. The design is simple and clearly described.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-3" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>3. Page 5, line 10: “quizes” should be “quizzes”.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-4" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>2. The Methods section does not say how many students took part.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex7">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~15 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> The student conference needs a bio for every speaker. Use the fact card to write a <b>third-person bio of 50–80 words</b> for Sardor, a fictional student. Leave out anything private!</p>
+      <div class="task">
+        <p><b>Fact card: Sardor Nematov</b> <span class="small">(fictional)</span></p>
+        <p class="small">3rd-year student, English philology, the university · interests: film subtitles, audiovisual translation · project: compared how 30 classmates understand films with English and Uzbek subtitles · presenting at the student conference in Week 15 · phone 93 111 22 33 · likes football and cooking plov · born in 2005 in Andijon · wants to work as a subtitle translator · ORCID: https://orcid.org/[his iD]</p>
+      </div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Name form</span><div class="write" contenteditable="true" id="pn-name" data-ph="The one form he will use everywhere"></div>
+          <span class="lab">Keep</span><div class="write" contenteditable="true" id="pn-keep" data-ph="position, interests, project, plan, ORCID"></div>
+          <span class="lab">Leave out</span><div class="write" contenteditable="true" id="pn-out" data-ph="private or irrelevant facts"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textC">
+        <div class="ptag"><b>C</b><span>Sardor's bio (50–80 words)</span></div>
+        <p class="frame">Sardor Nematov is a third-year …</p>
+        <div class="write" style="--rows:6" contenteditable="true" id="C-text" data-wc></div>
+        <div class="wcbar" data-count="textC" data-min="50" data-max="80" data-low="Keep going: have you given his interests and his project?" data-high="Too long: a bio is a snapshot, not a CV.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">third person all the way (he, his)</label>
+        <label><input type="checkbox" id="t1">neutral, formal register: no “Hi!”, no “super”</label>
+        <label><input type="checkbox" id="t2">position and institution in the first sentence</label>
+        <label><input type="checkbox" id="t3">research interests and one project</label>
+        <label><input type="checkbox" id="t4">no phone number, birthday or hobbies</label>
+        <label><input type="checkbox" id="t5">ORCID as a full web address at the end</label>
+        <label><input type="checkbox" id="t6">50–80 words</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can sort reviewer comments into major and minor issues and write them like a colleague.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I know what an ORCID iD is and how to show it.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can write a short third-person academic bio without private information.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep your bio for your IS6 abstract.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Major or minor?</h3><ol><li>major</li><li>minor</li><li>major</li><li>minor</li><li>major</li><li>minor</li><li>major</li><li>minor</li></ol></div>
+      <div><h3>2. Colleague or critic?</h3><ol><li>B</li><li>A</li><li>B</li><li>A</li><li>A</li><li>B</li></ol></div>
+      <div><h3>3. Reviewer ethics</h3><ol><li>OK (outside her expertise)</li><li>not OK (confidential)</li><li>OK (competing interest declared)</li><li>not OK (unpublished material)</li><li>OK</li><li>not OK (tell the editor in time)</li></ol></div>
+      <div><h3>4. ORCID facts</h3><ol><li>true</li><li>false</li><li>true</li><li>false (16 characters)</li><li>true</li><li>false</li></ol></div>
+      <div><h3>5. Bio or not?</h3><ol><li>b</li><li>a</li><li>b</li><li>a</li><li>b</li></ol></div>
+      <div><h3>6. Red pen</h3><ol type="a"><li>Javohir Ergashev is … (third person, no greeting)</li><li>Correct ✓</li><li>His research interests include the translation of song lyrics.</li><li>Delete the self-praise, or give a fact (e.g. a translation prize).</li><li>Delete: private information.</li><li>Choose one form (e.g. Javohir Ergashev) and list the others in ORCID (Also known as).</li></ol></div>
+      <div><h3>7. Order</h3><p>Summary → major 1 → major 2 → minor 3 → recommendation.</p><p>Numbers in the order shown: 2, 5, 1, 4, 3.</p></div>
+      <div><h3>8. Writing corner</h3><p>Model (58 words): Sardor Nematov is a third-year undergraduate student of English philology at the university. His research interests include audiovisual translation and film subtitles. His current project compares how students understand films with English and Uzbek subtitles, and he will present it at the student conference in Week 15. He plans to work as a subtitle translator. ORCID: https://orcid.org/[his iD]</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

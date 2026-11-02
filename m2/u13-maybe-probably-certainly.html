@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maybe, Probably, Certainly: hedging and confidence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u13-maybe-probably-certainly">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 2 · Unit 13</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Maybe, Probably, Certainly</h1>
+      <p class="sub">balancing <span class="hl">hedging and confidence</span></p>
+    </div>
+    <span class="badge">Unit 13</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> make every claim <b>exactly as strong as your evidence</b>: not louder, not quieter.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A faculty counted how many students came to its lectures. Read the facts, then three ways of discussing them.</p>
+    <div class="task"><p><b>Early lectures</b> <span class="small">(fictional data for practice)</span></p>
+      <p>In one faculty, 12 lecture courses were observed for a semester. Average attendance was 71 % at the six courses that started at 8:00 and 86 % at the six that started at 10:00.</p></div>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A certainty dial">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M40 100 A60 60 0 0 1 160 100" style="fill:#fffef9"/>
+            <path d="M52 100 h-12 M160 100 h-12 M100 40 v12 M58 58 l8 8 M142 58 l-8 8"/>
+            <path d="M100 100 L156 70" style="stroke:var(--red);stroke-width:5"/>
+          </g></svg>
+        <p><b>Too loud</b></p>
+        <p class="msg">This proves that students are lazy in the morning. Early lectures must be cancelled everywhere.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A certainty dial">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M40 100 A60 60 0 0 1 160 100" style="fill:#fffef9"/>
+            <path d="M52 100 h-12 M160 100 h-12 M100 40 v12 M58 58 l8 8 M142 58 l-8 8"/>
+            <path d="M100 100 L46 74" style="stroke:var(--red);stroke-width:5"/>
+          </g></svg>
+        <p><b>Too quiet</b></p>
+        <p class="msg">Perhaps the start time might possibly have had some sort of effect, maybe.</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A certainty dial">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M40 100 A60 60 0 0 1 160 100" style="fill:#fffef9"/>
+            <path d="M52 100 h-12 M160 100 h-12 M100 40 v12 M58 58 l8 8 M142 58 l-8 8"/>
+            <path d="M100 100 L120 46" style="stroke:var(--green);stroke-width:5"/>
+          </g></svg>
+        <p class="ink"><b>Just right</b></p>
+        <p class="msg">In this faculty, attendance was clearly lower at 8:00 than at 10:00. This suggests that start time may affect attendance, although the courses also differed in other ways.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the good version states the <b>fact</b> firmly, <b>hedges</b> the explanation and <b>limits</b> the claim to this faculty.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: observe, interpret, generalise</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">OBSERVE</span><span class="link">→</span><span class="car">what your data show</span><span class="car">state it firmly</span><span class="car">attendance <b>was</b> lower at 8:00</span></div>
+      <div class="train apply"><span class="car engine s">INTERPRET</span><span class="link">→</span><span class="car">what it might mean</span><span class="car">hedge it</span><span class="car"><b>suggests</b> · <b>may</b> · <b>appears to</b></span></div>
+      <div class="train apply"><span class="car engine l">GENERALISE</span><span class="link">→</span><span class="car">beyond your data</span><span class="car">limit it</span><span class="car"><b>in this faculty</b> · <b>tend to</b> · <b>some</b></span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">The certainty dial</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine m">POSSIBLE</span><span class="link">→</span><span class="car">might · could</span><span class="car">possibly</span><span class="car">seem</span></div>
+      <div class="train apply"><span class="car engine s">PROBABLE</span><span class="link">→</span><span class="car">may · probably</span><span class="car">likely</span><span class="car">suggest · indicate</span></div>
+      <div class="train apply"><span class="car engine d">CERTAIN</span><span class="link">→</span><span class="car">clearly · certainly</span><span class="car">show · demonstrate</span><span class="car">only when the data really show it</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>bo<span class="ap">ʻ</span>lsa kerak</b> → probably<br><span class="small">(<i>must</i> emas: u qat<span class="ap">ʼ</span>iy xulosa)</span></p>
+        <p style="margin-top:6px"><b>… bo<span class="ap">ʻ</span>lishi mumkin</b> → may / might<br><span class="small">(muayyan holatda <i>can</i> emas)</span></p>
+        <p style="margin-top:6px"><b>Ma<span class="ap">ʼ</span>lumki, …</b> → <span class="strike">It is known that</span><br><span class="small">manba keltiring yoki olib tashlang</span></p>
+        <p style="margin-top:6px"><b>albatta</b> → <span class="strike">of course</span> <span class="small">ilmiy matnda yozilmaydi</span></p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">This proves …</span> after one small study ✗<br>
+        <span class="strike">all / always / every</span> without data ✗<br>
+        <span class="strike">might perhaps possibly</span> ✗<br>
+        <span class="strike">approximately 12 courses</span> when you counted them ✗<br>
+        <span class="strike">We can say that …</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Hedge, booster or neither?</h2><span class="time">~3 min</span></div>
+    <p class="how">Is the word in bold a <b>hedge</b> (less sure), a <b>booster</b> (more sure) or <b>neither</b>? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Morning attendance <b>appears to</b> fall in winter.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>2. The survey <b>clearly</b> shows a fall in bus use.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>3. <b>Perhaps</b> the new timetable was the cause.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>4. The reading room <b>has</b> 300 seats.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>5. These figures <b>demonstrate</b> that the scheme works.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>6. <b>It is likely that</b> prices will rise next year.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>7. <b>Undoubtedly</b>, the new route saved time.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+      <div class="rowpick"><span>8. The answers <b>were collected</b> in March.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">hedge</button><span>/</span><button type="button">booster</button><span>/</span><button type="button">neither</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>From maybe to certainly</h2><span class="time">~3 min</span></div>
+    <p class="how">Put the five claims in order starting with the weakest (1) and ending with the strongest (5).</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o2-0" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The new bus route probably reduced late arrivals.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>There is a slight possibility that the new bus route reduced some late arrivals.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-2" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Without any doubt, the new bus route ended all late arrivals.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-3" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The new bus route may have reduced late arrivals.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-4" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The data clearly show that the new bus route reduced late arrivals.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Can or may?</h2><span class="time">~3 min</span></div>
+    <p class="how"><b>can</b> or <b>may</b>? Use <b>may</b> for a guess about one particular case; <b>can</b> for what is generally possible or allowed.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Noise from the road ___ explain the low scores in Room 3 last Tuesday.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">can</button><span>/</span><button type="button">may</button></span></span></div>
+      <div class="rowpick"><span>2. Long exams ___ be tiring for anyone.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">can</button><span>/</span><button type="button">may</button></span></span></div>
+      <div class="rowpick"><span>3. The missing answers in our survey ___ affect our conclusions.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">can</button><span>/</span><button type="button">may</button></span></span></div>
+      <div class="rowpick"><span>4. Young children ___ learn two languages at the same time.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">can</button><span>/</span><button type="button">may</button></span></span></div>
+      <div class="rowpick"><span>5. The broken heater ___ be the reason for last week's low attendance.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">can</button><span>/</span><button type="button">may</button></span></span></div>
+      <div class="rowpick"><span>6. Members ___ borrow up to five books at a time.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">can</button><span>/</span><button type="button">may</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Match the claim to the evidence</h2><span class="time">~5 min</span></div>
+    <p class="how">Read the evidence. Which claim is <b>exactly as strong</b> as the evidence? Circle a, b or c.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. <i>Evidence: six of the eight people in a focus group liked the new canteen menu.</i><br>a) Everyone loves the new menu.<br>b) Most members of the focus group liked the new menu.<br>c) It is perhaps possible that some people might maybe like it.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>2. <i>Evidence: temperature records for 50 years show summers in a (fictional) town getting steadily hotter.</i><br>a) The records show a clear rise in summer temperatures in the town.<br>b) Summers could perhaps possibly be a little warmer, maybe.<br>c) The records prove that every future summer will be hotter.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>3. <i>Evidence: in one café, tea sales rose in the week when the price fell.</i><br>a) Lower prices always increase sales.<br>b) The price cut caused the rise.<br>c) The rise may be linked to the lower price, although the weather or other factors could also explain it.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>4. <i>Evidence: in a city survey of 2,000 cyclists, 78 % said they felt safer on the new bike lanes (fictional data).</i><br>a) Cyclists may possibly feel slightly safer, perhaps.<br>b) Most cyclists surveyed reported feeling safer on the new lanes.<br>c) The new lanes have made the city completely safe for cyclists.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Too loud or too quiet?</h2><span class="time">~5 min</span></div>
+    <p class="how">Red pen time! Each sentence is <b>too loud</b> or <b>too quiet</b> for its evidence. Rewrite it. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">This survey of one dormitory proves that students hate cooking.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">It might possibly perhaps be the case that the bus is maybe sometimes late.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">Approximately 12 courses were observed in the study.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">In this faculty, attendance at 8:00 lectures tended to be lower than at 10:00.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">It is known that morning people get better grades.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Turn the dial down</h2><span class="time">~5 min</span></div>
+    <p class="how">Make each claim more careful in the way shown. Keep it clear.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Music in the reading room distracts students. <span class="small">(modal verb)</span></p><div class="to"><span class="arrow">→</span><span class="done">Music in the reading room may distract students.</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. Free tea increases attendance at evening talks. <span class="small">(lexical verb)</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-1" data-ph="Free tea appears to …"></div></div></div>
+      <div class="sw"><p class="from">3. Online forms reduce queues at the dean's office. <span class="small">(adverb)</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-2" data-ph="Online forms probably …"></div></div></div>
+      <div class="sw"><p class="from">4. Longer breaks improve concentration in afternoon classes. <span class="small">(limit the scope)</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-3" data-ph="In our group, …"></div></div></div>
+      <div class="sw"><p class="from">5. Students prefer printed handouts. <span class="small">(it is … that)</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-4" data-ph="It is likely that …"></div></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> The faculty has more information about the early lectures from the <b>Look!</b> section. Write the <b>discussion paragraph</b> of its short report: state the finding, interpret it carefully, give a possible explanation and at least two limitations, and suggest a next step. <b>Target: 100–150 words.</b></p>
+      <div class="task"><p><b>Early lectures: more data</b> <span class="small">(fictional data for practice)</span></p>
+      <p>Average attendance: 8:00 courses 71 %, 10:00 courses 86 %. In a short survey, 64 of 110 students said that a long journey made early lectures difficult. Most 8:00 courses were first-year subjects; most 10:00 courses were second-year subjects. Each course had a different lecturer. Data cover one semester only.</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Finding</span><div class="write" contenteditable="true" id="pn-find" data-ph="What do the data show? (state it firmly)"></div>
+          <span class="lab">Meaning</span><div class="write" contenteditable="true" id="pn-mean" data-ph="What might it mean? (hedge it)"></div>
+          <span class="lab">Why?</span><div class="write" contenteditable="true" id="pn-why" data-ph="One possible explanation"></div>
+          <span class="lab">Limits</span><div class="write" contenteditable="true" id="pn-lim" data-ph="At least two limitations"></div>
+          <span class="lab">Next</span><div class="write" contenteditable="true" id="pn-next" data-ph="A next step for the faculty or for research"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textD">
+        <div class="ptag"><b>D</b><span>Discussion paragraph</span></div>
+        <p class="frame">Attendance was lower at 8:00 lectures than at 10:00 lectures (… % against … %). This suggests that …</p>
+        <div class="write" style="--rows:9" contenteditable="true" id="D-text" data-wc></div>
+        <div class="wcbar" data-count="textD" data-min="100" data-max="150" data-low="Keep going: have you given an explanation and two limitations?" data-high="A little too long: cut repeated hedges and extra detail.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">the finding is stated firmly, with the figures</label>
+        <label><input type="checkbox" id="t1">the interpretation is hedged (suggests, may, appears to)</label>
+        <label><input type="checkbox" id="t2">the claim is limited to this faculty</label>
+        <label><input type="checkbox" id="t3">one possible explanation is marked as possible</label>
+        <label><input type="checkbox" id="t4">at least two limitations, stated plainly</label>
+        <label><input type="checkbox" id="t5">no stacked hedges, no “proves”, no “always”</label>
+        <label><input type="checkbox" id="t6">can / may and must / probably checked</label>
+        <label><input type="checkbox" id="t7">100–150 words</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can tell hedges from boosters and rank claims from <b>maybe</b> to <b>certainly</b>.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can make a claim exactly as strong as its evidence.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can state facts firmly, hedge interpretations and limit generalisations.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and add one sentence you repaired today to your Grammar Accuracy Journal (IS3) under <b>hedging</b>, or send the file to your teacher.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Hedge, booster or neither?</h3><ol><li>hedge</li><li>booster</li><li>hedge</li><li>neither</li><li>booster</li><li>hedge</li><li>booster</li><li>neither</li></ol></div>
+      <div><h3>2. From maybe to certainly</h3><p>slight possibility (1) → may have (2) → probably (3) → clearly show (4) → without any doubt, all (5).</p><p>Numbers in the order shown: 3, 1, 5, 2, 4.</p></div>
+      <div><h3>3. Can or may?</h3><ol><li>may (one particular case)</li><li>can (general)</li><li>may</li><li>can (ability)</li><li>may</li><li>can (permission)</li></ol></div>
+      <div><h3>4. Match the claim</h3><ol><li>b</li><li>a</li><li>c (one week, one café: a link, not a proven cause)</li><li>b</li></ol></div>
+      <div><h3>5. Too loud or too quiet?</h3><ol type="a"><li>In this survey of one dormitory, most students said that they disliked cooking.</li><li>The bus is sometimes late.</li><li>Twelve courses were observed in the study.</li><li>Correct ✓</li><li>Some studies have found that … (give a source), or cut the sentence.</li></ol></div>
+      <div><h3>6. Turn the dial down</h3><ol start="2"><li>Free tea appears to increase attendance at evening talks.</li><li>Online forms probably reduce queues at the dean's office.</li><li>In our group, longer breaks seemed to improve concentration in afternoon classes.</li><li>It is likely that students prefer printed handouts.</li></ol></div>
+      <div><h3>7. Writing corner</h3><p>Model (119 words): <i>In this faculty, attendance was clearly lower at 8:00 lectures than at 10:00 lectures (71 % against 86 %). This suggests that an early start may discourage some students from attending. Travel may be part of the explanation, since more than half of the students surveyed said that a long journey made early lectures difficult. These figures need careful reading, however. The early and later courses differed in year of study and in lecturer, so the start time cannot be separated from these factors, and the data cover only one semester. The faculty could test the effect more directly by moving one or two courses to a later time next semester and comparing attendance before and after the change.</i></p></div>
+    </div>
+  </details>
+
+  <span class="pgno">4</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

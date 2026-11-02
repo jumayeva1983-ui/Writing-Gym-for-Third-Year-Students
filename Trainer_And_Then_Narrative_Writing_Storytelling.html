@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>And Then… Story Trainer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --card:#fffef9;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a4c;
+  --rain:#5b86c4;
+  --cloud:#e4ebf2;
+  --hl:#fff17a;
+  --stick:#fff6a8;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcfb;
+  --line:#a9bfd2;
+  --ph:#b5bac6;
+  --star:#f0b429;
+  --staroff:#c8c3b1;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px;break-inside:avoid}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:var(--card);border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+.tag{display:inline-block;font-family:var(--note);font-weight:700;font-size:20px;padding:0 10px;border-radius:12px;color:var(--ink);line-height:1.3}
+.tag.c{background:var(--sky)}.tag.s{background:var(--pink)}.tag.p{background:var(--hl)}
+
+/* the rule as three trains */
+.rules{display:flex;flex-direction:column;gap:20px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 18px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:21px;line-height:1.15;margin-bottom:12px;background:var(--card)}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink);min-width:0}
+.car.engine.c{background:var(--sky)}.car.engine.s{background:var(--pink)}.car.engine.p{background:var(--hl)}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:25px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:var(--stick);padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky.wide{max-width:600px;flex:none;transform:rotate(-.6deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* circle it */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;flex-wrap:wrap;gap:2px;align-items:center}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25;text-align:left}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-3deg)}
+.pick span{color:var(--soft)}
+.pick.long{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.pick.long button{border-radius:var(--wob);padding:2px 10px}
+.pick.long button.on{transform:rotate(-.6deg)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:6px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.mark.q{color:var(--soft)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:var(--card);border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.checkbtn:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* story mountain */
+.mount{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:start}
+.stop{border:2.5px solid var(--pencil);border-radius:var(--wob);background:var(--card);padding:8px 10px 10px;min-width:0;display:flex;flex-direction:column;gap:2px}
+.stop b{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1}
+.stop span{font-size:16px;line-height:1.2;color:var(--pencil)}
+.stop .k{font-family:var(--note);font-size:20px;color:var(--soft)}
+.stop.s1{margin-top:96px;background:var(--sky)}
+.stop.s2{margin-top:48px;background:var(--lilac)}
+.stop.s3{margin-top:0;background:var(--pink)}
+.stop.s4{margin-top:48px;background:var(--mint)}
+.stop.s5{margin-top:96px;background:var(--stick)}
+.peak{font-family:var(--note);font-size:22px;color:var(--red);text-align:center}
+.rowsgrid{display:flex;flex-direction:column;gap:14px}
+.rowpick{display:flex;flex-direction:column;gap:4px;border-bottom:1.5px dotted var(--line);padding-bottom:8px}
+.rowpick .s{line-height:1.35}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere;white-space:pre-wrap}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:var(--ph)}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.ban{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--red);background:var(--pink)}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* story corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.model{display:flex;flex-direction:column;gap:10px;background:var(--card);border:2px solid var(--line);padding:14px 16px;border-radius:4px}
+.model h3{font-size:30px}
+.mp{display:grid;grid-template-columns:118px minmax(0,1fr);gap:10px;align-items:start;font-size:19px;line-height:1.45}
+.mp .lab{font-family:var(--note);font-weight:700;font-size:21px;color:var(--ink);padding:0 8px;border-radius:10px;justify-self:start;line-height:1.3}
+.lab.s1{background:var(--sky)}.lab.s2{background:var(--lilac)}.lab.s3{background:var(--pink)}.lab.s4{background:var(--mint)}.lab.s5{background:var(--stick)}.lab.h{background:var(--hl)}
+.u-c{text-decoration:underline;text-decoration-color:var(--rain);text-decoration-thickness:2.5px;text-underline-offset:3px}
+.u-p{text-decoration:underline wavy;text-decoration-color:#c99a00;text-decoration-thickness:2px;text-underline-offset:3px}
+.tw{font-weight:700;color:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:16px;color:var(--soft)}
+.prompts{display:flex;flex-direction:column;gap:6px;margin:0;padding-left:28px}
+.plan{display:grid;grid-template-columns:140px minmax(0,1fr);gap:6px 10px;align-items:end}
+.plan .lab{font-family:var(--note);font-weight:700;font-size:22px;color:var(--ink);padding:0 8px;border-radius:10px;justify-self:start}
+.counter{font-family:var(--note);font-size:24px;color:var(--soft)}
+.counter.good{color:var(--green)}
+.counter.over{color:var(--red)}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.checks label{display:flex;gap:8px;align-items:flex-start}
+.checks input{width:22px;height:22px;flex:none;margin-top:3px;accent-color:var(--green)}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:var(--staroff);cursor:pointer;padding:0 2px}
+.stars button.on{color:var(--star)}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+
+/* tools */
+.tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;font-size:17px;color:var(--soft)}
+.tools .btns{display:flex;flex-wrap:wrap;gap:10px}
+.toolbtn{font-family:var(--note);font-size:23px;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.toolbtn:hover{background:var(--sky)}
+.toolbtn.warn{color:var(--red);border-color:var(--red)}
+.toolbtn:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .mount{grid-template-columns:minmax(0,1fr)}
+  .stop.s1,.stop.s2,.stop.s3,.stop.s4,.stop.s5{margin-top:0}
+  .stop.s2{margin-left:14px}.stop.s3{margin-left:28px}.stop.s4{margin-left:14px}
+  .mp{grid-template-columns:minmax(0,1fr)}
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .checks{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes,.tools,.checkrow{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<main class="book">
+
+<!-- ============ SHEET 1 ============ -->
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="top">
+    <span class="series">From Sentence to Essay</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+
+  <div class="title">
+    <div>
+      <h1>And then…</h1>
+      <p class="sub">telling a <span class="hl">story</span> in English</p>
+    </div>
+    <span class="badge">Story time</span>
+  </div>
+
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> tell a short story with a clear shape and the <u>right past tenses</u>.</p>
+  </div>
+
+  <!-- LOOK -->
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 140" role="img" aria-label="A girl walking home in the rain">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M44 46 q-16 0 -16 -14 q0 -14 16 -12 q4 -16 24 -14 q10 -10 26 -2 q18 -2 20 14 q14 2 12 16 q-2 12 -18 12 z" style="fill:var(--cloud)"/>
+            <path d="M50 60 l-4 10 M70 60 l-4 10 M90 60 l-4 10 M60 78 l-4 10 M82 78 l-4 10 M102 64 l-4 10" style="stroke:var(--rain)"/>
+          </g>
+          <g class="doodle" filter="url(#wobble)" transform="translate(150 44)">
+            <circle cx="0" cy="0" r="12"/>
+            <path d="M-4 4 q4 -3 8 0"/>
+            <path d="M0 12 L2 50 M1 24 L-14 36 M1 24 L14 38 M2 50 L-10 76 M2 50 L14 76"/>
+            <path d="M-22 -14 q22 -22 44 0 z" style="fill:var(--pink)"/>
+            <path d="M0 -14 v-6"/>
+          </g>
+        </svg>
+        <p>I <b class="ink">was walking</b> home in the rain.</p>
+        <span class="tag c">background</span>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 140" role="img" aria-label="A phone ringing">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="78" y="24" width="44" height="80" rx="8" style="fill:var(--card)"/>
+            <path d="M92 94 h16"/>
+            <path d="M60 40 q-10 24 0 48 M46 32 q-16 32 0 64 M140 40 q10 24 0 48 M154 32 q16 32 0 64" style="stroke:var(--red)"/>
+          </g>
+          <text x="100" y="128" text-anchor="middle" style="font-family:var(--note);font-size:22px;fill:var(--ink)">Ring! Ring!</text>
+        </svg>
+        <p><b class="ink">Suddenly</b>, my phone <b class="ink">rang</b>.</p>
+        <span class="tag s">main event</span>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 140" role="img" aria-label="A bus driving away with a bag in its window">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="70" y="40" width="112" height="56" rx="10" style="fill:var(--stick)"/>
+            <path d="M84 52 h22 v18 h-22 z M116 52 h22 v18 h-22 z M148 52 h22 v18 h-22 z" style="fill:var(--sky)"/>
+            <rect x="120" y="58" width="14" height="12" rx="2" style="fill:var(--pink)"/>
+            <circle cx="92" cy="98" r="9" style="fill:var(--card)"/><circle cx="160" cy="98" r="9" style="fill:var(--card)"/>
+            <path d="M40 60 h-22 M44 74 h-30 M40 88 h-20" style="stroke:var(--soft)"/>
+          </g>
+          <text x="100" y="128" text-anchor="middle" style="font-family:var(--note);font-size:21px;fill:var(--red)">"My bag!"</text>
+        </svg>
+        <p>But I <b class="ink">had left</b> my bag on the bus!</p>
+        <span class="tag p">even earlier</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULE -->
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: three trains</h2></div>
+    <div class="rules">
+      <div class="train">
+        <span class="car engine c">PAST CONTINUOUS</span>
+        <span class="link">=</span>
+        <span class="car">background<br><span class="small">(what was happening)</span></span>
+        <span class="eg">the wind <u>was blowing</u></span>
+      </div>
+      <div class="train">
+        <span class="car engine s">PAST SIMPLE</span>
+        <span class="link">=</span>
+        <span class="car">main events<br><span class="small">(one after another)</span></span>
+        <span class="eg">I <u>opened</u> the door and <u>shouted</u></span>
+      </div>
+      <div class="train">
+        <span class="car engine p">PAST PERFECT</span>
+        <span class="link">=</span>
+        <span class="car">had + V3<br><span class="small">(before the story moment)</span></span>
+        <span class="eg">someone <u>had broken</u> the window</span>
+      </div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>was blowing</b> = esayotgan edi <span class="small">(fon)</span></p>
+        <p><b>opened</b> = oçdim <span class="small">(asosiy voqea)</span></p>
+        <p><b>had broken</b> = sindirgan edi <span class="small">(undan oldinroq)</span></p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">I open the door and saw…</span> ✗<br><small class="small">Don't mix present and past!</small></p>
+        <p style="margin-top:6px"><span class="strike">I was knowing</span> ✗ → I <u>knew</u><br><small class="small">know, want, like: no -ing</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Circle it!</h2><span class="time">~5 min</span></div>
+    <p class="how">Background, main event or even earlier? Circle the right form.</p>
+    <ol class="items">
+      <li>I <span class="pick" data-ans="0"><button type="button">was walking</button><span>/</span><button type="button">walked</button></span> home when it started to rain.</li>
+      <li>When we got to the cinema, the film <span class="pick" data-ans="1"><button type="button">already started</button><span>/</span><button type="button">had already started</button></span>.</li>
+      <li>While Aziz <span class="pick" data-ans="1"><button type="button">cooked</button><span>/</span><button type="button">was cooking</button></span> dinner, the lights went out.</li>
+      <li>She <span class="pick" data-ans="0"><button type="button">opened</button><span>/</span><button type="button">was opening</button></span> the letter, read it and smiled.</li>
+      <li>I couldn't pay because I <span class="pick" data-ans="0"><button type="button">had lost</button><span>/</span><button type="button">lost</button></span> my wallet earlier that day.</li>
+      <li>It was a lovely morning. The birds <span class="pick" data-ans="1"><button type="button">sang</button><span>/</span><button type="button">were singing</button></span> and the sun was shining.</li>
+      <li>As soon as the teacher <span class="pick" data-ans="0"><button type="button">came</button><span>/</span><button type="button">was coming</button></span> in, everyone stopped talking.</li>
+      <li>By the time the police arrived, the thief <span class="pick" data-ans="0"><button type="button">had run away</button><span>/</span><button type="button">ran away</button></span>.</li>
+    </ol>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score" aria-live="polite"></span></div>
+  </div>
+  <span class="pgno">1</span>
+</section>
+
+<!-- ============ SHEET 2 ============ -->
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The story mountain</h2></div>
+    <p class="how">Every good story climbs up, reaches the top, and comes down again.</p>
+    <div class="peak">the most exciting moment ↓</div>
+    <div class="mount">
+      <div class="stop s1"><span class="k">1</span><b>Setting</b><span>Who? Where? When? What was happening?</span></div>
+      <div class="stop s2"><span class="k">2</span><b>Problem</b><span>What went wrong?</span></div>
+      <div class="stop s3"><span class="k">3</span><b>Climax</b><span>The top! Tension, feelings, action.</span></div>
+      <div class="stop s4"><span class="k">4</span><b>Resolution</b><span>How was the problem solved?</span></div>
+      <div class="stop s5"><span class="k">5</span><b>Ending</b><span>How did you feel? What changed?</span></div>
+    </div>
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Climb the mountain</h2><span class="time">~5 min</span></div>
+    <p class="how">These five sentences tell one story, but they are mixed up. Circle the part of the mountain for each one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span class="s"><b class="ink">a</b> I opened a door, and twenty serious students in the middle of an exam turned to look at me.</span>
+        <span class="pick" data-ans="2"><button type="button">Setting</button><span>/</span><button type="button">Problem</button><span>/</span><button type="button">Climax</button><span>/</span><button type="button">Resolution</button><span>/</span><button type="button">Ending</button></span></div>
+      <div class="rowpick"><span class="s"><b class="ink">b</b> It was my first morning at university, and the corridors were full of new faces.</span>
+        <span class="pick" data-ans="0"><button type="button">Setting</button><span>/</span><button type="button">Problem</button><span>/</span><button type="button">Climax</button><span>/</span><button type="button">Resolution</button><span>/</span><button type="button">Ending</button></span></div>
+      <div class="rowpick"><span class="s"><b class="ink">c</b> Now, whenever I see a lost first-year student, I always stop to help.</span>
+        <span class="pick" data-ans="4"><button type="button">Setting</button><span>/</span><button type="button">Problem</button><span>/</span><button type="button">Climax</button><span>/</span><button type="button">Resolution</button><span>/</span><button type="button">Ending</button></span></div>
+      <div class="rowpick"><span class="s"><b class="ink">d</b> I had lost my timetable, so I had no idea where my first lesson was.</span>
+        <span class="pick" data-ans="1"><button type="button">Setting</button><span>/</span><button type="button">Problem</button><span>/</span><button type="button">Climax</button><span>/</span><button type="button">Resolution</button><span>/</span><button type="button">Ending</button></span></div>
+      <div class="rowpick"><span class="s"><b class="ink">e</b> The teacher smiled kindly, took me outside and showed me the right room.</span>
+        <span class="pick" data-ans="3"><button type="button">Setting</button><span>/</span><button type="button">Problem</button><span>/</span><button type="button">Climax</button><span>/</span><button type="button">Resolution</button><span>/</span><button type="button">Ending</button></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score" aria-live="polite"></span></div>
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Time words</h2><span class="time">~4 min</span></div>
+    <div class="sticky wide">
+      <p><b>suddenly</b> = birdan · <b>while</b> = …ayotganda · <b>as soon as</b> = …işi bilan<br><b>by the time</b> = …gan paytga kelib · <b>eventually</b> = oxiri, nihoyat · <b>then</b> = keyin</p>
+    </div>
+    <p class="how">Circle the time word that fits.</p>
+    <ol class="items">
+      <li><span class="pick" data-ans="0"><button type="button">Suddenly</button><span>/</span><button type="button">While</button></span>, the lights went out.</li>
+      <li><span class="pick" data-ans="1"><button type="button">As soon as</button><span>/</span><button type="button">While</button></span> I was reading, my cat jumped onto the table.</li>
+      <li><span class="pick" data-ans="0"><button type="button">As soon as</button><span>/</span><button type="button">By the time</button></span> I saw the message, I called my mother.</li>
+      <li><span class="pick" data-ans="1"><button type="button">Suddenly</button><span>/</span><button type="button">By the time</button></span> we arrived, the shop had closed.</li>
+      <li>We waited and waited. <span class="pick" data-ans="1"><button type="button">While</button><span>/</span><button type="button">Eventually</button></span>, the bus came.</li>
+      <li>I finished my homework. <span class="pick" data-ans="0"><button type="button">Then</button><span>/</span><button type="button">While</button></span> I went to bed.</li>
+    </ol>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score" aria-live="polite"></span></div>
+  </div>
+  <span class="pgno">2</span>
+</section>
+
+<!-- ============ SHEET 3 ============ -->
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">4</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">You are the teacher now. Find the mistake and write the sentence correctly. <span class="red">Careful: one sentence is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">Yesterday I go to the market and bought some apples.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">When I arrived at the party, everyone was dancing.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">While I walked to school, I was seeing an accident.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">She was exhausted because she worked all night before the exam.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">I was knowing the answer, but I didn't say it.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">Suddenly, the door was opening and a tall man came in.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Show, don't tell</h2><span class="time">~8 min</span></div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Tell (boring)</h3>
+        <p>I was scared.</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Show (alive!)</h3>
+        <p>My hands were shaking, and I could hear my own heart.</p>
+      </div>
+    </div>
+    <p class="how">Write two sentences that <b>show</b> the feeling. Don't use the word on the red tag!</p>
+    <div class="pics">
+      <div class="pic">
+        <div class="pichead">
+          <svg viewBox="0 0 96 78" role="img" aria-label="A worried face with drops of sweat">
+            <g class="doodle" filter="url(#wobble)"><circle cx="40" cy="40" r="28" style="fill:var(--card)"/><circle cx="31" cy="34" r="2"/><circle cx="49" cy="34" r="2"/><path d="M28 52 q6 -5 12 0 q6 5 12 0"/><path d="M26 26 l8 3 M54 26 l-8 3"/><path d="M74 20 q-5 8 0 10 q5 -2 0 -10 z M82 36 q-4 6 0 8 q4 -2 0 -8 z" style="stroke:var(--rain);fill:var(--sky)"/></g>
+          </svg>
+          <div><p class="cue">five minutes before<br>a big exam</p><span class="ban">nervous</span></div>
+        </div>
+        <div class="write" style="--rows:2" contenteditable="true" id="pic-a"></div>
+      </div>
+      <div class="pic">
+        <div class="pichead">
+          <svg viewBox="0 0 96 78" role="img" aria-label="An angry face with steam">
+            <g class="doodle" filter="url(#wobble)"><circle cx="40" cy="44" r="28" style="fill:var(--pink)"/><path d="M26 34 l10 5 M54 34 l-10 5"/><circle cx="32" cy="43" r="2"/><circle cx="48" cy="43" r="2"/><path d="M30 58 l5 -4 l5 4 l5 -4 l5 4"/><path d="M68 18 q6 -6 0 -12 M78 22 q6 -6 0 -12 M74 34 q6 -6 0 -12" style="stroke:var(--soft)"/></g>
+          </svg>
+          <div><p class="cue">someone took your seat<br>and your notes</p><span class="ban">angry</span></div>
+        </div>
+        <div class="write" style="--rows:2" contenteditable="true" id="pic-b"></div>
+      </div>
+      <div class="pic">
+        <div class="pichead">
+          <svg viewBox="0 0 96 78" role="img" aria-label="A sleepy face">
+            <g class="doodle" filter="url(#wobble)"><circle cx="40" cy="44" r="28" style="fill:var(--sky)"/><path d="M27 42 q5 4 10 0 M43 42 q5 4 10 0"/><path d="M34 58 q6 3 12 0"/></g>
+            <text x="64" y="26" style="font-family:var(--note);font-size:20px;fill:var(--ink)">zzz</text>
+          </svg>
+          <div><p class="cue">after a twelve-hour<br>working day</p><span class="ban">tired</span></div>
+        </div>
+        <div class="write" style="--rows:2" contenteditable="true" id="pic-c"></div>
+      </div>
+      <div class="pic">
+        <div class="pichead">
+          <svg viewBox="0 0 96 78" role="img" aria-label="A very happy face with stars">
+            <g class="doodle" filter="url(#wobble)"><circle cx="40" cy="44" r="28" style="fill:var(--stick)"/><path d="M28 40 q4 -5 8 0 M44 40 q4 -5 8 0"/><path d="M26 50 q14 16 28 0 z" style="fill:var(--card)"/><path d="M78 10 l3 7 l7 1 l-5 5 l1 7 l-6 -4 l-6 4 l1 -7 l-5 -5 l7 -1 z" style="fill:var(--hl)"/><path d="M80 44 l2 4 M88 40 l-4 2 M76 52 l4 -2"/></g>
+          </svg>
+          <div><p class="cue">you opened a letter:<br>"You have won the grant!"</p><span class="ban">happy</span></div>
+        </div>
+        <div class="write" style="--rows:2" contenteditable="true" id="pic-d"></div>
+      </div>
+    </div>
+  </div>
+  <span class="pgno">3</span>
+</section>
+
+<!-- ============ SHEET 4 ============ -->
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Hook it!</h2><span class="time">~6 min</span></div>
+    <p class="how">The first sentence is a hook. It catches the reader. Try one of these four:</p>
+    <div class="side">
+      <div class="sticky">
+        <p><b>Action:</b> I grabbed my bag and ran.<br><b>Sound:</b> Crash! Something fell in the kitchen.</p>
+      </div>
+      <div class="sticky pink">
+        <p><b>Speech:</b> "Don't open that door!"<br><b>Question:</b> Have you ever been completely lost?</p>
+      </div>
+    </div>
+    <p class="how">Change each boring opening into a hook.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. This is a story about my first day at university.</p><div class="to"><span class="arrow">→</span><span class="done">I opened the wrong door, and twenty strangers turned to look at me.</span></div><p class="small" style="padding-left:34px">(example: action)</p></div>
+      <div class="sw"><p class="from">2. I want to tell you about a day when I got lost.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="hook-2" data-ph="speech or question …"></div></div></div>
+      <div class="sw"><p class="from">3. This story is about my grandmother's birthday.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="hook-3" data-ph="action …"></div></div></div>
+      <div class="sw"><p class="from">4. One day something interesting happened to me.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="hook-4" data-ph="sound …"></div></div></div>
+    </div>
+  </div>
+
+  <div class="ex" id="ex7">
+    <div class="exhead"><span class="num">7</span><h2>Speech marks</h2><span class="time">~3 min</span></div>
+    <div class="sticky wide">
+      <p>"I'm late<b class="red">,</b>" she said. <span class="small">→ the comma goes <u>inside</u> the speech marks</span><br>He asked<b class="red">,</b> "<b class="red">W</b>here are you?" <span class="small">→ comma before, capital letter inside</span></p>
+    </div>
+    <p class="how">Circle the sentence with correct punctuation.</p>
+    <ol class="items">
+      <li><span class="pick long" data-ans="1"><button type="button">"I'm so sorry" she said.</button><button type="button">"I'm so sorry," she said.</button><button type="button">"I'm so sorry." She said.</button></span></li>
+      <li><span class="pick long" data-ans="2"><button type="button">He asked "where is the station?"</button><button type="button">He asked, "where is the station"?</button><button type="button">He asked, "Where is the station?"</button></span></li>
+      <li><span class="pick long" data-ans="0"><button type="button">"Wait!" shouted Timur.</button><button type="button">"Wait!", shouted Timur.</button><button type="button">"Wait"! shouted Timur.</button></span></li>
+    </ol>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex7">Red pen check ✎</button><span class="score" aria-live="polite"></span></div>
+  </div>
+  <span class="pgno">4</span>
+</section>
+
+<!-- ============ SHEET 5 ============ -->
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Story corner</h2><span class="time">~25 min</span></div>
+    <div class="corner">
+      <div class="model">
+        <h3>The Last Bus</h3>
+        <div class="legend"><span><span class="u-c">underline</span> = background</span><span><span class="u-p">wavy</span> = even earlier</span><span><span class="tw">red</span> = time words</span></div>
+        <div class="mp"><span class="lab h">Hook</span><p>I should never have trusted the last bus.</p></div>
+        <div class="mp"><span class="lab s1">Setting</span><p>It was almost ten o'clock, and the rain <span class="u-c">was falling</span> harder and harder. I <span class="u-c">was standing</span> at the bus stop outside the library with a pile of books in my arms.</p></div>
+        <div class="mp"><span class="lab s2">Problem</span><p>The last bus usually came at ten past ten. At twenty past, there was still no bus. I took out my phone to call my brother, but the screen stayed black. I <span class="u-p">had forgotten</span> to charge it.</p></div>
+        <div class="mp"><span class="lab s3">Climax</span><p><span class="tw">Suddenly</span>, a small blue car stopped right in front of me. The window came down slowly. My heart <span class="u-c">was beating</span> so fast that I almost dropped my books.</p></div>
+        <div class="mp"><span class="lab s4">Resolution</span><p>"Dilnoza? Is that you?" a friendly voice asked. It was Madina, my old classmate! She <span class="u-p">had moved</span> to Navoiy a year before, and she <span class="u-c">was driving</span> home from work.</p></div>
+        <div class="mp"><span class="lab s5">Ending</span><p><span class="tw">Twenty minutes later</span>, I was sitting in my warm kitchen with a cup of tea. <span class="tw">Since that night</span>, I have never left home with an empty battery, and Madina and I meet every Friday.</p></div>
+      </div>
+
+      <p><b>Your turn.</b> Choose <b>one</b> task:</p>
+      <ol class="prompts" type="A">
+        <li>Begin your story with: <i>"I knew I should have checked the time."</i></li>
+        <li>End your story with: <i>"…and that was the best mistake I have ever made."</i></li>
+        <li>Write a story called <i>The Wrong Door</i>.</li>
+      </ol>
+
+      <p class="note ink">Plan first: one line for each part of the mountain.</p>
+      <div class="plan">
+        <span class="lab h">Hook</span><div class="write" contenteditable="true" id="plan-0"></div>
+        <span class="lab s1">Setting</span><div class="write" contenteditable="true" id="plan-1"></div>
+        <span class="lab s2">Problem</span><div class="write" contenteditable="true" id="plan-2"></div>
+        <span class="lab s3">Climax</span><div class="write" contenteditable="true" id="plan-3"></div>
+        <span class="lab s4">Resolution</span><div class="write" contenteditable="true" id="plan-4"></div>
+        <span class="lab s5">Ending</span><div class="write" contenteditable="true" id="plan-5"></div>
+      </div>
+
+      <p class="note ink">Now write your story.</p>
+      <div class="write" style="--rows:12" contenteditable="true" id="story" data-ph="Start with your hook …"></div>
+      <p class="counter" id="counter" aria-live="polite">0 words · aim for 160–220</p>
+
+      <p class="note ink">Check your story. Tick what you did:</p>
+      <div class="checks">
+        <label><input type="checkbox" id="ck-1">My first sentence is a hook.</label>
+        <label><input type="checkbox" id="ck-2">I followed the five parts of the mountain.</label>
+        <label><input type="checkbox" id="ck-3">I used all three past tenses.</label>
+        <label><input type="checkbox" id="ck-4">I used at least three time words.</label>
+        <label><input type="checkbox" id="ck-5">I showed a feeling and didn't name it.</label>
+        <label><input type="checkbox" id="ck-6">I put speech in speech marks correctly.</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can use past continuous, past simple and past perfect in a story.</span><span class="stars" data-group="s1"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can build a story: setting, problem, climax, resolution, ending.</span><span class="stars" data-group="s2"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can start with a hook and <b>show</b> feelings.</span><span class="stars" data-group="s3"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Circle it</h3><ol><li>was walking</li><li>had already started</li><li>was cooking</li><li>opened</li><li>had lost</li><li>were singing</li><li>came</li><li>had run away</li></ol></div>
+      <div><h3>2. Mountain</h3><ol type="a"><li>Climax</li><li>Setting</li><li>Ending</li><li>Problem</li><li>Resolution</li></ol><p class="small">Story order: b, d, a, e, c</p></div>
+      <div><h3>3. Time words</h3><ol><li>Suddenly</li><li>While</li><li>As soon as</li><li>By the time</li><li>Eventually</li><li>Then</li></ol></div>
+      <div><h3>4. Red pen</h3><ol type="a"><li>Yesterday I went to the market …</li><li>Correct ✓</li><li>While I was walking to school, I saw an accident.</li><li>… because she had worked all night …</li><li>I knew the answer …</li><li>Suddenly, the door opened and …</li></ol></div>
+      <div><h3>5. Show (models)</h3><ol type="a"><li>My hands were cold, and I read the same question three times.</li><li>My face went red, and I closed my book so hard that it banged.</li><li>I fell onto the sofa and closed my eyes before I took off my shoes.</li><li>I jumped up, shouted my sister's name and ran to show her the letter.</li></ol></div>
+      <div><h3>6. Hooks (models)</h3><ol start="2"><li>"Where am I?" I whispered, but the dark street gave no answer.</li><li>The candles were burning, and my grandmother was laughing so hard that she couldn't blow them out.</li><li>Bang! The front door shut behind me, and my keys were still inside.</li></ol></div>
+      <div><h3>7. Speech marks</h3><ol><li>"I'm so sorry," she said.</li><li>He asked, "Where is the station?"</li><li>"Wait!" shouted Timur.</li></ol></div>
+      <div><h3>8. Story corner</h3><p>Check with the six ticks and the rule of three trains. Model: <i>The Last Bus</i>.</p></div>
+    </div>
+  </details>
+  <span class="pgno">5</span>
+</section>
+
+<div class="tools">
+  <span id="toolnote">Your answers are saved in this browser automatically.</span>
+  <span class="btns">
+    <button class="toolbtn" type="button" id="printbtn" hidden>Print / save as PDF</button>
+    <button class="toolbtn warn" type="button" id="resetbtn">Start again</button>
+  </span>
+</div>
+
+</main>
+
+<script>
+(function(){
+  var KEY='fste-story-trainer-v1';
+  var state={w:{},p:{},c:{},s:{}};
+  function load(){try{var t=localStorage.getItem(KEY);if(t){var o=JSON.parse(t);state.w=o.w||{};state.p=o.p||{};state.c=o.c||{};state.s=o.s||{};}}catch(e){}}
+  var timer=null;
+  function save(){clearTimeout(timer);timer=setTimeout(function(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}},300);}
+
+  var picks=[].slice.call(document.querySelectorAll('.pick'));
+  picks.forEach(function(g,i){
+    g.dataset.k='p'+i;
+    if(g.hasAttribute('data-ans')){var m=document.createElement('span');m.className='mark';m.setAttribute('aria-hidden','true');g.parentNode.insertBefore(m,g.nextSibling);g._mark=m;}
+    var bs=[].slice.call(g.querySelectorAll('button'));
+    bs.forEach(function(b){b.setAttribute('aria-pressed','false');});
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      var was=b.classList.contains('on');
+      bs.forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});
+      if(!was){b.classList.add('on');b.setAttribute('aria-pressed','true');state.p[g.dataset.k]=bs.indexOf(b);}else{delete state.p[g.dataset.k];}
+      if(g._mark){g._mark.textContent='';g._mark.className='mark';}
+      save();
+    });
+  });
+  function setPick(g,idx){var bs=g.querySelectorAll('button');[].forEach.call(bs,function(x,j){var on=j===idx;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on?'true':'false');});}
+
+  document.querySelectorAll('.checkbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var box=document.getElementById(btn.dataset.check);
+      var gs=box.querySelectorAll('.pick[data-ans]');var ok=0,blank=0;
+      [].forEach.call(gs,function(g){
+        var bs=[].slice.call(g.querySelectorAll('button'));
+        var sel=bs.findIndex(function(b){return b.classList.contains('on');});
+        var ans=parseInt(g.dataset.ans,10);
+        if(sel<0){g._mark.textContent='?';g._mark.className='mark q';blank++;}
+        else if(sel===ans){g._mark.textContent='✓';g._mark.className='mark r';ok++;}
+        else{g._mark.textContent='✗';g._mark.className='mark w';}
+      });
+      var sc=btn.parentNode.querySelector('.score');
+      sc.textContent=ok+' / '+gs.length+(blank?'  ('+blank+' not circled yet)':ok===gs.length?'  Excellent!':'  Try the ✗ ones again.');
+    });
+  });
+
+  var writes=[].slice.call(document.querySelectorAll('[contenteditable="true"]'));
+  writes.forEach(function(el){
+    el.addEventListener('input',function(){
+      var t=el.innerText.replace(/ /g,' ');
+      if(!t.trim()){el.textContent='';delete state.w[el.id];}else{state.w[el.id]=t;}
+      if(el.id==='story')count();
+      save();
+    });
+    el.addEventListener('paste',function(e){
+      var txt=(e.clipboardData||window.clipboardData);if(!txt)return;
+      e.preventDefault();document.execCommand('insertText',false,txt.getData('text/plain'));
+    });
+  });
+
+  var boxes=[].slice.call(document.querySelectorAll('input[type=checkbox]'));
+  boxes.forEach(function(c){c.addEventListener('change',function(){if(c.checked)state.c[c.id]=1;else delete state.c[c.id];save();});});
+
+  document.querySelectorAll('.stars').forEach(function(g){
+    var bs=[].slice.call(g.querySelectorAll('button'));
+    bs.forEach(function(b,i){
+      b.addEventListener('click',function(){
+        var n=(b.classList.contains('on') && (i===bs.length-1 || !bs[i+1].classList.contains('on'))) ? i : i+1;
+        setStars(g,n);state.s[g.dataset.group]=n;save();
+      });
+    });
+  });
+  function setStars(g,n){[].forEach.call(g.querySelectorAll('button'),function(x,j){x.classList.toggle('on',j<n);});}
+
+  var counter=document.getElementById('counter');
+  function count(){
+    var t=document.getElementById('story').innerText.trim();
+    var n=t?t.split(/\s+/).length:0;
+    counter.textContent=n+(n===1?' word':' words')+' · aim for 160–220';
+    counter.className='counter'+(n>=160&&n<=220?' good':n>220?' over':'');
+  }
+
+  function restore(){
+    picks.forEach(function(g){var v=state.p[g.dataset.k];setPick(g,typeof v==='number'?v:-1);if(g._mark){g._mark.textContent='';g._mark.className='mark';}});
+    writes.forEach(function(el){el.textContent=state.w[el.id]||'';});
+    boxes.forEach(function(c){c.checked=!!state.c[c.id];});
+    document.querySelectorAll('.stars').forEach(function(g){setStars(g,state.s[g.dataset.group]||0);});
+    document.querySelectorAll('.score').forEach(function(s){s.textContent='';});
+    count();
+  }
+
+  var reset=document.getElementById('resetbtn');var armed=false,armT=null;
+  reset.addEventListener('click',function(){
+    if(!armed){armed=true;reset.textContent='Sure? Tap again to clear everything';armT=setTimeout(function(){armed=false;reset.textContent='Start again';},4000);return;}
+    clearTimeout(armT);armed=false;reset.textContent='Start again';
+    state={w:{},p:{},c:{},s:{}};try{localStorage.removeItem(KEY);}catch(e){}
+    restore();
+  });
+
+  var inFrame=true;try{inFrame=window.self!==window.top;}catch(e){inFrame=true;}
+  var pb=document.getElementById('printbtn');
+  if(!inFrame){pb.hidden=false;pb.addEventListener('click',function(){window.print();});document.getElementById('toolnote').textContent='Your answers are saved in this browser automatically. Finished? Use “Print / save as PDF” and send the file to your teacher.';}
+
+  load();restore();
+})();
+</script>
+
+</body>
+</html>

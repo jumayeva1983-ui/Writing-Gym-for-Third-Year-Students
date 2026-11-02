@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Send or Not? Professional emails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u03-send-or-not">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<!-- ============ SHEET 1 ============ -->
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 1 · Unit 3</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Send or Not?</h1>
+      <p class="sub"><span class="hl">professional emails</span></p>
+    </div>
+    <span class="badge">Unit 3</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> put the <b>purpose</b> in the subject line and the first two lines, so a busy reader sees it in ten seconds.</p>
+  </div>
+
+  <!-- LOOK -->
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">Two emails from Malika to the same lecturer. This is all the reader sees in the inbox. Which one will be opened first?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A confused face over an inbox">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="30" y="20" width="140" height="84" style="fill:#fffef9"/>
+            <path d="M42 40 h116 M42 60 h116 M42 80 h116" style="stroke:var(--soft);stroke-width:2"/>
+            <text x="150" y="34" style="font-family:var(--note);font-size:28px;fill:var(--red);stroke:none">?</text>
+          </g>
+        </svg>
+        <p><b>Before:</b> the reader guesses</p>
+        <p class="msg">Subject: Hi<br>Hello! Hope you are well and everything is fine. My name is Malika and I am from…</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="An inbox with a tick">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="30" y="20" width="140" height="84" style="fill:#fffef9"/>
+            <path d="M42 40 h116 M42 60 h116 M42 80 h116" style="stroke:var(--soft);stroke-width:2"/>
+            <path d="M140 26 l8 10 l16 -20" style="stroke:var(--green);stroke-width:4"/>
+          </g>
+        </svg>
+        <p class="ink"><b>After:</b> the reader knows</p>
+        <p class="msg">Subject: Request to submit my essay on 12 May<br>Dear Dr Rahimova, I am writing to ask whether I could submit my essay on 12 May instead of 9 May.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the <b>subject line</b> names the topic and the date; the <b>first sentence</b> states the request. The details can come later.</p>
+  </div>
+
+  <!-- RULE -->
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: bottom line up front</h2></div>
+    <h3 class="ink" style="font-size:28px">The email train</h3>
+    <div class="rules">
+      <div class="train apply">
+        <span class="car engine">SUBJECT<br><span class="small">topic + date</span></span><span class="link">→</span>
+        <span class="car">GREETING</span><span class="link">→</span>
+        <span class="car">PURPOSE + REQUEST<br><span class="small">first two lines</span></span><span class="link">→</span>
+        <span class="car">DETAILS<br><span class="small">short paragraphs</span></span><span class="link">→</span>
+        <span class="car">NEXT STEP<br><span class="small">what, by when</span></span><span class="link">→</span>
+        <span class="car">CLOSING + SIGNATURE</span>
+      </div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Three golden rules</h3>
+    <div class="rules">
+      <div class="train apply">
+        <span class="car engine d">ONE EMAIL</span><span class="link">=</span><span class="car">ONE TOPIC</span>
+      </div>
+      <div class="train apply">
+        <span class="car engine s">SEVERAL QUESTIONS?</span><span class="link">→</span><span class="car">number them: 1, 2, 3</span>
+      </div>
+      <div class="train apply">
+        <span class="car engine l">POLITE</span><span class="link">+</span><span class="car">CLEAR: Could you please … by Friday?</span>
+      </div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Bobur Saidovich</b> → Dear Mr Saidov,<br><span class="small">(otasining ismi ishlatilmaydi)</span></p>
+        <p style="margin-top:6px"><b>Mr Bobur</b> ✗ → unvon faqat familiya bilan: <b>Mr Saidov</b></p>
+        <p style="margin-top:6px"><b>Javobingizni kutib qolaman</b> → I look forward to hearing from you.</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">Subject: Hello</span> ✗<br>
+        <span class="strike">I am writing you</span> ✗<br>
+        <span class="strike">SEND IT ASAP!!!</span> ✗<br>
+        <span class="strike">Scan001.pdf</span> ✗<br>
+        <span class="strike">Reply all</span> to 200 people ✗</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<!-- ============ SHEET 2 ============ -->
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- EX 1 -->
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Clear or vague?</h2><span class="time">~4 min</span></div>
+    <p class="how">Would the reader know what each email is about <b>before</b> opening it? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Question</span><span class="pw"><span class="pick" data-ans="1"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>2. Request for a reference letter (deadline 20 May)</span><span class="pw"><span class="pick" data-ans="0"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>3. Hello!!!</span><span class="pw"><span class="pick" data-ans="1"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>4. Room booking for the debate final, 21 May, 14:00</span><span class="pw"><span class="pick" data-ans="0"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>5. Important</span><span class="pw"><span class="pick" data-ans="1"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>6. Signed internship agreement: Aziz Karimov</span><span class="pw"><span class="pick" data-ans="0"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>7. From student</span><span class="pw"><span class="pick" data-ans="1"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+      <div class="rowpick"><span>8. Change of seminar room: Thursday, Room 214</span><span class="pw"><span class="pick" data-ans="0"><button type="button">clear</button><span>/</span><button type="button">vague</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Greeting partners</h2><span class="time">~4 min</span></div>
+    <p class="how">Choose the best greeting and closing for each email.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. First email to a university admissions office (no name)</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Hi guys, … Cheers,</button><span>/</span><button type="button">Dear Sir or Madam, … Yours faithfully,</button><span>/</span><button type="button">Dear Admissions, … Love,</button></span></span></div>
+      <div class="rowpick"><span>2. Reply to your lecturer, Dr Rahimova</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Dear Dr Rahimova, … Kind regards,</button><span>/</span><button type="button">Hey Doc, … Bye,</button><span>/</span><button type="button">Dear Mrs Lola, … With respect,</button></span></span></div>
+      <div class="rowpick"><span>3. Quick note to a groupmate about tomorrow</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Dear Sir, … Yours faithfully,</button><span>/</span><button type="button">Hi Aziz, … See you tomorrow,</button><span>/</span><button type="button">Respected Aziz, … Respectfully,</button></span></span></div>
+      <div class="rowpick"><span>4. First email to a manager, Mr Khakimov</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Dear Mr. Rustam, … Thanks!!</button><span>/</span><button type="button">Dear Mr Khakimov, … Kind regards,</button><span>/</span><button type="button">Hello dear, … Waiting for your answer.</button></span></span></div>
+      <div class="rowpick"><span>5. A complaint to a company (name unknown)</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Dear Sir or Madam, … Yours faithfully,</button><span>/</span><button type="button">Hi there, … Best,</button><span>/</span><button type="button">Dear Sir! … Bye,</button></span></span></div>
+      <div class="rowpick"><span>6. Third email to a manager who now signs “Rustam”</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Dear Rustam aka, … Respectfully,</button><span>/</span><button type="button">Dear Rustam, … Best regards,</button><span>/</span><button type="button">Yo Rustam, … Cheers,</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>To, Cc or Bcc?</h2><span class="time">~4 min</span></div>
+    <p class="how">Where should the <b>person in bold</b> go? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Aziz asks the facilities office to book a room. <b>The facilities manager</b> must reply.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">To</button><span>/</span><button type="button">Cc</button><span>/</span><button type="button">Bcc</button></span></span></div>
+      <div class="rowpick"><span>2. Same email. <b>The club adviser</b>, Ms Yusupova, wants to be informed.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">To</button><span>/</span><button type="button">Cc</button><span>/</span><button type="button">Bcc</button></span></span></div>
+      <div class="rowpick"><span>3. An invitation to <b>120 students</b> from five universities who do not know each other.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">To</button><span>/</span><button type="button">Cc</button><span>/</span><button type="button">Bcc</button></span></span></div>
+      <div class="rowpick"><span>4. Malika sends her essay to <b>her lecturer</b>.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">To</button><span>/</span><button type="button">Cc</button><span>/</span><button type="button">Bcc</button></span></span></div>
+      <div class="rowpick"><span>5. A thank-you email to a speaker; <b>the head of department</b> should see it too.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">To</button><span>/</span><button type="button">Cc</button><span>/</span><button type="button">Bcc</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<!-- ============ SHEET 3 ============ -->
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- EX 4 -->
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Order it!</h2><span class="time">~4 min</span></div>
+    <p class="how">Aziz's email to the facilities office is mixed up. Put the parts in order: 1 to 7.</p>
+    <div class="order">
+      <div class="ordrow"><select id="o4-0" data-ans="5" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>Could you please confirm by Friday, 14 May, whether the hall is available?</span></div>
+      <div class="ordrow"><select id="o4-1" data-ans="1" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>Subject: Booking request: Main Hall, 21 May, 14:00–17:00</span></div>
+      <div class="ordrow"><select id="o4-2" data-ans="7" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>Kind regards, Aziz Karimov, Chair, English Debate Club</span></div>
+      <div class="ordrow"><select id="o4-3" data-ans="3" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>I am writing to request the Main Hall for the final of our English debate competition on 21 May, from 14:00 to 17:00.</span></div>
+      <div class="ordrow"><select id="o4-4" data-ans="4" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>About 80 students will attend. We will need a projector, two microphones and four tables for the teams.</span></div>
+      <div class="ordrow"><select id="o4-5" data-ans="2" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>Dear Mr Khakimov,</span></div>
+      <div class="ordrow"><select id="o4-6" data-ans="6" aria-label="Position"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select><span>Thank you in advance for your help.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Cool it down</h2><span class="time">~6 min</span></div>
+    <p class="how">These lines sound angry or rude. Rewrite each one: <b>polite</b>, but still <b>clear and firm</b>.</p>
+    <div class="sticky" style="max-width:560px;flex:none;transform:rotate(-.6deg)">
+      <p><b>Cool-down tools:</b> Could you please … ? · I would be grateful if … · as … (give a reason) · by + day · Thank you for …</p>
+    </div>
+    <div class="switch">
+      <div class="sw"><p class="from">1. WHY IS MY GRADE NOT ON THE SYSTEM?</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="cool-1" data-ph="Could you please …"></div></div></div>
+      <div class="sw"><p class="from">2. Send me the form ASAP.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="cool-2" data-ph="Could you … by …, as …"></div></div></div>
+      <div class="sw"><p class="from">3. As I already said in my last email, the room is wrong.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="cool-3" data-ph="As mentioned in my email of …"></div></div></div>
+      <div class="sw"><p class="from">4. Why didn't you answer me??</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="cool-4" data-ph="I am writing to follow up on …"></div></div></div>
+      <div class="sw"><p class="from">5. You forgot to attach the file. Again.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="cool-5" data-ph="I think the file may not have been attached …"></div></div></div>
+    </div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Subject line surgery</h2><span class="time">~4 min</span></div>
+    <p class="how">Rewrite each subject line so that the reader knows the topic and, if possible, the date or action. Invent the details.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Help</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="subj-1" data-ph="Request for … by …"></div></div></div>
+      <div class="sw"><p class="from">2. Documents</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="subj-2" data-ph="Signed … for …"></div></div></div>
+      <div class="sw"><p class="from">3. Meeting</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="subj-3" data-ph="Meeting to … : Tuesday, …"></div></div></div>
+      <div class="sw"><p class="from">4. URGENT!!!</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="subj-4" data-ph="… today: …"></div></div></div>
+    </div>
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<!-- ============ SHEET 4 ============ -->
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- EX 7 -->
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Email corner</h2><span class="time">~25 min</span></div>
+    <div class="advert">
+      <h3>THE SITUATION</h3>
+      <p class="what">English Club · Poetry evening</p>
+      <ul>
+        <li>The club wants to hold a poetry evening in English in the faculty library</li>
+        <li>Possible dates: 26 or 28 May, 16:00–18:00; about 40 guests</li>
+        <li>You need: permission, chairs, a microphone, and to know if tea is allowed</li>
+      </ul>
+      <p class="small" style="text-align:center">Write to the head librarian, Ms Feruza Nazarova. You have never written to her before.</p>
+    </div>
+    <div class="corner">
+      <p><b>Your turn.</b> Write two emails.<br>
+      <b>Email A:</b> your request to Ms Nazarova. Use <b>numbered questions</b>. Target: <b>100–130 words</b>.<br>
+      <b>Email B:</b> a polite follow-up, five working days later, because she has not replied. Target: <b>50–70 words</b>.</p>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Who?</span><div class="write" contenteditable="true" id="pn-who" data-ph="Who is she? Do we know each other?"></div>
+          <span class="lab">Why?</span><div class="write" contenteditable="true" id="pn-why" data-ph="What exactly do I need from her?"></div>
+          <span class="lab">Where?</span><div class="write" contenteditable="true" id="pn-where" data-ph="Email, read at work, maybe on a phone"></div>
+          <span class="lab">How?</span><div class="write" contenteditable="true" id="pn-how" data-ph="Register, greeting, closing"></div>
+        </div>
+      </div>
+
+      <div class="para" id="emailA">
+        <div class="ptag"><b>A</b><span>Request</span></div>
+        <p class="frame">Subject: …………<br>Dear Ms Nazarova, I am writing to ask whether …………</p>
+        <div class="write" style="--rows:8" contenteditable="true" id="A-text" data-wc></div>
+        <div class="wcbar" data-count="emailA" data-min="100" data-max="130" data-low="Keep going: date, time, number of guests, numbered questions?" data-high="A little too long: one topic, short paragraphs.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+
+      <div class="para" id="emailB">
+        <div class="ptag"><b>B</b><span>Follow-up</span></div>
+        <p class="frame">Subject: Re: …………<br>Dear Ms Nazarova, I am writing to follow up on …………</p>
+        <div class="write" style="--rows:5" contenteditable="true" id="B-text" data-wc></div>
+        <div class="wcbar" data-count="emailB" data-min="50" data-max="70" data-low="Keep going: restate the request and the date you need an answer by." data-high="Too long for a reminder: keep it short and friendly.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t1">A: the subject line names the event and the date.</label>
+        <label><input type="checkbox" id="t2">A: the request is in the first two lines.</label>
+        <label><input type="checkbox" id="t3">A: my questions are numbered.</label>
+        <label><input type="checkbox" id="t4">A: I say by when I need an answer.</label>
+        <label><input type="checkbox" id="t5">B: I reply in the same thread (Re:) and do not complain.</label>
+        <label><input type="checkbox" id="t6">Both: Dear Ms Nazarova … Kind regards, with my full name and role.</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can write a subject line that passes the ten-second test.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can put my purpose and request in the first two lines.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can stay polite but firm, and I know when to use Cc and Bcc.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for your portfolio.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Clear or vague?</h3><ol><li>vague</li><li>clear</li><li>vague</li><li>clear</li><li>vague</li><li>clear</li><li>vague</li><li>clear</li></ol></div>
+      <div><h3>2. Greeting partners</h3><ol><li>Dear Sir or Madam, … Yours faithfully,</li><li>Dear Dr Rahimova, … Kind regards,</li><li>Hi Aziz, … See you tomorrow,</li><li>Dear Mr Khakimov, … Kind regards,</li><li>Dear Sir or Madam, … Yours faithfully,</li><li>Dear Rustam, … Best regards,</li></ol></div>
+      <div><h3>3. To, Cc or Bcc?</h3><ol><li>To</li><li>Cc</li><li>Bcc</li><li>To</li><li>Cc</li></ol></div>
+      <div><h3>4. Order it!</h3><p>From top to bottom: 5, 1, 7, 3, 4, 2, 6.</p></div>
+      <div><h3>5. Cool it down</h3><ol><li>Could you please let me know when my grade will appear on the system?</li><li>Could you please send me the form by Thursday, as I need to submit it on Friday?</li><li>As mentioned in my email of 3 May, the room on the timetable seems to be incorrect. Could you check it?</li><li>I am writing to follow up on my email of 2 May. I would be grateful for your reply when you have a moment.</li><li>Thank you for your email. I think the file may not have been attached. Could you please send it again?</li></ol></div>
+      <div><h3>6. Subject line surgery</h3><p>Examples: 1 Request for help with my course registration by Friday. 2 Signed internship documents for Malika Rashidova. 3 Meeting to plan the poetry evening: Tuesday, 15:00. 4 Server down today: please save your work.</p></div>
+      <div><h3>7. Email corner</h3><p>Answers vary. A: Subject: Request to use the library for a poetry evening, 26 or 28 May; Dear Ms Nazarova; request in the first sentence; club, date, time, number of guests; numbered questions (permission, chairs and microphone, tea); a reply date; Kind regards and full name and role; 100–130 words. B: Re: same subject; follows up politely; restates the request and the date needed; thanks her; 50–70 words.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">4</span>
+</section>
+
+</main>
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

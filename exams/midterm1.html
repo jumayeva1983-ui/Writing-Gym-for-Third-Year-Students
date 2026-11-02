@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Midterm 1 Practice</title>
+<meta name="description" content="Timed practice for Midterm test I: paragraph, error correction, summary, sentence transformation, and register.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+
+/* Portfolio studio and exam practice additions */
+.title.studio h1{font-size:clamp(44px,7.4vw,74px)}
+.chips{display:flex;flex-wrap:wrap;gap:6px 10px}
+.chip{font-size:17px;color:var(--pencil);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px;background:#fffef9}
+.chip b{color:var(--ink)}
+.write.doc{font-family:var(--hand);font-size:19px;line-height:32px;min-height:calc(32px * var(--rows,1));background:repeating-linear-gradient(to bottom,transparent 0 31px,var(--line) 31px 32px),#fffefa}
+.write.doc:empty::before{font-family:var(--note);font-size:22px}
+.write.hang{padding-left:2em;text-indent:-2em}
+.write b,.write strong{color:var(--red)}
+.lab2{font-family:var(--note);font-size:24px;font-weight:700;color:var(--ink);line-height:1.1}
+.hint{font-size:17px;color:var(--soft);line-height:1.3}
+.meter{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-family:var(--note);font-size:23px;color:var(--pencil)}
+.meter .wc{font-size:23px}
+.meter .wctip{font-family:var(--hand)}
+.meter.total{border:2.5px solid var(--ink);border-radius:var(--wob);padding:6px 14px;background:#fffef9}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px}
+.stack{display:flex;flex-direction:column;gap:8px}
+.entry{display:flex;flex-direction:column;gap:10px;border:2px solid var(--line);border-radius:var(--wob);padding:12px 14px;background:rgba(255,254,249,.85)}
+.entry h3{font-size:28px}
+.sel2{font-family:var(--hand);font-size:18px;color:var(--ink);background:#fffefa;border:2px solid var(--ink);border-radius:10px;padding:2px 6px;max-width:100%;cursor:pointer}
+.sel2:focus-visible,.mk:focus-visible,.tab:focus-visible,.tool:focus-visible,.checkbtn:focus-visible,.copybtn:focus-visible{outline:2px dashed var(--red);outline-offset:2px}
+.inline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+/* PQS */
+.pqs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pq{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.pq.p{background:var(--mint)}.pq.q{background:var(--sky)}.pq.s{background:var(--pink)}
+.pq h3{font-size:28px}
+.pq .hint{color:var(--pencil)}
+/* tables made of rows */
+.rows{display:flex;flex-direction:column;gap:10px}
+.lrow{display:grid;grid-template-columns:34px minmax(0,1.2fr) minmax(0,1fr) minmax(130px,170px);gap:6px 10px;align-items:start;border-bottom:1.5px dotted var(--line);padding-bottom:8px}
+.lrow.head{font-family:var(--note);font-size:22px;font-weight:700;color:var(--ink);border-bottom:2px solid var(--line)}
+.lrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.lrow.c3{grid-template-columns:34px minmax(0,1fr) minmax(0,1fr)}
+.lrow.c5{grid-template-columns:34px minmax(0,1fr) minmax(130px,170px) minmax(0,1fr) minmax(0,1fr)}
+.lrow .cap{display:none;font-size:15px;color:var(--soft)}
+/* rubric */
+.rubric{display:flex;flex-direction:column;gap:4px}
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center;border-bottom:1.5px dotted var(--line);padding:8px 0}
+.rrow .rname{font-family:var(--note);font-size:25px;font-weight:700;color:var(--ink);line-height:1.1}
+.rrow .wt{font-family:var(--note);font-size:24px;font-weight:700;color:var(--red);margin-left:6px}
+.rrow .rdesc{font-size:17px;line-height:1.3;color:var(--pencil)}
+.rsel{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.rsel label{display:flex;gap:6px;align-items:center;font-size:16px;color:var(--soft)}
+.rtotal{font-family:var(--note);font-size:25px;color:var(--ink);background:var(--mint);padding:4px 14px;border-radius:12px;align-self:flex-start}
+.rtotal.empty{background:#fff;color:var(--soft)}
+.bonusrow{display:flex;gap:8px;align-items:flex-start;font-size:18px}
+.bonusrow input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+.tickprog{font-family:var(--note);font-size:23px;color:var(--green)}
+/* buttons */
+.copyrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.copybtn{font-family:var(--note);font-size:22px;color:var(--ink);background:#fffef9;border:2.5px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.copybtn:hover{background:var(--sky)}
+.copymsg{font-size:17px;color:var(--soft)}
+/* speaker-note toolbar */
+.marks{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.marks .lbl{font-size:16px;color:var(--soft)}
+.mk{font-family:var(--hand);font-size:16px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:1px 8px;cursor:pointer;line-height:1.3}
+.mk.b{font-weight:700;background:#fff}
+.mk.i{font-style:italic;background:#fff}
+.mk:hover{background:var(--sky)}
+.tally{font-size:16px;color:var(--soft)}
+.speak{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-family:var(--note);font-size:23px;color:var(--pencil)}
+.speak .st{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.speak .st.good{color:var(--green);background:var(--mint)}.speak .st.low{color:var(--red)}.speak .st.high{color:#b76e00;background:var(--hl)}
+.rehearse{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:18px}
+.rehearse .clock{font-size:30px;min-width:80px}
+/* table maker */
+.tprev table{border-collapse:collapse;font-size:17px;margin-top:4px;background:#fff;width:100%;max-width:560px}
+.tprev th,.tprev td{border:1.5px solid var(--pencil);padding:2px 10px;text-align:left}
+.tprev th{background:var(--sky)}
+.tprev caption{caption-side:top;text-align:left;font-size:17px;padding-bottom:2px}
+/* exam */
+.timerbar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;max-width:860px;margin:0 auto 14px;background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--wob);padding:6px 16px;box-shadow:0 4px 10px rgba(60,50,30,.12)}
+.clock{font-family:var(--note);font-size:40px;font-weight:700;color:var(--ink);min-width:118px;font-variant-numeric:tabular-nums;line-height:1}
+.clock.warn{color:#b76e00}.clock.over{color:var(--red)}
+.timerbar .small{flex:1 1 160px}
+.tablist{display:flex;flex-wrap:wrap;gap:8px;max-width:860px;margin:0 auto;width:100%}
+.tab{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tab:hover{background:var(--sky)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.ovtable{width:100%;border-collapse:collapse;font-size:18px}
+.ovtable th,.ovtable td{border-bottom:1.5px dotted var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+.ovtable th{font-family:var(--note);font-size:22px;color:var(--ink)}
+.src{border:2.5px solid var(--pencil);border-radius:var(--wob);background:#fff;padding:14px 18px;display:flex;flex-direction:column;gap:6px;box-shadow:2px 4px 8px rgba(60,50,20,.1)}
+.src.letter{font-size:19px}
+.copycheck{font-size:17px;color:var(--soft)}
+.copycheck.warn{color:var(--red)}
+.copycheck.ok{color:var(--green)}
+.nexttab{align-self:flex-end}
+.grand{font-family:var(--note);font-size:30px;color:var(--ink);background:var(--hl);padding:4px 16px;border-radius:14px;align-self:flex-start}
+.assume{font-size:17px;color:var(--soft);border-left:4px solid var(--margin);padding-left:10px}
+.extract{display:flex;flex-direction:column;gap:6px;border-bottom:1.5px dotted var(--line);padding-bottom:10px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:640px){
+  .grid2,.pqs{grid-template-columns:minmax(0,1fr)}
+  .lrow,.lrow.c3,.lrow.c5{grid-template-columns:28px minmax(0,1fr)}
+  .lrow>*:not(.n){grid-column:2}
+  .lrow.head{display:none}
+  .lrow .cap{display:block}
+  .rrow{grid-template-columns:minmax(0,1fr)}
+  .rsel{align-items:flex-start}
+  .clock{font-size:32px;min-width:96px}
+  .timerbar{padding:4px 10px;gap:4px 10px}
+  .timerbar .small{display:none}
+  .title.studio h1{font-size:44px}
+  .tab{font-size:20px;padding:2px 10px}
+}
+@media print{
+  .noprint,.marks,.copyrow,.timerbar,.tablist,.nexttab,.rehearse{display:none!important}
+  .sheet.tabpanel[hidden]{display:flex!important}
+  .write.doc{font-size:13pt;line-height:22px;background:repeating-linear-gradient(to bottom,transparent 0 21px,#d5dfe8 21px 22px);min-height:calc(22px * var(--rows,1))}
+  .entry{break-inside:auto}
+  .rrow,.lrow,.pq{break-inside:avoid}
+  .sel2{border:0;background:none;padding:0;appearance:none;-webkit-appearance:none}
+  select.empty{color:transparent}
+  .tprev table{font-size:11pt}
+  .ex{break-inside:auto}
+}
+.need.ok{color:var(--green)}
+.tlive{font-size:17px;color:var(--red);font-family:var(--hand)}
+</style>
+</head>
+<body data-store="gym-exams-midterm1">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved" role="status"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+<div class="timerbar timer noprint" data-min="80">
+  <span class="clock" role="timer" aria-label="Time left">80:00</span>
+  <button class="tool t-go" type="button" aria-pressed="false">Start</button>
+  <button class="tool t-reset" type="button">Reset</button>
+  <span class="small">80 minutes in all · suggested times are on each task</span>
+  <span class="tlive t-live" aria-live="polite"></span>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Overview">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Exam practice · Module 1</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" role="textbox" aria-label="Name" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" role="textbox" aria-label="Group" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" role="textbox" aria-label="Date" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title studio">
+    <div>
+      <h1>Midterm 1 Practice</h1>
+      <p class="sub">paragraph, errors, summary, transformation, <span class="hl">register</span></p>
+    </div>
+    <span class="badge">M1</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today:</b> a full practice run of the first midterm test, under time pressure.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>How this practice works</h2></div>
+    <p class="assume">Time: 80 minutes. The syllabus does not state how long this test lasts, so this page assumes 80 minutes; your teacher will confirm the real time.</p>
+    <table class="ovtable"><thead><tr><th scope="col">Task</th><th scope="col">What you do</th><th scope="col">Points</th><th scope="col">Suggested time</th></tr></thead><tbody><tr><td>1</td><td>Paragraph, 150–180 words</td><td>25</td><td>20 min</td></tr><tr><td>2</td><td>Error correction: five errors</td><td>15</td><td>10 min</td></tr><tr><td>3</td><td>Summary, 60–80 words</td><td>20</td><td>15 min</td></tr><tr><td>4</td><td>Sentence transformation: five items</td><td>20</td><td>15 min</td></tr><tr><td>5</td><td>Register identification: four extracts</td><td>20</td><td>12 min</td></tr><tr><td></td><td>Final check</td><td></td><td>8 min</td></tr></tbody></table>
+    <ol class="howto">
+      <li>Press <b>Start</b> on the timer bar, then work through the task tabs below. You can pause, but in the real test you cannot.</li>
+      <li>Work on paper or type on this page. Everything you type is saved in this browser only.</li>
+      <li>For closed items, press <b>Red pen check</b>. For writing tasks, open <b>Feedback</b> only after you have finished.</li>
+      <li>Rate yourself honestly with the self-check on each task; your total appears on the last tab.</li>
+    </ol>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+<div class="tablist noprint" role="tablist" aria-label="Tasks"><button class="tab" type="button" role="tab" id="tab-0" aria-controls="task-0" aria-selected="true" tabindex="0">1 Paragraph</button><button class="tab" type="button" role="tab" id="tab-1" aria-controls="task-1" aria-selected="false" tabindex="-1">2 Errors</button><button class="tab" type="button" role="tab" id="tab-2" aria-controls="task-2" aria-selected="false" tabindex="-1">3 Summary</button><button class="tab" type="button" role="tab" id="tab-3" aria-controls="task-3" aria-selected="false" tabindex="-1">4 Transform</button><button class="tab" type="button" role="tab" id="tab-4" aria-controls="task-4" aria-selected="false" tabindex="-1">5 Register</button><button class="tab" type="button" role="tab" id="tab-5" aria-controls="task-5" aria-selected="false" tabindex="-1">Score sheet</button></div>
+
+<section class="sheet tabpanel" role="tabpanel" id="task-0" aria-labelledby="tab-0">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Paragraph writing</h2><span class="time">20 min · 25 points</span></div>
+    <p class="how">Write one well-organised paragraph on <b>one</b> of the topics. It needs a clear topic sentence, details that support it, and a sentence that concludes it.</p>
+    <ol type="a" class="items">
+      <li>The benefits of studying in a group rather than alone.</li>
+      <li>Online news has replaced printed newspapers for young people. Do you agree?</li>
+      <li>Describe a skill you learned outside the classroom and how it has helped you.</li>
+    </ol>
+    <div class="inline"><span class="lab2">My topic:</span><select class="sel2" id="t1-topic" aria-label="Chosen topic"><option value="">topic …</option><option value="a">a</option><option value="b">b</option><option value="c">c</option></select></div>
+    <div class="write doc" style="--rows:9" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Your answer" id="t1" data-ph="Topic sentence first: the one idea the whole paragraph will support …"></div>
+    <div class="meter" data-src="t1" data-min="150" data-max="180" data-low="Under 150: add an example or an explanation." data-high="Over 180: cut the weakest detail."><span>Word count:</span><span class="wc">0</span><span class="small wctip"></span></div>
+    <span class="lab2">Self-check</span>
+    <div class="rubric" id="sc1" data-max="25" data-unit="points">
+      <div class="rrow"><div><span class="rname">Topic sentence</span><span class="wt">5 pts</span><p class="rdesc">States one clear main idea that answers the topic.</p></div><div class="rsel"><select class="sel2 band" id="sc1-0" data-col="0" aria-label="Topic sentence: points"><option value="">points …</option><option value="5" data-lo="5" data-hi="5">5</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Supporting details</span><span class="wt">8 pts</span><p class="rdesc">Two or three points, each explained or illustrated with a specific example.</p></div><div class="rsel"><select class="sel2 band" id="sc1-1" data-col="0" aria-label="Supporting details: points"><option value="">points …</option><option value="8" data-lo="8" data-hi="8">8</option><option value="7" data-lo="7" data-hi="7">7</option><option value="6" data-lo="6" data-hi="6">6</option><option value="5" data-lo="5" data-hi="5">5</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Concluding sentence</span><span class="wt">4 pts</span><p class="rdesc">Closes the paragraph without simply repeating the first sentence.</p></div><div class="rsel"><select class="sel2 band" id="sc1-2" data-col="0" aria-label="Concluding sentence: points"><option value="">points …</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Length</span><span class="wt">3 pts</span><p class="rdesc">150–180 words.</p></div><div class="rsel"><select class="sel2 band" id="sc1-3" data-col="0" aria-label="Length: points"><option value="">points …</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Accuracy and register</span><span class="wt">5 pts</span><p class="rdesc">Neutral or formal throughout; few errors, none that block meaning.</p></div><div class="rsel"><select class="sel2 band" id="sc1-4" data-col="0" aria-label="Accuracy and register: points"><option value="">points …</option><option value="5" data-lo="5" data-hi="5">5</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <p class="rtotal" aria-live="polite"></p>
+    </div>
+
+  <details class="key">
+    <summary>Feedback: what a strong paragraph does</summary>
+    <div class="keygrid"><div><h3>Shape</h3><p>Topic sentence → point 1 + example → point 2 + example → (point 3) → concluding sentence that adds a final thought.</p></div>
+      <div><h3>Example topic sentence (a)</h3><p>Studying in a group helps many students learn more, because they explain ideas to each other, share the work, and keep one another motivated.</p></div>
+      <div><h3>Common slips</h3><p>A topic sentence that only names the topic (“This paragraph is about groups”), points without examples, and a final sentence that copies the first.</p></div></div>
+  </details>
+
+  </div>
+
+  <button class="copybtn nexttab" type="button" data-tab="1">Next: Task 2 →</button>
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet tabpanel" role="tabpanel" id="task-1" aria-labelledby="tab-1" hidden>
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Error correction</h2><span class="time">10 min · 15 points</span></div>
+    <p class="how">The paragraph contains <b>five</b> grammatical or stylistic errors. Two sentences are correct. Find the five sentences with errors and write each one out correctly. Each correct sentence = 3 points.</p>
+    <div class="src"><p><sup>1</sup>Last spring our faculty organise a charity book fair for local schools. <sup>2</sup>More than forty volunteer helped to sort and price the donated books. <sup>3</sup>The fair opened on a Saturday morning in the main hall. <sup>4</sup>Every visitor who bought a book were invited to write a short note for the young readers. <sup>5</sup>The event was a real success, the money was spent on new books for two village libraries. <sup>6</sup>The notes were funny, kind, and encourage. <sup>7</sup>The organisers now hope to make the fair an annual tradition.</p></div>
+    <div class="rows">
+      <div class="inline"><span class="lab2">Sentence</span><select class="sel2" id="t2-n1" aria-label="Correction 1: sentence number"><option value="">№ …</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select></div><div class="write doc" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Correction 1" id="t2-c1" data-ph="The corrected sentence …"></div>
+      <div class="inline"><span class="lab2">Sentence</span><select class="sel2" id="t2-n2" aria-label="Correction 2: sentence number"><option value="">№ …</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select></div><div class="write doc" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Correction 2" id="t2-c2" data-ph="The corrected sentence …"></div>
+      <div class="inline"><span class="lab2">Sentence</span><select class="sel2" id="t2-n3" aria-label="Correction 3: sentence number"><option value="">№ …</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select></div><div class="write doc" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Correction 3" id="t2-c3" data-ph="The corrected sentence …"></div>
+      <div class="inline"><span class="lab2">Sentence</span><select class="sel2" id="t2-n4" aria-label="Correction 4: sentence number"><option value="">№ …</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select></div><div class="write doc" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Correction 4" id="t2-c4" data-ph="The corrected sentence …"></div>
+      <div class="inline"><span class="lab2">Sentence</span><select class="sel2" id="t2-n5" aria-label="Correction 5: sentence number"><option value="">№ …</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select></div><div class="write doc" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Correction 5" id="t2-c5" data-ph="The corrected sentence …"></div>
+    </div>
+    <span class="lab2">Self-check</span>
+    <div class="rubric" id="sc2" data-max="15" data-unit="points">
+      <div class="rrow"><div><span class="rname">Corrected sentences</span><span class="wt">15 pts</span><p class="rdesc">Count a sentence only if the error is fixed and no new error appears.</p></div><div class="rsel"><select class="sel2 band" id="sc2-0" data-col="0" aria-label="Corrected sentences: points"><option value="">points …</option><option value="15" data-lo="15" data-hi="15">5 correct = 15 points</option><option value="12" data-lo="12" data-hi="12">4 correct = 12 points</option><option value="9" data-lo="9" data-hi="9">3 correct = 9 points</option><option value="6" data-lo="6" data-hi="6">2 correct = 6 points</option><option value="3" data-lo="3" data-hi="3">1 correct = 3 points</option><option value="0" data-lo="0" data-hi="0">0 correct = 0 points</option></select></div></div>
+      <p class="rtotal" aria-live="polite"></p>
+    </div>
+
+  <details class="key">
+    <summary>Answers</summary>
+    <div class="keygrid"><div><h3>The five errors</h3><ol>
+        <li value="1">organise → <b>organised</b> (past tense: last spring)</li>
+        <li value="2">forty volunteer → forty <b>volunteers</b> (plural after a number)</li>
+        <li value="4">were → <b>was</b> (the subject is <i>every visitor</i>, singular)</li>
+        <li value="5">a real success, the money → a real success<b>, and</b> the money / success<b>;</b> the money (comma splice)</li>
+        <li value="6">encourage → <b>encouraging</b> (three adjectives in a list)</li></ol></div>
+      <div><h3>Correct as written</h3><p>Sentences 3 and 7.</p></div></div>
+  </details>
+
+  </div>
+
+  <button class="copybtn nexttab" type="button" data-tab="2">Next: Task 3 →</button>
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet tabpanel" role="tabpanel" id="task-2" aria-labelledby="tab-2" hidden>
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Summarising a text</h2><span class="time">15 min · 20 points</span></div>
+    <p class="how">Read the text (114 words). Summarise it in <b>your own words</b> in <b>60–80 words</b>; avoid lifting whole sentences.</p>
+    <div class="src" id="t3-src"><p><b>Learning with podcasts</b></p><p>Podcasts have become a popular way for university students to study a foreign language outside class. Unlike textbooks, they let learners hear real speakers with different accents and speeds, and they can be played while walking or travelling. However, listening alone does not guarantee progress. Teachers point out that many learners play episodes in the background and remember very little afterwards. The most effective listeners treat a podcast as a lesson: they choose episodes slightly above their level, listen more than once, note down useful phrases, and later try to use these phrases when they speak or write. Used in this active way, a short daily episode can build both vocabulary and listening confidence.</p></div>
+    <div class="write doc" style="--rows:4" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Your answer" id="t3" data-ph="The text argues that …"></div>
+    <div class="meter" data-src="t3" data-min="60" data-max="80" data-low="Under 60: is the main condition for success there?" data-high="Over 80: leave out the examples."><span>Word count:</span><span class="wc">0</span><span class="small wctip"></span></div>
+    <p class="copycheck" data-src="t3" data-orig="t3-src" data-n="5" aria-live="polite"></p>
+    <span class="lab2">Self-check</span>
+    <div class="rubric" id="sc3" data-max="20" data-unit="points">
+      <div class="rrow"><div><span class="rname">Main idea</span><span class="wt">6 pts</span><p class="rdesc">Podcasts help only when they are used actively.</p></div><div class="rsel"><select class="sel2 band" id="sc3-0" data-col="0" aria-label="Main idea: points"><option value="">points …</option><option value="6" data-lo="6" data-hi="6">6</option><option value="5" data-lo="5" data-hi="5">5</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Key supporting points</span><span class="wt">6 pts</span><p class="rdesc">Why podcasts are useful, the problem of passive listening, and what active listeners do.</p></div><div class="rsel"><select class="sel2 band" id="sc3-1" data-col="0" aria-label="Key supporting points: points"><option value="">points …</option><option value="6" data-lo="6" data-hi="6">6</option><option value="5" data-lo="5" data-hi="5">5</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Own words</span><span class="wt">5 pts</span><p class="rdesc">No copied strings; the copy check above helps.</p></div><div class="rsel"><select class="sel2 band" id="sc3-2" data-col="0" aria-label="Own words: points"><option value="">points …</option><option value="5" data-lo="5" data-hi="5">5</option><option value="4" data-lo="4" data-hi="4">4</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <div class="rrow"><div><span class="rname">Length and accuracy</span><span class="wt">3 pts</span><p class="rdesc">60–80 words, with few errors.</p></div><div class="rsel"><select class="sel2 band" id="sc3-3" data-col="0" aria-label="Length and accuracy: points"><option value="">points …</option><option value="3" data-lo="3" data-hi="3">3</option><option value="2" data-lo="2" data-hi="2">2</option><option value="1" data-lo="1" data-hi="1">1</option><option value="0" data-lo="0" data-hi="0">0</option></select></div></div>
+      <p class="rtotal" aria-live="polite"></p>
+    </div>
+
+  <details class="key">
+    <summary>Feedback: a model summary</summary>
+    <div class="keygrid"><div><h3>Model (67 words)</h3><p>According to the text, podcasts are a convenient tool for language students because they offer authentic voices and accents and can be used on the move. Their value, however, depends on how they are used. Learners who leave episodes running in the background gain little. Those who pick slightly difficult material, replay it, record new expressions, and then practise them improve their vocabulary and their listening confidence.</p></div><div><h3>Check</h3><p>Did you keep the contrast (<i>however</i>) between passive and active listening? It is the heart of the text.</p></div></div>
+  </details>
+
+  </div>
+
+  <button class="copybtn nexttab" type="button" data-tab="3">Next: Task 4 →</button>
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet tabpanel" role="tabpanel" id="task-3" aria-labelledby="tab-3" hidden>
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Sentence transformation</h2><span class="time">15 min · 20 points</span></div>
+    <p class="how">Change each sentence into the form shown in brackets. 4 points per item.</p>
+    <div class="switch">
+      <div class="sw"><p class="from"><b>1. (Active → passive)</b> The committee approved the new timetable on Monday.</p><div class="to"><span class="arrow">→</span><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Transformation 1" id="t4-1" data-ph=""></div></div></div>
+      <div class="sw"><p class="from"><b>2. (Simple → complex)</b> The library was closed. We studied in the café.</p><div class="to"><span class="arrow">→</span><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Transformation 2" id="t4-2" data-ph=""></div></div></div>
+      <div class="sw"><p class="from"><b>3. (Direct → indirect speech)</b> She said, “I am preparing my presentation now.”</p><div class="to"><span class="arrow">→</span><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Transformation 3" id="t4-3" data-ph=""></div></div></div>
+      <div class="sw"><p class="from"><b>4. (Add a hedging expression)</b> Online exams are less reliable than paper exams.</p><div class="to"><span class="arrow">→</span><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Transformation 4" id="t4-4" data-ph=""></div></div></div>
+      <div class="sw"><p class="from"><b>5. (Add a topic sentence)</b> …………… First, a part-time job teaches students to manage their time. Second, it gives them experience of dealing with real customers. Finally, the money they earn can reduce the pressure on their families.</p><div class="to"><span class="arrow">→</span><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Transformation 5" id="t4-5" data-ph=""></div></div></div>
+    </div>
+    <span class="lab2">Self-check</span>
+    <div class="rubric" id="sc4" data-max="20" data-unit="points">
+      <div class="rrow"><div><span class="rname">Correct transformations</span><span class="wt">20 pts</span><p class="rdesc">The structure must change as asked and the meaning must stay the same.</p></div><div class="rsel"><select class="sel2 band" id="sc4-0" data-col="0" aria-label="Correct transformations: points"><option value="">points …</option><option value="20" data-lo="20" data-hi="20">5 correct = 20 points</option><option value="16" data-lo="16" data-hi="16">4 correct = 16 points</option><option value="12" data-lo="12" data-hi="12">3 correct = 12 points</option><option value="8" data-lo="8" data-hi="8">2 correct = 8 points</option><option value="4" data-lo="4" data-hi="4">1 correct = 4 points</option><option value="0" data-lo="0" data-hi="0">0 correct = 0 points</option></select></div></div>
+      <p class="rtotal" aria-live="polite"></p>
+    </div>
+
+  <details class="key">
+    <summary>Answers</summary>
+    <div class="keygrid"><div><ol>
+        <li>The new timetable was approved (by the committee) on Monday.</li>
+        <li>Because / As / Since the library was closed, we studied in the café.</li>
+        <li>She said (that) she was preparing her presentation then / at that moment.</li>
+        <li>Online exams may be / appear to be / are likely to be less reliable than paper exams.</li>
+        <li>A part-time job can benefit university students in several ways.</li></ol></div>
+      <div><h3>Watch out</h3><p>In 3, the tense moves back and <i>now</i> changes. In 4, one hedge is enough: “may possibly perhaps” is over-hedging. In 5, the topic sentence must cover all three points, not only the first.</p></div></div>
+  </details>
+
+  </div>
+
+  <button class="copybtn nexttab" type="button" data-tab="4">Next: Task 5 →</button>
+  <span class="pgno">5</span>
+</section>
+
+<section class="sheet tabpanel" role="tabpanel" id="task-4" aria-labelledby="tab-4" hidden>
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Register identification</h2><span class="time">12 min · 20 points</span></div>
+    <p class="how">Decide whether each extract is <b>formal</b> or <b>informal</b>, then quote or name one feature that shows it. 5 points per extract.</p>
+    <div class="extract"><div class="rowpick"><span><b>A.</b> <i>Hey! Can’t make it tonight, sorry, my bus broke down. Save me a seat tomorrow?</i></span><span class="pw"><span class="pick" id="t5-A" data-ans="1"><button type="button">formal</button><span>/</span><button type="button">informal</button></span></span></div><div class="inline"><span class="lab2">Feature:</span></div><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Extract A: feature" id="t5-A-f" data-ph="One feature, quoted from the extract …"></div></div>
+    <div class="extract"><div class="rowpick"><span><b>B.</b> <i>Applicants are requested to submit the completed form no later than 15 March. Late applications will not be considered.</i></span><span class="pw"><span class="pick" id="t5-B" data-ans="0"><button type="button">formal</button><span>/</span><button type="button">informal</button></span></span></div><div class="inline"><span class="lab2">Feature:</span></div><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Extract B: feature" id="t5-B-f" data-ph="One feature, quoted from the extract …"></div></div>
+    <div class="extract"><div class="rowpick"><span><b>C.</b> <i>The findings suggest that peer feedback may improve the organisation of student essays.</i></span><span class="pw"><span class="pick" id="t5-C" data-ans="0"><button type="button">formal</button><span>/</span><button type="button">informal</button></span></span></div><div class="inline"><span class="lab2">Feature:</span></div><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Extract C: feature" id="t5-C-f" data-ph="One feature, quoted from the extract …"></div></div>
+    <div class="extract"><div class="rowpick"><span><b>D.</b> <i>So, guess what? Our team finally won the debate cup, and we’re over the moon!</i></span><span class="pw"><span class="pick" id="t5-D" data-ans="1"><button type="button">formal</button><span>/</span><button type="button">informal</button></span></span></div><div class="inline"><span class="lab2">Feature:</span></div><div class="write" style="--rows:1" contenteditable="true" role="textbox" aria-multiline="false" aria-label="Extract D: feature" id="t5-D-f" data-ph="One feature, quoted from the extract …"></div></div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+    <span class="lab2">Self-check</span>
+    <div class="rubric" id="sc5" data-max="20" data-unit="points">
+      <div class="rrow"><div><span class="rname">Correct answers (label and feature)</span><span class="wt">20 pts</span><p class="rdesc">Count an answer only if the label is right and the feature really shows it.</p></div><div class="rsel"><select class="sel2 band" id="sc5-0" data-col="0" aria-label="Correct answers (label and feature): points"><option value="">points …</option><option value="20" data-lo="20" data-hi="20">4 correct = 20 points</option><option value="15" data-lo="15" data-hi="15">3 correct = 15 points</option><option value="10" data-lo="10" data-hi="10">2 correct = 10 points</option><option value="5" data-lo="5" data-hi="5">1 correct = 5 points</option><option value="0" data-lo="0" data-hi="0">0 correct = 0 points</option></select></div></div>
+      <p class="rtotal" aria-live="polite"></p>
+    </div>
+
+  <details class="key">
+    <summary>Feedback: features</summary>
+    <div class="keygrid"><div><ol type="A">
+        <li>Informal: <i>Hey!</i>, contractions (<i>Can’t</i>), the subject left out, a question to a friend.</li>
+        <li>Formal: passive voice (<i>are requested</i>, <i>will not be considered</i>), formal phrases such as <i>no later than</i>.</li>
+        <li>Formal: academic vocabulary (<i>findings</i>), hedging (<i>suggest</i>, <i>may</i>), no personal pronouns.</li>
+        <li>Informal: <i>guess what?</i>, an idiom (<i>over the moon</i>), a contraction, an exclamation mark.</li></ol></div></div>
+  </details>
+
+  </div>
+
+  <button class="copybtn nexttab" type="button" data-tab="5">Next: Score sheet →</button>
+  <span class="pgno">6</span>
+</section>
+
+<section class="sheet tabpanel" role="tabpanel" id="task-5" aria-labelledby="tab-5" hidden>
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">Σ</span><h2>Score sheet</h2></div>
+    <p class="how">Your self-check estimates from every task. Compare them with your teacher’s marks later, and note the task that cost you most points: that is your next workout.</p>
+    <p class="grand" data-max="100" aria-live="polite"></p>
+    <table class="ovtable"><thead><tr><th scope="col">Task</th><th scope="col">Points</th><th scope="col">Next workout in the gym</th></tr></thead><tbody><tr><td>1 Paragraph</td><td>25</td><td>Unit 4 <i>Say It Loud</i>, Unit 10 <i>Red Pen Partners</i></td></tr><tr><td>2 Error correction</td><td>15</td><td>Unit 16 <i>Bug Hunt</i></td></tr><tr><td>3 Summary</td><td>20</td><td>Unit 9 <i>Just the Gist</i></td></tr><tr><td>4 Transformation</td><td>20</td><td>Units 12–14</td></tr><tr><td>5 Register</td><td>20</td><td>Unit 1 <i>Who’s Reading?</i>, Unit 11 <i>Dress Code</i></td></tr></tbody></table>
+    <span class="lab2">My plan: what I will practise before the real test</span>
+    <div class="write doc" style="--rows:3" contenteditable="true" role="textbox" aria-multiline="true" aria-label="My plan" id="plan" data-ph="The task that cost me most points was … so I will …"></div>
+    <p class="small">Saving as PDF: press <b>Print / save as PDF</b>, choose <b>Save as PDF</b> as the destination and A4 as the paper size. Everything on this page goes into one file, with all the tasks in order. Your work is stored only in this browser on this device, so keep the PDF as your copy.</p>
+
+  </div>
+
+  <span class="pgno">7</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+function $(s, r){ return (r || document).querySelector(s); }
+function $$(s, r){ return [].slice.call((r || document).querySelectorAll(s)); }
+function byId(id){ return document.getElementById(id); }
+
+/* ---------- safe rich text (bold and italic only) ---------- */
+function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cleanNode(n){
+  var out = '';
+  [].forEach.call(n.childNodes, function(c){
+    if(c.nodeType === 3){ out += esc(c.nodeValue); return; }
+    if(c.nodeType !== 1) return;
+    var tag = c.tagName, inner = cleanNode(c);
+    if(tag === 'B' || tag === 'STRONG') out += '<b>' + inner + '</b>';
+    else if(tag === 'I' || tag === 'EM') out += '<i>' + inner + '</i>';
+    else if(tag === 'BR') out += '<br>';
+    else if(tag === 'DIV' || tag === 'P') out += '<div>' + (inner || '<br>') + '</div>';
+    else if(tag === 'SPAN' && /bold|700/.test(c.style.fontWeight)) out += '<b>' + inner + '</b>';
+    else out += inner;
+  });
+  return out;
+}
+function clean(html){ var t = document.createElement('template'); t.innerHTML = html; return cleanNode(t.content); }
+
+/* ---------- exam timer state ---------- */
+var tEl = $('.timer');
+var TOTAL = tEl ? (+tEl.getAttribute('data-min') || 80) * 60 : 0;
+var timer = {left: TOTAL, run: false, ts: 0};
+if(tEl && store.tm && typeof store.tm.left === 'number'){ timer.left = store.tm.left; timer.run = !!store.tm.run; timer.ts = store.tm.ts || Date.now(); }
+var curTab = 0;
+var renderTimer = function(){};
+
+/* ---------- save and load ---------- */
+var saveTimer = null;
+function doSave(){
+  saveTimer = null;
+  try {
+    var s = {t:{}, h:{}, p:{}, o:{}, c:{}, tm:{}, ui:{}};
+    $$('[contenteditable][id]').forEach(function(el){
+      if(!el.innerText.trim()) return;
+      if(el.classList.contains('rich')) s.h[el.id] = clean(el.innerHTML); else s.t[el.id] = el.innerText;
+    });
+    $$('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+    $$('select[id]').forEach(function(el){ if(el.value && !el.hasAttribute('data-nosave')) s.o[el.id] = el.value; });
+    $$('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+    if(tEl && (timer.run || timer.left !== TOTAL)) s.tm = {left: timer.left, run: timer.run, ts: timer.ts};
+    if(curTab > 0) s.ui.tab = curTab;
+    localStorage.setItem(KEY, JSON.stringify(s));
+    var m = byId('saved'); if(m) m.textContent = 'saved on this device ✓';
+  } catch(e) {}
+}
+function save(){ clearTimeout(saveTimer); saveTimer = setTimeout(doSave, 400); }
+window.addEventListener('pagehide', function(){ if(saveTimer){ clearTimeout(saveTimer); doSave(); } });
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = byId(id); if(el) el.innerText = s.t[id]; });
+  if(s.h) Object.keys(s.h).forEach(function(id){ var el = byId(id); if(el) el.innerHTML = clean(s.h[id]); });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = byId(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = byId(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = byId(id); if(el) el.checked = true; });
+  if(s.ui && s.ui.tab) curTab = s.ui.tab;
+}
+
+/* ---------- counting ---------- */
+var MARK = /\[(SLIDE|PAUSE|EYE CONTACT|SLOW|POINT)[^\]]*\]/g;
+function words(t, mode){
+  if(mode === 'script') t = t.replace(MARK, ' ');
+  t = t.trim(); return t ? t.split(/\s+/).length : 0;
+}
+function items(t){ return t.split(/[,;\n]/).filter(function(x){ return x.trim(); }).length; }
+function lines(t){ return t.split(/\n/).filter(function(x){ return x.trim(); }).length; }
+function sentences(t){ t = t.trim(); if(!t) return 0; return t.split(/[.!?]+(?=\s|$)/).filter(function(x){ return /[A-Za-z]/.test(x); }).length; }
+function srcText(m){ return (m.getAttribute('data-src') || '').split(' ').map(function(id){ var el = byId(id); return el ? el.innerText : ''; }); }
+function measure(m){
+  var mode = m.getAttribute('data-mode') || 'words';
+  return srcText(m).reduce(function(n, t){
+    return n + (mode === 'items' ? items(t) : mode === 'lines' ? lines(t) : mode === 'sentences' ? sentences(t) : words(t, mode));
+  }, 0);
+}
+function updateMeters(){
+  $$('.meter').forEach(function(m){
+    var n = measure(m), min = +(m.getAttribute('data-min') || 0), max = m.hasAttribute('data-max') ? +m.getAttribute('data-max') : Infinity;
+    var unit = m.getAttribute('data-unit') || 'words', one = m.getAttribute('data-unit1') || unit.replace(/s$/, '');
+    var el = m.querySelector('.wc'); el.textContent = n + ' ' + (n === 1 ? one : unit);
+    var st = n < min ? 'low' : n > max ? 'high' : 'good';
+    el.className = 'wc ' + st;
+    var tip = m.querySelector('.wctip');
+    if(tip) tip.textContent = st === 'low' ? (m.getAttribute('data-low') || 'Keep going.') : st === 'high' ? (m.getAttribute('data-high') || 'Too long: cut what the reader does not need.') : (m.getAttribute('data-good') || 'In range ✓');
+  });
+  $$('.speak').forEach(function(sp){
+    var t = srcText(sp).join(' '), n = words(t, 'script'), pauses = (t.match(/\[PAUSE\]/g) || []).length;
+    var rate = +(byId(sp.getAttribute('data-rate')) || {value: 130}).value || 130;
+    var secs = Math.round(n / rate * 60 + pauses * 2);
+    var el = sp.querySelector('.st');
+    el.textContent = '≈ ' + Math.floor(secs / 60) + ' min ' + (secs % 60 < 10 ? '0' : '') + (secs % 60) + ' s';
+    el.className = 'st ' + (n === 0 || secs < 165 ? 'low' : secs > 195 ? 'high' : 'good');
+  });
+  $$('.tally').forEach(function(ta){
+    var t = srcText(ta).join(' ');
+    var names = ['SLIDE','PAUSE','EYE CONTACT','SLOW','POINT'];
+    var b = byId(ta.getAttribute('data-src').split(' ')[0]);
+    var bold = b ? b.querySelectorAll('b,strong').length : 0;
+    ta.textContent = 'Marks used: ' + names.map(function(k){ var re = new RegExp('\\[' + k + '[^\\]]*\\]', 'g'); return k + ' ' + ((t.match(re) || []).length); }).join(' · ') + ' · bold ' + bold;
+  });
+  $$('.typetally').forEach(function(ta){
+    var counts = {}, labels = [];
+    $$(ta.getAttribute('data-sel')).forEach(function(s){ if(s.value){ counts[s.value] = (counts[s.value] || 0) + 1; } });
+    var opts = JSON.parse(ta.getAttribute('data-types'));
+    var covered = opts.filter(function(o){ return counts[o]; }).length;
+    ta.textContent = opts.map(function(o){ return o + ' ' + (counts[o] || 0); }).join(' · ') + '  →  types covered: ' + covered + ' of ' + opts.length;
+  });
+  $$('.need').forEach(function(nd){
+    var n = $$(nd.getAttribute('data-sel')).filter(function(s){ return s.value === nd.getAttribute('data-val'); }).length;
+    var need = +nd.getAttribute('data-need');
+    nd.textContent = nd.getAttribute('data-label') + ': ' + n + (n >= need ? ' ✓' : ' (at least ' + need + ' needed)');
+    nd.className = 'need hint ' + (n >= need ? 'ok' : '');
+  });
+  $$('.copycheck').forEach(updateCopyCheck);
+  $$('.tprev').forEach(renderTable);
+}
+function norm(t){ return t.toLowerCase().replace(/[’']/g, "'").match(/[a-z0-9']+/g) || []; }
+function updateCopyCheck(cc){
+  var a = norm((byId(cc.getAttribute('data-src')) || {}).innerText || ''), b = norm((byId(cc.getAttribute('data-orig')) || {}).innerText || '');
+  var N = +(cc.getAttribute('data-n') || 5), grams = {}, hits = [];
+  for(var i = 0; i + N <= b.length; i++) grams[b.slice(i, i + N).join(' ')] = 1;
+  for(var j = 0; j + N <= a.length; j++){ var g = a.slice(j, j + N).join(' '); if(grams[g] && hits.indexOf(g) < 0) hits.push(g); }
+  if(!a.length){ cc.textContent = 'Copy check: start writing, and strings of ' + N + ' or more words copied from the text will be listed here.'; cc.className = 'copycheck'; return; }
+  cc.textContent = hits.length ? 'Copy check: ' + hits.length + ' string(s) of ' + N + ' words copied from the text: “' + hits.slice(0, 4).join('”, “') + '”' + (hits.length > 4 ? ' …' : '') + '. Say it your way.' : 'Copy check: no string of ' + N + ' words copied from the text ✓';
+  cc.className = 'copycheck ' + (hits.length ? 'warn' : 'ok');
+}
+function renderTable(pv){
+  var src = byId(pv.getAttribute('data-src')), cap = byId(pv.getAttribute('data-cap'));
+  var rows = (src ? src.innerText : '').split('\n').filter(function(l){ return l.indexOf('|') > -1; });
+  if(!rows.length){ pv.innerHTML = ''; return; }
+  var h = '<table>' + (cap && cap.innerText.trim() ? '<caption>' + esc(cap.innerText.trim()) + '</caption>' : '');
+  rows.forEach(function(r, i){ var c = r.split('|').map(function(x){ return esc(x.trim()); }); h += '<tr>' + c.map(function(x){ return i ? '<td>' + x + '</td>' : '<th scope="col">' + x + '</th>'; }).join('') + '</tr>'; });
+  pv.innerHTML = h + '</table>';
+}
+
+/* ---------- rubric estimates ---------- */
+function rubricRange(r){
+  var cols = {}, rated = 0, total = 0;
+  $$('select.band', r).forEach(function(s){
+    var c = s.getAttribute('data-col') || '0'; cols[c] = cols[c] || {lo:0, hi:0, n:0, rated:0}; cols[c].n++; total++;
+    var o = s.options[s.selectedIndex];
+    if(s.value !== ''){ cols[c].lo += +o.getAttribute('data-lo'); cols[c].hi += +o.getAttribute('data-hi'); cols[c].rated++; rated++; }
+  });
+  return {cols: cols, rated: rated, total: total};
+}
+function updateRubrics(){
+  var gLo = 0, gHi = 0, gDone = 0, gN = 0;
+  $$('.rubric').forEach(function(r){
+    var out = $('.rtotal', r), max = +r.getAttribute('data-max'), x = rubricRange(r), keys = Object.keys(x.cols);
+    var bonus = $('input.bonus', r), b = bonus && bonus.checked ? +bonus.getAttribute('data-bonus') : 0;
+    var unit = r.getAttribute('data-unit') || 'points';
+    gN++;
+    if(!x.rated){ out.textContent = unit === 'points' && r.getAttribute('data-unit') ? 'Choose your points for each criterion to see your estimate.' : 'Choose a band for each criterion to see your estimate.'; out.className = 'rtotal empty'; return; }
+    var parts = [], lo = 0, hi = 0;
+    keys.forEach(function(k){ var c = x.cols[k]; lo += c.lo; hi += c.hi; if(keys.length > 1) parts.push((r.getAttribute('data-col' + k) || 'Column ' + k) + ': ' + c.lo + (c.lo !== c.hi ? '–' + c.hi : '')); });
+    if(keys.length > 1){ lo = Math.round(lo / keys.length); hi = Math.round(hi / keys.length); }
+    var range = lo === hi ? '' + lo : lo + '–' + hi;
+    var txt = (parts.length ? parts.join(' · ') + ' → average ' : 'Your estimate: ') + range + ' / ' + max + ' ' + unit + (b ? ' + ' + b + ' % bonus' : '');
+    if(x.rated < x.total) txt += '  (' + (x.total - x.rated) + ' still to rate)';
+    out.textContent = txt; out.className = 'rtotal';
+    if(x.rated === x.total){ gLo += lo; gHi += hi; gDone++; }
+  });
+  var g = $('.grand');
+  if(g) g.textContent = 'Self-estimate: ' + (gLo === gHi ? gLo : gLo + '–' + gHi) + ' / ' + g.getAttribute('data-max') + ' points (' + gDone + ' of ' + gN + ' tasks rated)';
+  $$('.tickprog').forEach(function(p){ var bx = byId(p.getAttribute('data-box')), all = $$('input[type=checkbox]', bx), on = all.filter(function(c){ return c.checked; }).length; p.textContent = on + ' of ' + all.length + ' done' + (on === all.length ? ' ✓ ready to print' : ''); });
+}
+function refresh(){ updateMeters(); updateRubrics(); $$('select').forEach(function(x){ x.classList.toggle('empty', !x.value); }); }
+
+/* ---------- pick buttons and red-pen check (as in the unit trainers) ---------- */
+$$('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+$$('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    $$('button', g).forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗'; m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+$$('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = byId(btn.getAttribute('data-check')), total = 0, right = 0, empty = 0;
+    $$('.pick[data-ans]', box).forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+
+/* ---------- editing events ---------- */
+$$('select').forEach(function(s){ s.addEventListener('change', function(){ refresh(); if(!s.hasAttribute('data-nosave')) save(); }); });
+$$('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', function(){ refresh(); save(); }); });
+$$('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ refresh(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+/* ---------- speaker-note and format toolbar ---------- */
+document.addEventListener('selectionchange', function(){
+  var sel = window.getSelection(); if(!sel.rangeCount) return;
+  var n = sel.anchorNode, box = n && (n.nodeType === 1 ? n : n.parentNode).closest && (n.nodeType === 1 ? n : n.parentNode).closest('.rich');
+  if(box) box._range = sel.getRangeAt(0).cloneRange();
+});
+$$('.marks').forEach(function(tb){
+  var box = byId(tb.getAttribute('data-target'));
+  $$('button', tb).forEach(function(b){
+    b.addEventListener('mousedown', function(e){ e.preventDefault(); });
+    b.addEventListener('click', function(){
+      var sel = window.getSelection();
+      if(document.activeElement !== box){
+        box.focus(); sel.removeAllRanges();
+        if(box._range && box.contains(box._range.startContainer)) sel.addRange(box._range);
+        else { var r = document.createRange(); r.selectNodeContents(box); r.collapse(false); sel.addRange(r); }
+      }
+      if(b.getAttribute('data-cmd')) document.execCommand(b.getAttribute('data-cmd'));
+      else {
+        var r0 = sel.rangeCount ? sel.getRangeAt(0) : null, prev = '';
+        if(r0 && r0.startContainer.nodeType === 3 && r0.startOffset > 0) prev = r0.startContainer.nodeValue.charAt(r0.startOffset - 1);
+        document.execCommand('insertText', false, (prev && !/\s/.test(prev) ? ' ' : '') + b.getAttribute('data-ins') + ' ');
+      }
+      refresh(); save();
+    });
+  });
+});
+
+/* ---------- copy draft into final ---------- */
+$$('.copybtn[data-pairs]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var n = 0, skipped = 0;
+    btn.getAttribute('data-pairs').split(' ').forEach(function(p){
+      var ab = p.split('>'), a = byId(ab[0]), b = byId(ab[1]);
+      if(!a || !b || !a.innerText.trim()) return;
+      if(b.innerText.trim()){ skipped++; return; }
+      if(b.classList.contains('rich')) b.innerHTML = clean(a.innerHTML); else b.innerText = a.innerText;
+      n++;
+    });
+    var m = btn.parentNode.querySelector('.copymsg');
+    if(m) m.textContent = n ? n + ' box(es) copied. Now revise them: the draft above stays as it is.' : skipped ? 'The final boxes already contain text, so nothing was overwritten.' : 'Write the draft first.';
+    refresh(); save();
+  });
+});
+
+/* ---------- stopwatch for rehearsal (IS6) ---------- */
+$$('.rehearse').forEach(function(rh){
+  var start = 0, iv = null, clock = $('.clock', rh), btn = $('button', rh), out = $('.rate-out', rh);
+  function fmt(s){ return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60); }
+  btn.addEventListener('click', function(){
+    if(!iv){ start = Date.now(); iv = setInterval(function(){ clock.textContent = fmt(Math.floor((Date.now() - start) / 1000)); }, 250); btn.textContent = 'Stop'; out.textContent = 'Read your script aloud at your real conference pace …'; return; }
+    clearInterval(iv); iv = null; btn.textContent = 'Start reading';
+    var secs = Math.max(1, Math.round((Date.now() - start) / 1000)), n = words(byId(rh.getAttribute('data-src')).innerText, 'script');
+    if(n < 20 || secs < 10){ out.textContent = 'Write your script first, then read the whole of it aloud.'; return; }
+    var rate = Math.round(n / secs * 60), sel = byId(rh.getAttribute('data-rate'));
+    out.textContent = n + ' words in ' + fmt(secs) + ' = about ' + rate + ' words per minute. The estimate now uses your rate.';
+    var best = null; [].forEach.call(sel.options, function(o){ if(best === null || Math.abs(+o.value - rate) < Math.abs(+best.value - rate)) best = o; });
+    sel.value = best.value; refresh(); save();
+  });
+});
+
+/* ---------- tabs (exam pages) ---------- */
+var tabs = $$('[role=tab]');
+function showTab(i, focus, scroll){
+  if(!tabs.length) return;
+  i = Math.max(0, Math.min(tabs.length - 1, i)); curTab = i;
+  tabs.forEach(function(t, j){
+    var on = j === i; t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1;
+    var p = byId(t.getAttribute('aria-controls')); if(p) p.hidden = !on;
+  });
+  if(focus) tabs[i].focus();
+  if(scroll){ var tl = $('.tablist'); if(tl) tl.scrollIntoView({block: 'start'}); }
+}
+tabs.forEach(function(t, i){
+  t.addEventListener('click', function(){ showTab(i); save(); });
+  t.addEventListener('keydown', function(e){
+    var k = e.key, n = null;
+    if(k === 'ArrowRight') n = (i + 1) % tabs.length; else if(k === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length; else if(k === 'Home') n = 0; else if(k === 'End') n = tabs.length - 1;
+    if(n !== null){ e.preventDefault(); showTab(n, true); save(); }
+  });
+});
+$$('.nexttab').forEach(function(b){ b.addEventListener('click', function(){ showTab(+b.getAttribute('data-tab'), false, true); save(); }); });
+
+/* ---------- exam timer ---------- */
+if(tEl){
+  var clock = $('.clock', tEl), go = $('.t-go', tEl), rs = $('.t-reset', tEl), live = $('.t-live', tEl), warned = false;
+  function remaining(){ return timer.run ? timer.left - (Date.now() - timer.ts) / 1000 : timer.left; }
+  function render(){
+    var r = Math.max(0, Math.ceil(remaining()));
+    if(timer.run && r <= 0){ timer.left = 0; timer.run = false; live.textContent = 'Time is up. Stop writing and check your work.'; doSave(); }
+    clock.textContent = Math.floor(r / 60) + ':' + (r % 60 < 10 ? '0' : '') + (r % 60);
+    clock.className = 'clock' + (r === 0 ? ' over' : r <= 600 ? ' warn' : '');
+    if(timer.run && r <= 600 && !warned){ warned = true; live.textContent = '10 minutes left: start checking your answers.'; }
+    go.textContent = timer.run ? 'Pause' : timer.left <= 0 ? 'Time is up' : timer.left < TOTAL ? 'Resume' : 'Start';
+    go.setAttribute('aria-pressed', timer.run ? 'true' : 'false');
+    go.disabled = !timer.run && timer.left <= 0;
+  }
+  go.addEventListener('click', function(){
+    if(timer.run){ timer.left = remaining(); timer.run = false; live.textContent = 'Paused.'; }
+    else if(timer.left > 0){ timer.ts = Date.now(); timer.run = true; live.textContent = 'Timer running.'; }
+    render(); save();
+  });
+  rs.addEventListener('click', function(){
+    if(!confirm('Reset the timer to ' + (TOTAL / 60) + ' minutes?')) return;
+    timer = {left: TOTAL, run: false, ts: 0}; warned = false; live.textContent = 'Timer reset.'; render(); save();
+  });
+  renderTimer = render;
+  setInterval(render, 250);
+}
+
+var pr = byId('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = byId('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear everything you have written on this page?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load();
+showTab(curTab);
+renderTimer();
+refresh();
+})();
+</script>
+</body>
+</html>

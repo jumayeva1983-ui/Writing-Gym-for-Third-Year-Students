@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polite but Firm: complaint and request letters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u08-polite-but-firm">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 1 · Unit 8</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Polite but Firm</h1>
+      <p class="sub">complaint and <span class="hl">request</span> letters</p>
+    </div>
+    <span class="badge">Unit 8</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> ask clearly, complain calmly: <b>facts, a deadline and a next step</b>. No shouting, no begging.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">Malika left her laptop for repair three weeks ago. She writes to the service centre. Three versions: which one will get her laptop back?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A laptop">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="52" y="18" width="96" height="62" style="fill:#fffef9"/><path d="M36 92 h128 l-10 -12 h-108 z"/>
+            <path d="M88 40 q12 -12 24 0 q0 10 -12 14 v6 M100 68 v2" style="stroke:var(--soft)"/>
+          </g></svg>
+        <p><b>Too soft:</b> a hint</p>
+        <p class="msg">Hi, just wondering how my laptop is getting on? No rush, of course. Thanks, Malika</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A laptop">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="52" y="18" width="96" height="62" style="fill:#fffef9"/><path d="M36 92 h128 l-10 -12 h-108 z"/>
+            <path d="M96 30 l-10 20 h14 l-8 22" style="stroke:var(--red)"/>
+          </g></svg>
+        <p><b>Too hard:</b> an order</p>
+        <p class="msg">WHERE IS MY LAPTOP?! This is a joke. Give it back NOW or I will tell everyone how bad you are!!!</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A laptop">
+          <g class="doodle" filter="url(#wobble)">
+            <rect x="52" y="18" width="96" height="62" style="fill:#fffef9"/><path d="M36 92 h128 l-10 -12 h-108 z"/>
+            <path d="M82 50 l12 12 l24 -26" style="stroke:var(--green)"/>
+          </g></svg>
+        <p class="ink"><b>Polite but firm</b></p>
+        <p class="msg">Dear Sir or Madam, I am writing about my laptop (repair no. 5521), which I left with you on 2 May. Could you please return it, repaired, by 25 May? Yours faithfully, Malika Rashidova</p>
+      </div>
+    </div>
+    <p class="how">Spot it: a reference number, a date, one clear request with a deadline, and no capitals, no !!!, no insults.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: ask in the middle, complain in order</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">DIRECT</span><span class="link">→</span><span class="car">Repair it.</span><span class="car">I want …</span><span class="car">You must …</span><span class="car">= an order</span></div>
+      <div class="train apply"><span class="car engine s">INDIRECT</span><span class="link">→</span><span class="car">Could you please …?</span><span class="car">I would be grateful if you could …</span><span class="car">= the best zone for letters</span></div>
+      <div class="train apply"><span class="car engine l">HINT</span><span class="link">→</span><span class="car">It is quite cold here …</span><span class="car">No rush …</span><span class="car">= easy to ignore</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">The complaint train: six cars, always in this order</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">1 PURPOSE</span><span class="link">→</span><span class="car">I am writing to complain about …</span></div>
+      <div class="train apply"><span class="car engine d">2 FACTS</span><span class="link">→</span><span class="car">what, when, where, reference number</span></div>
+      <div class="train apply"><span class="car engine s">3 IMPACT</span><span class="link">→</span><span class="car">As a result, … (facts, not feelings)</span></div>
+      <div class="train apply"><span class="car engine l">4 ACTION TAKEN</span><span class="link">→</span><span class="car">I reported the problem on …</span></div>
+      <div class="train apply"><span class="car engine m">5 RESOLUTION</span><span class="link">→</span><span class="car">I would be grateful if you could … by …</span></div>
+      <div class="train apply"><span class="car engine ">6 NEXT STEP</span><span class="link">→</span><span class="car">If …, I will have no option but to …</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Talab qilaman</b> → <span class="strike">I demand</span> → I would ask you to …</p>
+        <p style="margin-top:6px"><b>Zudlik bilan</b> → <span class="strike">urgently</span> → by 25 May (aniq sana yozing)</p>
+        <p style="margin-top:6px">Rahm-shafqatga emas, faktlarga tayaning: sana, raqam, hujjat.</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">WHY?!</span> capitals and !!! ✗<br>
+        <span class="strike">You always …</span> attacking people ✗<br>
+        <span class="strike">I will tell everyone</span> threats ✗<br>
+        <span class="strike">I am a poor student</span> begging ✗<br>
+        <span class="strike">Please do something</span> no deadline ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Direct, indirect or hint?</h2><span class="time">~4 min</span></div>
+    <p class="how">Is each request <b>direct</b>, <b>indirect</b> (conventionally indirect) or a <b>hint</b>? Circle one, then press the red pen.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Would you mind sending me the invoice again?</span><span class="pw"><span class="pick" data-ans="1"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>2. Send the invoice again.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>3. I have not received the invoice yet.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>4. I need the invoice by Monday.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>5. Could you possibly extend my membership by a week?</span><span class="pw"><span class="pick" data-ans="1"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>6. The printer on the second floor has been out of paper since Tuesday.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>7. I want a full refund.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+      <div class="rowpick"><span>8. I was wondering whether you could check my booking.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">direct</button><span>/</span><button type="button">indirect</button><span>/</span><button type="button">hint</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Board the complaint train</h2><span class="time">~5 min</span></div>
+    <p class="how">The six paragraphs of this complaint are mixed up. Choose a number (1–6) for each paragraph. Use the complaint train.</p>
+    <div class="task"><p><b>Situation.</b> Aziz's sports centre took his monthly fee from his bank card twice.</p></div>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o2-0" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>As a result, I was unable to pay my dormitory fee on time and had to pay a late charge.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-1" data-ans="6" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>If the refund has not been made by that date, I will have no option but to ask my bank to cancel the second payment.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-2" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>I am writing to complain about a double payment for my October membership at Fit Zone Sports Centre.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-3" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>I would therefore be grateful if you could refund the extra 250,000 soums by 25 October.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-4" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>On 1 October, the monthly fee of 250,000 soums was taken from my card twice, as the attached bank statement shows.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o2-5" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>I reported the error at your reception on 3 October and was told that the money would be returned within five days. It has not been returned.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Firm, rude or too weak?</h2><span class="time">~4 min</span></div>
+    <p class="how">Firm, rude or too weak? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. I would be grateful if you could replace the charger by 20 May.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>2. This is absolutely ridiculous and I am sick of waiting!</span><span class="pw"><span class="pick" data-ans="1"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>3. Sorry to bother you, but maybe, if it is not too much trouble, someone could look at it one day?</span><span class="pw"><span class="pick" data-ans="2"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>4. If the repair is not completed by that date, I will have no option but to request a refund.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>5. Your staff are clearly incompetent.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>6. It would be nice if things got better at some point.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>7. To date, I have not received a reply to my emails of 3 and 10 May.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+      <div class="rowpick"><span>8. You have ONE week, or else.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">firm</button><span>/</span><button type="button">rude</button><span>/</span><button type="button">too weak</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">4</span><h2>Red pen time: cool it down</h2><span class="time">~6 min</span></div>
+    <p class="how">Malika is angry, and her draft shows it. Cool each line down: keep the facts, lose the anger. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">WHY has nobody answered my emails?!</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">Your service centre is a complete joke.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">I left my laptop for repair on 2 May (repair number 5521).</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">I demand my laptop back immediately.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">Hurry up or I will write terrible reviews everywhere.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Make it specific</h2><span class="time">~5 min</span></div>
+    <p class="how">Polite is not enough: the reader must know <b>what</b> to do and <b>by when</b>. Make each request specific. Invent the details.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Please solve my problem soon.</p><div class="to"><span class="arrow">→</span><span class="done">Could you please replace the faulty charger by 15 May?</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. Could you look into my booking issue?</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sp-1" data-ph="Could you please check why my booking for … on …"></div></div></div>
+      <div class="sw"><p class="from">3. Please send me the documents ASAP.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sp-2" data-ph="Could you please send me … by …?"></div></div></div>
+      <div class="sw"><p class="from">4. Do something about the noise.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sp-3" data-ph="I would be grateful if you could …"></div></div></div>
+      <div class="sw"><p class="from">5. I want compensation.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sp-4" data-ph="I would therefore ask you to … by …"></div></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Writing corner</h2><span class="time">~25 min</span></div>
+    <div class="advert">
+      <h3>MALIKA'S NOTES</h3>
+      <p class="what">Zarafshon Repair Centre · warranty repair</p>
+      <ul>
+        <li>2 May: laptop left for repair, repair no. 5521; promised in 7 working days</li>
+        <li>12 May and 14 May: phoned; told “next week” both times</li>
+        <li>coursework due 25 May; working on library computers until 20:00</li>
+        <li>manager's name: not known</li>
+      </ul>
+    </div>
+    <div class="corner">
+      <p><b>Your turn.</b> Write Malika's complaint to the manager of the repair centre. Use all six cars of the complaint train. <b>Target: 150–180 words.</b></p>
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Who?</span><div class="write" contenteditable="true" id="pn-who" data-ph="Who reads it? Do I know the name?"></div>
+          <span class="lab">Why?</span><div class="write" contenteditable="true" id="pn-why" data-ph="What exactly do I want, and by when?"></div>
+          <span class="lab">Where?</span><div class="write" contenteditable="true" id="pn-where" data-ph="Email or letter? Will it be forwarded?"></div>
+          <span class="lab">How?</span><div class="write" contenteditable="true" id="pn-how" data-ph="Formal, polite but firm: greeting … closing"></div>
+        </div>
+      </div>
+      <div class="para" id="textC">
+        <div class="ptag"><b>C</b><span>The complaint</span></div>
+        <p class="frame">Subject: …………<br>Dear …………, I am writing to complain about …………</p>
+        <div class="write" style="--rows:12" contenteditable="true" id="C-text" data-wc></div>
+        <div class="wcbar" data-count="textC" data-min="150" data-max="180" data-low="Keep going: is every car of the train there?" data-high="A little too long: cut feelings and repeated facts.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">a subject line with the repair number</label>
+        <label><input type="checkbox" id="t1">the purpose in the first sentence</label>
+        <label><input type="checkbox" id="t2">facts: dates, number, what was promised</label>
+        <label><input type="checkbox" id="t3">impact: facts, not feelings</label>
+        <label><input type="checkbox" id="t4">one clear request with a deadline</label>
+        <label><input type="checkbox" id="t5">a calm next step, no threats</label>
+        <label><input type="checkbox" id="t6">no capitals, no !!!, no insults</label>
+        <label><input type="checkbox" id="t7">Dear Sir or Madam … Yours faithfully</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can tell a direct request from an indirect request and a hint.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can put the six moves of a complaint in the right order.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can be firm without being rude.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for your portfolio.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Direct, indirect or hint?</h3><ol><li>indirect</li><li>direct</li><li>hint</li><li>direct</li><li>indirect</li><li>hint</li><li>direct</li><li>indirect</li></ol></div>
+      <div><h3>2. Complaint train</h3><p>Purpose (I am writing to complain …) → facts (On 1 October …) → impact (As a result …) → action taken (I reported the error …) → resolution (I would therefore be grateful …) → next step (If the refund …).</p><p>Numbers in the order shown: 3, 6, 1, 5, 2, 4.</p></div>
+      <div><h3>3. Firm, rude or too weak?</h3><ol><li>firm</li><li>rude</li><li>too weak</li><li>firm</li><li>rude</li><li>too weak</li><li>firm</li><li>rude</li></ol></div>
+      <div><h3>4. Cool it down</h3><ol type="a"><li>I have not received a reply to my emails of 6 and 9 May.</li><li>I am disappointed with the service I have received so far.</li><li>Correct ✓</li><li>Could you please return my laptop by 25 May?</li><li>If the laptop is not returned by 25 May, I will have no option but to request a replacement or a refund.</li></ol></div>
+      <div><h3>5. Make it specific</h3><p>Answers vary. Each request names the action, the object and a date, for example: 2 Could you please check why my booking for the seminar room on 12 May was cancelled? 3 Could you please send me my signed contract by Friday? 4 I would be grateful if you could remind residents on Floor 2 that quiet hours begin at 23:00. 5 I would therefore ask you to refund the cost of the missed lesson, 50,000 soums, by 30 May.</p></div>
+      <div><h3>6. Writing corner</h3><p>Answers vary. Check: a subject line with repair no. 5521; Dear Sir or Madam … Yours faithfully; purpose first; facts (2 May, 7 working days, calls on 12 and 14 May); impact (coursework due 25 May, working in the library); one request with a deadline (laptop returned, repaired, by a date before 25 May); a calm next step (for example, a replacement or a refund under the warranty, or contacting the head office); formal register; 150–180 words.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">4</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>250 Words: writing a research abstract</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u25-250-words">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 25</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>250 Words</h1>
+      <p class="sub">writing a research <span class="hl">abstract</span></p>
+    </div>
+    <span class="badge">Unit 25</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> tell the reader <b>what you did, how, what you found and what it means</b>, in one short paragraph that works without the paper.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A (fictional) study compared attendance at 8:30 and 11:00 lectures. Three students wrote its abstract. Which one could a busy reader use without the paper?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A table of contents">
+          <g class="doodle" filter="url(#wobble)"><rect x="60" y="8" width="80" height="104" style="fill:#fffef9"/><path d="M72 28 h40 M72 46 h52 M72 64 h34 M72 82 h46 M72 100 h28"/></g></svg>
+        <p><b>Table of contents</b></p>
+        <p class="msg">This paper is devoted to the problem of attendance. The data are described, and the results are discussed. Some recommendations are given.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="An overflowing box">
+          <g class="doodle" filter="url(#wobble)"><rect x="56" y="40" width="88" height="72" style="fill:var(--pink)"/><path d="M62 40 l-10 -26 M84 40 l2 -32 M108 40 l10 -30 M132 40 l18 -22"/><path d="M40 70 h-14 M160 70 h14" style="stroke:var(--red)"/></g></svg>
+        <p><b>Everything at once</b></p>
+        <p class="msg">As Table 2 shows, attendance at 8:30 was 61.25 % on Mondays, 63.75 % on Tuesdays … (Name, 2019). The data were entered on 12 March. This very important topic …</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A short paragraph with a tick">
+          <g class="doodle" filter="url(#wobble)"><path d="M30 34 h110 M30 54 h120 M30 74 h96 M30 94 h70"/><path d="M140 86 l10 10 l22 -26" style="stroke:var(--green)"/></g></svg>
+        <p class="ink"><b>Informative abstract</b></p>
+        <p class="msg">This study compared attendance at 8:30 and 11:00 lectures in six first-year groups over ten weeks. On average, 64 % of students attended early lectures, compared with 86 % at 11:00, and the gap was largest on Mondays. The results suggest that early timetabling may reduce attendance, although other factors, such as transport, were not measured.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the good abstract says <b>what was done</b>, gives the <b>main result with numbers</b>, says <b>what it means</b> and is honest about the <b>limits</b>. No table, no citation, no praise.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: five moves, one paragraph</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">INTRODUCTION</span><span class="link">→</span><span class="car">Why does it matter?</span><span class="car">… is popular, but little is known about …</span></div>
+      <div class="train apply"><span class="car engine m">PURPOSE</span><span class="link">→</span><span class="car">What did the study do?</span><span class="car">This study examined …</span></div>
+      <div class="train apply"><span class="car engine d">METHOD</span><span class="link">→</span><span class="car">How? Who?</span><span class="car">past, often passive: … were interviewed</span></div>
+      <div class="train apply"><span class="car engine l">PRODUCT</span><span class="link">→</span><span class="car">What was found?</span><span class="car">past: … found, … was, … rose</span></div>
+      <div class="train apply"><span class="car engine ">CONCLUSION</span><span class="link">→</span><span class="car">So what? Limits?</span><span class="car">present + hedge: … suggest, … may</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Maqola … ga bag<span class="ap">ʻ</span>ishlangan</b> → This study examines …</p>
+        <p style="margin-top:6px"><b>… ko<span class="ap">ʻ</span>rib chiqilgan</b> → say what was <b>found</b></p>
+        <p style="margin-top:6px"><b>muallif tomonidan</b> → This study … / passive</p>
+        <p style="margin-top:6px"><b>Kalit so<span class="ap">ʻ</span>zlar</b> → <b>Keywords:</b></p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">In this paper I will …</span> ✗<br>
+        <span class="strike">… are discussed.</span> ✗ (say what!)<br>
+        <span class="strike">see Table 2</span> ✗<br>
+        <span class="strike">(Name, 2019)</span> ✗<br>
+        <span class="strike">a very important topic</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Name the move</h2><span class="time">~4 min</span></div>
+    <p class="how">Each sentence comes from a different (fictional) abstract. Which move is it? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Online flashcard apps are popular with language learners, but their long-term effect is unclear.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>2. This paper investigates how often first-year students revise their essays before submission.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>3. Twenty lecturers were interviewed, and the interviews were transcribed and coded.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>4. Students who used the checklist made 40 % fewer citation errors.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>5. These findings suggest that short checklists could be added to all writing courses.</span><span class="pw"><span class="pick" data-ans="4"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>6. A questionnaire was distributed to 150 students in three faculties.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>7. Most participants preferred feedback in Uzbek to feedback in English.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+      <div class="rowpick"><span>8. Little research has examined how translators in Uzbekistan use online corpora.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Intro</button><span>/</span><button type="button">Purpose</button><span>/</span><button type="button">Method</button><span>/</span><button type="button">Product</button><span>/</span><button type="button">Concl.</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Report it or point to it?</h2><span class="time">~3 min</span></div>
+    <p class="how">Does the sentence <b>report</b> something (informative) or only <b>point</b> to a part of the paper (indicative)?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The results of the interviews are discussed.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>2. Lecturers named lack of time as the main barrier to giving feedback.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>3. The paper considers some problems of teaching listening.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>4. Attendance fell by a third after the timetable changed.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>5. Recommendations for the library are given.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>6. The findings suggest that shorter reading lists may increase completion rates.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>7. Various approaches to the topic are analysed.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>8. Two thirds of the respondents read the news on their phones.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">informative</button><span>/</span><button type="button">indicative</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Which tense?</h2><span class="time">~3 min</span></div>
+    <p class="how">Choose the verb form that fits the move.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. <i>Introduction:</i> Mobile learning ___ rapidly over the last decade.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">grew up</button><span>/</span><button type="button">has grown</button><span>/</span><button type="button">is growing up</button></span></span></div>
+      <div class="rowpick"><span>2. <i>Purpose:</i> This study ___ how 45 students used a grammar app.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">examined</button><span>/</span><button type="button">is examining</button><span>/</span><button type="button">had examined</button></span></span></div>
+      <div class="rowpick"><span>3. <i>Method:</i> Data ___ through interviews and learning diaries.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">collected</button><span>/</span><button type="button">were collected</button><span>/</span><button type="button">are collecting</button></span></span></div>
+      <div class="rowpick"><span>4. <i>Product:</i> Students in the app group ___ higher scores on the final test.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">achieved</button><span>/</span><button type="button">achieve</button><span>/</span><button type="button">have been achieving</button></span></span></div>
+      <div class="rowpick"><span>5. <i>Conclusion:</i> These results ___ that short daily practice may be effective.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">suggested</button><span>/</span><button type="button">suggest</button><span>/</span><button type="button">are suggesting</button></span></span></div>
+      <div class="rowpick"><span>6. <i>Conclusion:</i> A larger study ___ to confirm these findings.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">needed</button><span>/</span><button type="button">is needed</button><span>/</span><button type="button">has needed</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Build the abstract</h2><span class="time">~4 min</span></div>
+    <p class="how">A (fictional) study of <b>silent study hours</b> in a dormitory. Put the five sentences in order: 1 = first.</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o4-0" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Forty residents of one dormitory kept a study diary for three weeks before and three weeks after the silent hours were introduced.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-1" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Silent hours may be a simple way to support study in dormitories, but a longer study with a comparison group is needed.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-2" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Noise is one of the most common complaints of students who live in university dormitories.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-3" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Average study time in rooms rose from 1.6 to 2.3 hours a day, and 31 residents said that the building was quieter.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-4" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>This study examined whether two daily silent study hours changed how much time residents spent studying in their rooms.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Keep it or cut it?</h2><span class="time">~3 min</span></div>
+    <p class="how">You are writing the 150-word abstract of the lecture-time study from <b>Look!</b> Keep it or cut it?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Attendance at 8:30 lectures was 64 %, compared with 86 % at 11:00.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>2. As Table 3 shows, the gap was largest on Mondays.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>3. Name (2019) found a similar pattern at another university.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>4. The data were entered into a spreadsheet on 12 March.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>5. Six first-year groups were observed for ten weeks.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>6. This is a very important and interesting problem.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>7. The results suggest that early lectures may reduce attendance.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+      <div class="rowpick"><span>8. The TRA (timetable-related absence) index was calculated.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">cut</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">Each line comes from a student abstract and has one problem. Correct it. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">The article is devoted to the problem of plagiarism among students.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">In this paper I will write about student podcasts.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">The actuality of the topic is connected with the spread of online learning.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">Thirty students completed an online questionnaire.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">The results are shown in Figure 2.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">Key words: students, education, problem.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+      <div class="fixrow"><span class="n">g</span><span class="s">Were interviewed 12 teachers of English.</span><label class="ok"><input type="checkbox" id="ok-g">correct</label><div class="write" contenteditable="true" id="fix-g"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex7">
+    <div class="exhead"><span class="num">7</span><h2>Good keywords</h2><span class="time">~3 min</span></div>
+    <p class="how">Paper title: <i>Podcasts as listening homework: a study of first-year English students</i>. Is each word a useful keyword or too general?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. listening comprehension</span><span class="pw"><span class="pick" data-ans="0"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>2. students</span><span class="pw"><span class="pick" data-ans="1"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>3. English as a foreign language</span><span class="pw"><span class="pick" data-ans="0"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>4. research</span><span class="pw"><span class="pick" data-ans="1"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>5. extensive listening</span><span class="pw"><span class="pick" data-ans="0"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>6. education</span><span class="pw"><span class="pick" data-ans="1"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>7. homework</span><span class="pw"><span class="pick" data-ans="0"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+      <div class="rowpick"><span>8. problems</span><span class="pw"><span class="pick" data-ans="1"><button type="button">useful</button><span>/</span><button type="button">too general</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex7">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> Javohir, a third-year student, has finished a short paper. Write its <b>abstract</b> (100–150 words) from his notes. Use all five moves, add nothing that is not in the notes, and finish with a keywords line.</p>
+      <div class="task"><p><b>Notes: “Phones away: phone-free lectures and note-taking”</b> <span class="small">(fictional study for practice)</span></p>
+      <p>• Two first-year lecture groups, four weeks · Group A (26 students) put their phones in a box during lectures · Group B (24 students) kept their phones</p>
+      <p>• Notes collected after each lecture; main ideas counted (10 per lecture) · short questionnaire at the end</p>
+      <p>• Results: Group A recorded 6.4 main ideas per lecture on average, Group B 4.9 · 18 of the 26 students in Group A said they concentrated better · 7 of the 26 felt anxious without their phones</p>
+      <p>• Limits: four weeks only, one faculty, groups not randomly assigned</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Why?</span><div class="write" contenteditable="true" id="pn-why" data-ph="Background: phones in lectures are common, but …"></div>
+          <span class="lab">Did / how?</span><div class="write" contenteditable="true" id="pn-how" data-ph="This study compared … · Two groups …"></div>
+          <span class="lab">Found</span><div class="write" contenteditable="true" id="pn-found" data-ph="2–3 key numbers: …"></div>
+          <span class="lab">So what?</span><div class="write" contenteditable="true" id="pn-so" data-ph="These results suggest … However, …"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textC">
+        <div class="ptag"><b>A</b><span>My abstract (100–150 words)</span></div>
+        <p class="frame">Mobile phones are present in almost every lecture, but …</p>
+        <div class="write" style="--rows:9" contenteditable="true" id="C-text" data-wc></div>
+        <div class="wcbar" data-count="textC" data-min="100" data-max="150" data-low="Keep going: is every move there, with the key numbers?" data-high="Over the limit: cut details, not results.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+        <p class="frame" style="margin-top:10px"><i>Keywords:</i></p>
+        <div class="write" contenteditable="true" id="C-keys" data-ph="three to five specific terms, lower case, commas"></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">a reader could understand it without the paper</label>
+        <label><input type="checkbox" id="t1">all five moves are there, in order</label>
+        <label><input type="checkbox" id="t2">it is informative: the numbers are reported, not just “discussed”</label>
+        <label><input type="checkbox" id="t3">no citations, no tables or figures, no undefined abbreviations</label>
+        <label><input type="checkbox" id="t4">past tense for method and results, present for the meaning</label>
+        <label><input type="checkbox" id="t5">the conclusion is hedged, and one limit is stated</label>
+        <label><input type="checkbox" id="t6">100–150 words, plus 3–5 keywords</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can name the five moves of an abstract and find them in a text.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can turn an indicative sentence into an informative one and choose the right tense.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can cut an abstract to its word limit and choose good keywords.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for your IS5 and IS6 abstracts.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Name the move</h3><ol><li>Intro</li><li>Purpose</li><li>Method</li><li>Product</li><li>Concl.</li><li>Method</li><li>Product</li><li>Intro</li></ol></div>
+      <div><h3>2. Report or point?</h3><ol><li>indicative</li><li>informative</li><li>indicative</li><li>informative</li><li>indicative</li><li>informative</li><li>indicative</li><li>informative</li></ol></div>
+      <div><h3>3. Which tense?</h3><ol><li>has grown</li><li>examined</li><li>were collected</li><li>achieved</li><li>suggest</li><li>is needed</li></ol></div>
+      <div><h3>4. Build the abstract</h3><p>Noise … (1) → This study examined … (2) → Forty residents … (3) → Average study time … (4) → Silent hours may … (5).</p><p>Numbers in the order shown: 3, 5, 1, 4, 2.</p></div>
+      <div><h3>5. Keep or cut?</h3><ol><li>keep (main result)</li><li>cut (table reference)</li><li>cut (citation)</li><li>cut (detail)</li><li>keep (method)</li><li>cut (praise)</li><li>keep (conclusion)</li><li>cut (abbreviation, detail)</li></ol></div>
+      <div><h3>6. Red pen</h3><ol type="a"><li>This study examines plagiarism among students and finds … (say what it found)</li><li>This study investigated how … students use podcasts (+ the result).</li><li>Online learning has spread rapidly, but little is known about …</li><li>Correct ✓</li><li>Cut it, and state the result itself.</li><li><i>Keywords:</i> plagiarism, academic integrity, … (specific terms)</li><li>Twelve teachers of English were interviewed.</li></ol></div>
+      <div><h3>7. Keywords</h3><ol><li>useful</li><li>too general</li><li>useful</li><li>too general</li><li>useful</li><li>too general</li><li>useful</li><li>too general</li></ol></div>
+      <div><h3>8. Writing corner</h3><p>Model (125 words): Mobile phones are present in almost every lecture, but their effect on students' notes is less clear. This study compared the notes of two first-year lecture groups over four weeks. In Group A (26 students), phones were placed in a box during lectures, while Group B (24 students) kept their phones. Notes were collected after each lecture, the main ideas recorded were counted, and the students completed a short questionnaire. Group A recorded 6.4 of the 10 main ideas per lecture on average, compared with 4.9 in Group B. Eighteen students in Group A reported better concentration, although seven felt anxious without their phones. The results suggest that phone-free lectures may improve note-taking. However, the study was short, and the groups were not randomly assigned.</p><p><i>Keywords:</i> note-taking, mobile phones, lectures, attention, higher education</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

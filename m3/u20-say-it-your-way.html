@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Say It Your Way: citing without quoting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u20-say-it-your-way">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 20</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Say It Your Way</h1>
+      <p class="sub">in-text referencing: <span class="hl">citing without quoting</span></p>
+    </div>
+    <span class="badge">Unit 20</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> use a source's idea <b>in your own words</b> and give its author <b>the right name and year</b>.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">Read the source. Then compare three ways in which students used it.</p>
+    <div class="task"><p><b>The source</b> <span class="small">(fictional source for practice)</span></p>
+      <p>Mirzayeva (2020, p. 9): “Students who studied in rooms with plants rated their concentration higher than students who studied in identical rooms without plants, although their test scores did not differ.”</p></div>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A photocopier">
+          <g class="doodle" filter="url(#wobble)"><rect x="50" y="40" width="100" height="56" style="fill:#fffef9"/><path d="M60 40 L70 20 H130 L140 40 M70 96 v14 h60 v-14"/><path d="M78 62 h44 M78 74 h44" style="stroke:var(--red)"/></g></svg>
+        <p><b>Copy-cat</b></p>
+        <p class="msg">Students who studied in rooms with plants rated their concentration higher than students who studied in identical rooms without plants.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A patched shirt">
+          <g class="doodle" filter="url(#wobble)"><path d="M60 30 L80 20 H120 L140 30 L160 50 L145 62 L138 56 V104 H62 V56 L55 62 L40 50 Z" style="fill:#fffef9"/><rect x="74" y="58" width="22" height="18" style="fill:var(--pink)"/><rect x="104" y="76" width="22" height="18" style="fill:var(--pink)"/></g></svg>
+        <p><b>Patchwork</b></p>
+        <p class="msg">Learners who worked in rooms with plants judged their concentration higher than learners who worked in similar rooms without plants (Mirzayeva, 2020).</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A plant with a tick">
+          <g class="doodle" filter="url(#wobble)"><path d="M80 78 h40 l-6 30 h-28 Z" style="fill:#fffef9"/><path d="M100 78 V46 M100 60 C84 56 78 44 80 34 C92 38 100 48 100 60 M100 52 C114 46 122 36 122 26 C108 28 100 40 100 52"/><path d="M140 86 l10 10 l22 -26" style="stroke:var(--green)"/></g></svg>
+        <p class="ink"><b>Your own words</b></p>
+        <p class="msg">Mirzayeva (2020) found that plants in a study room made students feel more focused, although they did not raise their test scores.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the copy-cat has <b>no citation</b>; the patchwork has a citation but <b>swaps words</b> in the source's sentence; only the last one is <b>new words, same idea, named source</b>.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: their idea in your sentence, with their name</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">UNDERSTAND</span><span class="link">→</span><span class="car">read it all</span><span class="car">what is the point?</span></div>
+      <div class="train apply"><span class="car engine s">CLOSE</span><span class="link">→</span><span class="car">source away</span><span class="car">3–4 key words</span></div>
+      <div class="train apply"><span class="car engine m">WRITE</span><span class="link">→</span><span class="car">from memory</span><span class="car">your own sentence</span></div>
+      <div class="train apply"><span class="car engine d">COMPARE</span><span class="link">→</span><span class="car">same meaning?</span><span class="car">no copied phrases?</span></div>
+      <div class="train apply"><span class="car engine l">CITE</span><span class="link">→</span><span class="car">(Author, year)</span><span class="car">+ p. for quotations</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Two ways to name the source</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">IN THE SENTENCE</span><span class="link">→</span><span class="car">Oripov and Haydarova (2018) found …</span><span class="car"><b>and</b> · year after the names</span></div>
+      <div class="train apply"><span class="car engine l">IN BRACKETS</span><span class="link">→</span><span class="car">… (Oripov &amp; Haydarova, 2018).</span><span class="car"><b>&amp;</b> · comma · full stop after ) </span></div>
+      <div class="train apply"><span class="car engine m">3+ AUTHORS</span><span class="link">→</span><span class="car">Turgunova et al. (2023)</span><span class="car"><b>et al.</b> from the first time</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Mirzayevaning fikricha</b> → According to Mirzayeva (2020), <span class="small">(“opinion” shart emas)</span></p>
+        <p style="margin-top:6px"><b>va boshqalar</b> → <b>et al.</b></p>
+        <p style="margin-top:6px"><b>[3, 9-b.]</b> → (Mirzayeva, 2020, <b>p. 9</b>)</p>
+        <p style="margin-top:6px"><b>o<span class="ap">ʻ</span>zim tarjima qildim</b> → parafraz: qo<span class="ap">ʻ</span>shtirnoqsiz, lekin havola bilan</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">According to X's opinion</span> ✗<br>
+        <span class="strike">(Oripov and Haydarova, 2018)</span> ✗ → &amp;<br>
+        <span class="strike">Dr Nodira Mirzayeva (2020)</span> ✗ → surname only<br>
+        <span class="strike">a quotation without p.</span> ✗<br>
+        <span class="strike">swapping synonyms</span> ✗ = patchwriting</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Quote, paraphrase or summarise?</h2><span class="time">~3 min</span></div>
+    <p class="how">Would you <b>quote</b>, <b>paraphrase</b> or <b>summarise</b>? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. You need one finding from a long report on campus gardens as evidence.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">quote</button><span>/</span><button type="button">paraphrase</button><span>/</span><button type="button">summarise</button></span></span></div>
+      <div class="rowpick"><span>2. You will criticise the exact wording of the university's new rule on plagiarism.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">quote</button><span>/</span><button type="button">paraphrase</button><span>/</span><button type="button">summarise</button></span></span></div>
+      <div class="rowpick"><span>3. You want to give the main argument of a whole book in two sentences.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">quote</button><span>/</span><button type="button">paraphrase</button><span>/</span><button type="button">summarise</button></span></span></div>
+      <div class="rowpick"><span>4. A writer calls the library “the quiet heart of the campus”, and you want to discuss that image.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">quote</button><span>/</span><button type="button">paraphrase</button><span>/</span><button type="button">summarise</button></span></span></div>
+      <div class="rowpick"><span>5. A source explains an idea in long, technical sentences that your readers will not follow.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">quote</button><span>/</span><button type="button">paraphrase</button><span>/</span><button type="button">summarise</button></span></span></div>
+      <div class="rowpick"><span>6. You want to tell readers what a 30-page study did and found, in one short paragraph.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">quote</button><span>/</span><button type="button">paraphrase</button><span>/</span><button type="button">summarise</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Your words or theirs?</h2><span class="time">~5 min</span></div>
+    <p class="how">Source <span class="small">(fictional source for practice)</span>: Oripov &amp; Haydarova (2018, p. 44): “Volunteers who worked in teams in the campus garden reported higher satisfaction than those who worked alone, although their total hours of work were similar.” Is each version a <b>good paraphrase</b>, <b>patchwriting</b>, or does it <b>change the meaning</b>?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>a. Volunteers working in teams in the campus garden reported higher satisfaction than those working alone, though their total hours were similar.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">good paraphrase</button><span>/</span><button type="button">patchwriting</button><span>/</span><button type="button">changes the meaning</button></span></span></div>
+      <div class="rowpick"><span>b. According to Oripov and Haydarova (2018), gardening with others seemed more rewarding to volunteers than gardening alone, even when both gave about the same time.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">good paraphrase</button><span>/</span><button type="button">patchwriting</button><span>/</span><button type="button">changes the meaning</button></span></span></div>
+      <div class="rowpick"><span>c. Oripov and Haydarova (2018) found that team volunteers worked many more hours than solo volunteers.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">good paraphrase</button><span>/</span><button type="button">patchwriting</button><span>/</span><button type="button">changes the meaning</button></span></span></div>
+      <div class="rowpick"><span>d. People who volunteered in teams in the garden were more satisfied than people who volunteered alone, although the hours they worked were similar (Oripov &amp; Haydarova, 2018).</span><span class="pw"><span class="pick" data-ans="1"><button type="button">good paraphrase</button><span>/</span><button type="button">patchwriting</button><span>/</span><button type="button">changes the meaning</button></span></span></div>
+      <div class="rowpick"><span>e. Working alongside others, rather than alone, appears to make garden volunteering more satisfying, whatever the number of hours (Oripov &amp; Haydarova, 2018).</span><span class="pw"><span class="pick" data-ans="0"><button type="button">good paraphrase</button><span>/</span><button type="button">patchwriting</button><span>/</span><button type="button">changes the meaning</button></span></span></div>
+      <div class="rowpick"><span>f. Oripov and Haydarova (2018) proved that everybody prefers teamwork.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">good paraphrase</button><span>/</span><button type="button">patchwriting</button><span>/</span><button type="button">changes the meaning</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Name it right</h2><span class="time">~5 min</span></div>
+    <p class="how">Which citation is correct in APA 7? Circle one. <span class="small">(fictional sources for practice)</span></p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Two authors, in brackets</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(Oripov &amp; Haydarova, 2018)</button><span>/</span><button type="button">(Oripov and Haydarova, 2018)</button><span>/</span><button type="button">(Oripov, Haydarova 2018)</button></span></span></div>
+      <div class="rowpick"><span>2. Two authors, in the sentence</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Oripov &amp; Haydarova (2018) found …</button><span>/</span><button type="button">Oripov and Haydarova (2018) found …</button><span>/</span><button type="button">Oripov and Haydarova found (2018) …</button></span></span></div>
+      <div class="rowpick"><span>3. Turgunova, Tojiev, and Nurmatov (2023), first citation</span><span class="pw"><span class="pick" data-ans="1"><button type="button">(Turgunova, Tojiev, &amp; Nurmatov, 2023)</button><span>/</span><button type="button">(Turgunova et al., 2023)</button><span>/</span><button type="button">(Turgunova and others, 2023)</button></span></span></div>
+      <div class="rowpick"><span>4. A report by the Zarafshon Green Campus Network (ZGCN), first citation</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(Zarafshon Green Campus Network [ZGCN], 2022)</button><span>/</span><button type="button">(ZGCN, 2022)</button><span>/</span><button type="button">(Network, 2022)</button></span></span></div>
+      <div class="rowpick"><span>5. Two works that agree</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(Mirzayeva, 2020; Oripov &amp; Haydarova, 2018)</button><span>/</span><button type="button">(Oripov &amp; Haydarova, 2018; Mirzayeva, 2020)</button><span>/</span><button type="button">(Mirzayeva, 2020, Oripov &amp; Haydarova, 2018)</button></span></span></div>
+      <div class="rowpick"><span>6. A quotation from page 9</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(Mirzayeva, 2020, p. 9)</button><span>/</span><button type="button">(Mirzayeva, 2020, 9-b.)</button><span>/</span><button type="button">(Mirzayeva 2020 p9)</button></span></span></div>
+      <div class="rowpick"><span>7. Hasanov's (2001) idea, read only in Mirzayeva (2020)</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(Hasanov, 2001, as cited in Mirzayeva, 2020)</button><span>/</span><button type="button">(Mirzayeva, 2020, as cited in Hasanov, 2001)</button><span>/</span><button type="button">(Hasanov, 2001)</button></span></span></div>
+      <div class="rowpick"><span>8. Two articles by Mirzayeva, both from 2020</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(Mirzayeva, 2020a, 2020b)</button><span>/</span><button type="button">(Mirzayeva, 2020, 2020)</button><span>/</span><button type="button">(Mirzayeva, 2020-1, 2020-2)</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>The paraphrase cycle</h2><span class="time">~2 min</span></div>
+    <p class="how">Put the steps of a paraphrase in order: choose 1–5.</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o4-0" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Check that your sentence means the same and borrows no phrase.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Read the passage and ask what its main point is.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-2" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Add the author's surname and the year.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-3" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Put the source away and jot down three key words.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-4" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Explain the idea from memory, in a new sentence.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">Each line has one citation error. Correct it. <span class="red">Careful: one line is already correct!</span> <span class="small">(fictional sources for practice)</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">According to Mirzayeva's opinion, plants help students to concentrate.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">As Dr Nodira Mirzayeva (2020) shows, plants can make a room feel calmer.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">Teamwork makes garden volunteering more satisfying (Oripov &amp; Haydarova, 2018).</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">Turgunova and others (2023) surveyed students about green spaces.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">Time outdoors may lower exam stress [3, 15-b.].</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">Mirzayeva (2020 y.) studied rooms with and without plants.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+      <div class="fixrow"><span class="n">g</span><span class="s">Garden volunteers were more satisfied in teams (Oripov and Haydarova, 2018).</span><label class="ok"><input type="checkbox" id="ok-g">correct</label><div class="write" contenteditable="true" id="fix-g"></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Switch the form</h2><span class="time">~5 min</span></div>
+    <p class="how">Change the form: in the sentence ↔ in brackets. Keep the meaning.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Mirzayeva (2020) found that plants made students feel more focused.</p><div class="to"><span class="arrow">→</span><span class="done">Plants appear to make students feel more focused (Mirzayeva, 2020).</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. Team volunteers in the garden report more satisfaction (Oripov &amp; Haydarova, 2018).</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="s6-1" data-ph="Oripov and Haydarova (2018) …"></div></div></div>
+      <div class="sw"><p class="from">3. Turgunova et al. (2023) found that time in green spaces was linked to lower exam stress.</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="s6-2" data-ph="… (Turgunova et al., 2023)."></div></div></div>
+      <div class="sw"><p class="from">4. Indoor plants are a cheap way to improve study rooms (Zarafshon Green Campus Network [ZGCN], 2022).</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="s6-3" data-ph="The Zarafshon Green Campus Network (ZGCN, 2022) …"></div></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> The student council is writing a short report: <i>Should the university add plants and green spaces for students?</i> Write <b>one paragraph of 70–100 words</b> that uses <b>both sources</b> below. Do not quote: paraphrase, and use one citation in the sentence and one in brackets.</p>
+      <div class="task"><p><b>Source cards</b> <span class="small">(fictional sources for practice)</span></p>
+      <p><b>A.</b> Mirzayeva (2020, p. 9): “Students who studied in rooms with plants rated their concentration higher than students who studied in identical rooms without plants, although their test scores did not differ.”</p>
+      <p style="margin-top:6px"><b>B.</b> Turgunova, Tojiev, &amp; Nurmatov (2023, p. 15): “Students who spent at least one hour a week in green spaces on campus described their stress during examination periods as lower than students who rarely went outside.”</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Who? Why?</span><div class="write" contenteditable="true" id="pn-who" data-ph="Who reads the report? What should they decide?"></div>
+          <span class="lab">Idea A</span><div class="write" contenteditable="true" id="pn-a" data-ph="Source A in 3–4 key words of my own"></div>
+          <span class="lab">Idea B</span><div class="write" contenteditable="true" id="pn-b" data-ph="Source B in 3–4 key words of my own"></div>
+          <span class="lab">My voice</span><div class="write" contenteditable="true" id="pn-me" data-ph="My first sentence and my last sentence"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textW">
+        <div class="ptag"><b>W</b><span>My paragraph (70–100 words)</span></div>
+        <p class="frame">Green surroundings may …</p>
+        <div class="write" style="--rows:8" contenteditable="true" id="W-text" data-wc></div>
+        <div class="wcbar" data-count="textW" data-min="70" data-max="100" data-low="Keep going: have you used both sources and added your own last sentence?" data-high="Too long: one idea from each source is enough.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">the first and the last sentence are in my own voice</label>
+        <label><input type="checkbox" id="t1">no quotation marks: both ideas are paraphrased</label>
+        <label><input type="checkbox" id="t2">no phrase of three or more words copied from a card</label>
+        <label><input type="checkbox" id="t3">one citation in the sentence: Mirzayeva (2020)</label>
+        <label><input type="checkbox" id="t4">one citation in brackets: (Turgunova et al., 2023)</label>
+        <label><input type="checkbox" id="t5">the meaning of each source is unchanged</label>
+        <label><input type="checkbox" id="t6">70–100 words</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can tell a paraphrase from patchwriting.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can paraphrase an idea with the five steps: understand, close, write, compare, cite.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can write APA 7 citations for one, two and three or more authors, in the sentence and in brackets.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep your notes for your IS4 annotations and IS5 introduction.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Quote, paraphrase or summarise?</h3><ol><li>paraphrase</li><li>quote (exact wording you criticise)</li><li>summarise</li><li>quote (a memorable image)</li><li>paraphrase</li><li>summarise</li></ol></div>
+      <div><h3>2. Your words or theirs?</h3><ol type="a"><li>patchwriting (no citation either)</li><li>good paraphrase</li><li>changes the meaning (hours were similar)</li><li>patchwriting (same structure, a few words swapped)</li><li>good paraphrase</li><li>changes the meaning (“proved”, “everybody”)</li></ol></div>
+      <div><h3>3. Name it right</h3><ol><li>(Oripov &amp; Haydarova, 2018)</li><li>Oripov and Haydarova (2018) found …</li><li>(Turgunova et al., 2023)</li><li>(Zarafshon Green Campus Network [ZGCN], 2022)</li><li>(Mirzayeva, 2020; Oripov &amp; Haydarova, 2018): alphabetical order</li><li>(Mirzayeva, 2020, p. 9)</li><li>(Hasanov, 2001, as cited in Mirzayeva, 2020); list only Mirzayeva</li><li>(Mirzayeva, 2020a, 2020b): letters follow the titles</li></ol></div>
+      <div><h3>4. The paraphrase cycle</h3><p>Read → put away → explain from memory → check → cite.</p><p>Numbers in the order shown: 4, 1, 5, 2, 3.</p></div>
+      <div><h3>5. Red pen</h3><ol type="a"><li>According to Mirzayeva (2020), …</li><li>As Mirzayeva (2020) shows, … (surname only)</li><li>Correct ✓</li><li>Turgunova et al. (2023) …</li><li>(Turgunova et al., 2023): author and year, not a number</li><li>Mirzayeva (2020) …</li><li>(Oripov &amp; Haydarova, 2018)</li></ol></div>
+      <div><h3>6. Switch the form</h3><ol start="2"><li>Oripov and Haydarova (2018) found that team volunteers in the garden reported more satisfaction.</li><li>Time in green spaces appears to be linked to lower exam stress (Turgunova et al., 2023).</li><li>The Zarafshon Green Campus Network (ZGCN, 2022) describes indoor plants as a cheap way to improve study rooms.</li></ol></div>
+      <div><h3>7. Writing corner</h3><p>Model (99 words): <i>Green surroundings may make studying feel easier, even if they do not directly raise marks. Mirzayeva (2020) found that students working in a room with plants felt more able to concentrate than students in the same kind of room without plants, although the two groups achieved similar test results. Time outdoors may also help in stressful periods: students who regularly spent an hour or more in campus green spaces reported less exam stress than those who seldom went outside (Turgunova et al., 2023). The council could therefore recommend plants and gardens as a low-cost way to support student wellbeing.</i></p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

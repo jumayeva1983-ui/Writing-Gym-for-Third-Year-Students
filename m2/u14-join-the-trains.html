@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join the Trains: writing complex sentences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u14-join-the-trains">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 2 · Unit 14</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Join the Trains</h1>
+      <p class="sub">writing <span class="hl">complex sentences</span></p>
+    </div>
+    <span class="badge">Unit 14</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> couple your ideas with the <b>right</b> link, so the reader sees <b>how</b> they fit together.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A student wrote the same three ideas about her morning commute in three ways. Which version would you like to read in an essay?</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="Three train cars standing apart">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M8 98 h184" style="stroke:var(--soft)"/>
+            <rect x="22" y="56" width="40" height="28"/><circle cx="32.0" cy="90" r="5"/><circle cx="52.0" cy="90" r="5"/><rect x="84" y="56" width="40" height="28"/><circle cx="94.0" cy="90" r="5"/><circle cx="114.0" cy="90" r="5"/><rect x="146" y="56" width="40" height="28"/><circle cx="156.0" cy="90" r="5"/><circle cx="176.0" cy="90" r="5"/>
+          </g></svg>
+        <p><b>Choppy</b></p>
+        <p class="msg">The 8:10 train was cancelled. I reached campus at ten. I missed the statistics quiz.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A very long train running off the page">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M8 98 h184" style="stroke:var(--soft)"/>
+            <rect x="4" y="62" width="24" height="22"/><circle cx="10.0" cy="88.5" r="3.5"/><circle cx="22.0" cy="88.5" r="3.5"/><path d="M28 73.0 h4"/><rect x="32" y="62" width="24" height="22"/><circle cx="38.0" cy="88.5" r="3.5"/><circle cx="50.0" cy="88.5" r="3.5"/><path d="M56 73.0 h4"/><rect x="60" y="62" width="24" height="22"/><circle cx="66.0" cy="88.5" r="3.5"/><circle cx="78.0" cy="88.5" r="3.5"/><path d="M84 73.0 h4"/><rect x="88" y="62" width="24" height="22"/><circle cx="94.0" cy="88.5" r="3.5"/><circle cx="106.0" cy="88.5" r="3.5"/><path d="M112 73.0 h4"/><rect x="116" y="62" width="24" height="22"/><circle cx="122.0" cy="88.5" r="3.5"/><circle cx="134.0" cy="88.5" r="3.5"/><path d="M140 73.0 h4"/><rect x="144" y="62" width="24" height="22"/><circle cx="150.0" cy="88.5" r="3.5"/><circle cx="162.0" cy="88.5" r="3.5"/><path d="M168 73.0 h4"/><rect x="172" y="62" width="24" height="22"/><circle cx="178.0" cy="88.5" r="3.5"/><circle cx="190.0" cy="88.5" r="3.5"/><path d="M184 70 l10 -6 M184 76 l12 0 M184 82 l10 6" style="stroke:var(--red)"/>
+          </g></svg>
+        <p><b>Overloaded</b></p>
+        <p class="msg">The 8:10 train was cancelled and so I reached campus at ten and I missed the statistics quiz and so I had to email the tutor because the quiz counts and …</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="Three train cars coupled together">
+          <g class="doodle" filter="url(#wobble)">
+            <path d="M8 98 h184" style="stroke:var(--soft)"/>
+            <rect x="30" y="56" width="40" height="28"/><circle cx="40.0" cy="90" r="5"/><circle cx="60.0" cy="90" r="5"/><path d="M70 70.0 h18"/><rect x="88" y="56" width="40" height="28"/><circle cx="98.0" cy="90" r="5"/><circle cx="118.0" cy="90" r="5"/><path d="M128 70.0 h18"/><rect x="146" y="56" width="40" height="28"/><circle cx="156.0" cy="90" r="5"/><circle cx="176.0" cy="90" r="5"/><path d="M166 56 v-14 h10 v14"/><path d="M164 36 q6 -8 14 -4"/>
+          </g></svg>
+        <p class="ink"><b>Joined</b></p>
+        <p class="msg">Because the 8:10 train was cancelled, I reached campus at ten; as a result, I missed the statistics quiz.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the joined version keeps the ideas short enough to follow, and each link (<b>because</b>, <b>as a result</b>) tells the reader the <b>relation</b>: cause, then result.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: four ways to couple two ideas</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine m">AND · BUT · SO · YET</span><span class="link">→</span><span class="car">joins two equal clauses</span><span class="car">clause<b>,</b> but clause</span><span class="car">it cannot move</span></div>
+      <div class="train apply"><span class="car engine s">ALTHOUGH · BECAUSE · IF · UNLESS</span><span class="link">→</span><span class="car">starts a dependent clause</span><span class="car"><b>Although</b> clause<b>,</b> clause</span><span class="car">clause <b>although</b> clause</span></div>
+      <div class="train apply"><span class="car engine l">HOWEVER · THEREFORE</span><span class="link">→</span><span class="car">links meaning, not grammar</span><span class="car">clause<b>.</b> However<b>,</b> clause</span><span class="car">clause<b>;</b> however<b>,</b> clause</span></div>
+      <div class="train apply"><span class="car engine d">DESPITE · BECAUSE OF</span><span class="link">→</span><span class="car">+ noun phrase or -ing</span><span class="car"><b>despite</b> the cancellation</span><span class="car"><b>because of</b> missing the train</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Relative clauses: who, which, that</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">WHICH ONE?</span><span class="link">→</span><span class="car">defining: no commas</span><span class="car">Passengers <b>who</b> book early pay less.</span></div>
+      <div class="train apply"><span class="car engine l">EXTRA INFO</span><span class="link">→</span><span class="car">non-defining: commas, never <i>that</i></span><span class="car">The station<b>, which</b> opened in 1899<b>,</b> is a museum now.</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>garchi … bo<span class="ap">ʻ</span>lsa-da</b> → although + gap<br><span class="small">(keyin “but” qo<span class="ap">ʻ</span>shilmaydi)</span></p>
+        <p style="margin-top:6px"><b>… ga qaramay</b> → despite + ot yoki -ing<br><span class="small">(despite + to<span class="ap">ʻ</span>liq gap emas)</span></p>
+        <p style="margin-top:6px"><b>biroq</b> → however: oldidan nuqta yoki nuqtali vergul</p>
+        <p style="margin-top:6px"><b>men o<span class="ap">ʻ</span>qigan maqola</b> → the article (that) I read<br><span class="small">(“read it” emas)</span></p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">despite of</span> ✗<br>
+        <span class="strike">Although …, but …</span> ✗<br>
+        <span class="strike">despite the train was late</span> ✗<br>
+        <span class="strike">…, however it was …</span> ✗<br>
+        <span class="strike">the report which I read it</span> ✗<br>
+        <span class="strike">My tutor, that …</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Which train?</h2><span class="time">~4 min</span></div>
+    <p class="how">Which train is it? <b>S</b> = simple, <b>Cd</b> = compound, <b>Cx</b> = complex, <b>CC</b> = compound-complex. Count the clauses, not the words.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Night trains between the two cities run three times a week in summer.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>2. Tickets sell out quickly, so most passengers book a month ahead.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>3. Passengers who travel overnight save the cost of a hotel.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>4. Although the journey takes eleven hours, many travellers prefer it to flying, and the route is growing.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>5. If the new line opens on time, the trip will become four hours shorter.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>6. The old station was repaired over the spring and reopened in June.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>7. The carriages are old; nevertheless, they are clean and comfortable.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+      <div class="rowpick"><span>8. When the heating failed, the conductor apologised, and the company refunded part of the fare.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">S</button><span>/</span><button type="button">Cd</button><span>/</span><button type="button">Cx</button><span>/</span><button type="button">CC</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Couple the cars</h2><span class="time">~4 min</span></div>
+    <p class="how">Choose the link that fits <b>both</b> the meaning and the grammar.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. ___ the power cut, the seminar started on time.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Although</button><span>/</span><button type="button">Despite</button><span>/</span><button type="button">However</button></span></span></div>
+      <div class="rowpick"><span>2. Ticket prices doubled. ___, fewer people travelled by bus.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Although</button><span>/</span><button type="button">Despite this</button><span>/</span><button type="button">As a result</button></span></span></div>
+      <div class="rowpick"><span>3. ___ the city museum is free, few students visit it.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Although</button><span>/</span><button type="button">Despite</button><span>/</span><button type="button">Because of</button></span></span></div>
+      <div class="rowpick"><span>4. Many people now work from home ___ faster internet connections.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">because</button><span>/</span><button type="button">because of</button><span>/</span><button type="button">therefore</button></span></span></div>
+      <div class="rowpick"><span>5. The talk was recorded ___ absent students could watch it later.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">so</button><span>/</span><button type="button">therefore</button><span>/</span><button type="button">so that</button></span></span></div>
+      <div class="rowpick"><span>6. You cannot borrow e-books ___ you register online first.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">unless</button><span>/</span><button type="button">despite</button><span>/</span><button type="button">however</button></span></span></div>
+      <div class="rowpick"><span>7. Cycling is cheap and healthy, ___ many towns still lack safe bike lanes.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">therefore</button><span>/</span><button type="button">yet</button><span>/</span><button type="button">despite</button></span></span></div>
+      <div class="rowpick"><span>8. Village schools often have fewer computers, ___ city schools often have larger classes.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">despite</button><span>/</span><button type="button">however</button><span>/</span><button type="button">whereas</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Commas or no commas?</h2><span class="time">~3 min</span></div>
+    <p class="how">Does the relative clause need <b>commas</b>? Ask: does it tell me <b>which one</b> (no commas), or does it add <b>extra information</b> (commas)?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Samarkand which has a new high-speed rail link attracts many tourists.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">commas</button><span>/</span><button type="button">no commas</button></span></span></div>
+      <div class="rowpick"><span>2. Students who sit at the back often cannot see the slides.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">commas</button><span>/</span><button type="button">no commas</button></span></span></div>
+      <div class="rowpick"><span>3. The survey that the dean ordered will close on Friday.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">commas</button><span>/</span><button type="button">no commas</button></span></span></div>
+      <div class="rowpick"><span>4. Dr Rahimova who supervised my project has moved to another university.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">commas</button><span>/</span><button type="button">no commas</button></span></span></div>
+      <div class="rowpick"><span>5. The bus which leaves at 7:15 is usually half empty.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">commas</button><span>/</span><button type="button">no commas</button></span></span></div>
+      <div class="rowpick"><span>6. The new reading room which opened in May has 80 seats.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">commas</button><span>/</span><button type="button">no commas</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">4</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">You are the editor. Find the error and write the sentence correctly. <span class="red">Careful: one sentence is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">Despite the train was crowded, we found two seats together.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">Although the tickets were cheap, but the journey was very slow.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">Online lectures are convenient, however they can feel lonely.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">Because of the printer was broken, I submitted my essay by email.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">The volunteers who organised the book fair received certificates.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">The article which I quoted it in my essay appeared in 2019.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+      <div class="fixrow"><span class="n">g</span><span class="s">My supervisor, that is very patient, read three of my drafts.</span><label class="ok"><input type="checkbox" id="ok-g">correct</label><div class="write" contenteditable="true" id="fix-g"></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">5</span><h2>Magic switch</h2><span class="time">~6 min</span></div>
+    <p class="how">Same meaning, new link. Change the grammar after the link if you need to.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Although it rained all day, the festival went ahead. <b>(despite)</b></p><div class="to"><span class="arrow">→</span><span class="done">Despite the rain, the festival went ahead.</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. Because the bridge was closed, the bus took a longer route. <b>(because of)</b></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="ms1" data-ph="Because of …"></div></div></div>
+      <div class="sw"><p class="from">3. The café is tiny. However, it is always full. <b>(although)</b></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="ms2" data-ph="Although …"></div></div></div>
+      <div class="sw"><p class="from">4. Although she had little experience, she won the debate. <b>(despite)</b></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="ms3" data-ph="Despite …"></div></div></div>
+      <div class="sw"><p class="from">5. The deadline was extended, so everyone finished the report. <b>(as a result)</b></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="ms4" data-ph="The deadline … . As a result, …"></div></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex" id="ex6">
+    <div class="exhead"><span class="num">6</span><h2>Couple the paragraph</h2><span class="time">~4 min</span></div>
+    <p class="how">Put the sentences in order to build one paragraph. The links are your clues: what must come <b>before</b> <i>However</i>, <i>As a result</i> or <i>this fear</i>?</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o6-0" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>As a result, they keep driving, even for very short trips.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o6-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>Many cities want more people to cycle to work.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o6-2" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>Separate bike lanes, which keep cyclists away from cars, could remove this fear.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o6-3" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>However, many commuters feel unsafe on busy roads.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o6-4" data-ans="6" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>Although such lanes are expensive, they may change travel habits more than advertising does.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o6-5" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>Cycling is cheap, and it does not pollute the air.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex6">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> This paragraph from a study-skills leaflet is choppy. Join the ideas into a smooth paragraph of <b>80–140 words</b>. Do not just add <i>and</i>: choose links that show the relations.</p>
+      <div class="task"><p>Podcasts are popular with language learners. They are free. Learners can listen anywhere. They hear natural speech. Podcasts have limits. Learners cannot ask questions. Some podcasts are too fast for beginners. Transcripts can help. Learners can read and listen at the same time. Teachers can recommend podcasts. The podcasts should match the learners' level.</p></div>
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note: which link between the ideas?</span></div>
+        <p class="frame">For example: 2–3 addition (and) · 4–5 contrast (however) · 6–7 …</p>
+        <div class="write" style="--rows:3" contenteditable="true" id="P-plan" data-ph="2–3 addition … · 4–5 contrast …"></div>
+      </div>
+      <div class="para" id="textJ">
+        <div class="ptag"><b>J</b><span>My joined paragraph (80–140 words)</span></div>
+        <div class="write" style="--rows:7" contenteditable="true" id="J-text" data-wc data-ph="Podcasts are popular with language learners because …"></div>
+        <div class="wcbar" data-count="textJ" data-min="80" data-max="140" data-low="Keep going: have you used every idea?" data-high="Too long: join, don't add new ideas.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0"><span>I used all four sentence types</span></label>
+        <label><input type="checkbox" id="t1"><span>I used at least one relative clause</span></label>
+        <label><input type="checkbox" id="t2"><span>I used a linking adverb with a full stop or semicolon</span></label>
+        <label><input type="checkbox" id="t3"><span>every <i>despite</i> / <i>because of</i> has a noun after it</span></label>
+        <label><input type="checkbox" id="t4"><span>no sentence has more than three clauses</span></label>
+        <label><input type="checkbox" id="t5"><span>I mixed short and long sentences</span></label>
+        <label><input type="checkbox" id="t6"><span>no <i>Although …, but …</i></span></label>
+        <label><input type="checkbox" id="t7"><span>80–140 words</span></label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can tell simple, compound, complex and compound-complex sentences apart.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can choose <b>although</b>, <b>however</b> or <b>despite</b> and punctuate them correctly.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can join choppy sentences without making one endless sentence.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and add the file to the <i>sentence complexity</i> section of your IS3 Grammar Accuracy Journal, or send it to your teacher.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Which train?</h3><ol><li>S</li><li>Cd</li><li>Cx</li><li>CC</li><li>Cx</li><li>S (one subject, two verbs)</li><li>Cd</li><li>CC</li></ol></div>
+      <div><h3>2. Couple the cars</h3><ol><li>Despite</li><li>As a result</li><li>Although</li><li>because of</li><li>so that</li><li>unless</li><li>yet</li><li>whereas</li></ol></div>
+      <div><h3>3. Commas?</h3><ol><li>commas: Samarkand, which …, attracts</li><li>no commas</li><li>no commas</li><li>commas: Dr Rahimova, who …, has moved</li><li>no commas (which bus?)</li><li>commas: The new reading room, which …, has</li></ol></div>
+      <div><h3>4. Red pen time</h3><ol type="a"><li>Although the train was crowded, … / Despite the crowded train, …</li><li>Although the tickets were cheap, the journey … (delete <i>but</i>)</li><li>… convenient; however, they … / … convenient. However, they …</li><li>Because the printer was broken, … / Because of the broken printer, …</li><li>Correct ✓</li><li>The article (that/which) I quoted in my essay … (delete <i>it</i>)</li><li>My supervisor, who is very patient, …</li></ol></div>
+      <div><h3>5. Magic switch</h3><ol start="2"><li>Because of the closed bridge (the bridge closure), the bus took a longer route.</li><li>Although the café is tiny, it is always full.</li><li>Despite her lack of experience (having little experience), she won the debate.</li><li>The deadline was extended. As a result, everyone finished the report.</li></ol></div>
+      <div><h3>6. Couple the paragraph</h3><p>Many cities … → Cycling is cheap … → However, many commuters … → As a result, they keep driving … → Separate bike lanes … → Although such lanes …</p><p>Numbers in the order shown: 4, 1, 5, 3, 6, 2.</p></div>
+      <div><h3>7. Writing corner</h3><p>Model (99 words): Podcasts are popular with language learners because they are free and can be played anywhere. They also let learners hear natural speech. However, podcasts have limits. Listeners cannot ask questions, and some programmes are too fast for beginners. Transcripts can help with this problem, since learners can read and listen at the same time. Teachers, who know their students' needs, can also recommend suitable podcasts. Although many good programmes exist, the best choice is one that matches the learner's level, so a short recommendation from a teacher may save students a great deal of time.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">4</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

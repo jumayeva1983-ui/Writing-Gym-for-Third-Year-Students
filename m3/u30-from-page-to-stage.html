@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Page to Stage: writing for conference talks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u30-from-page-to-stage">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 30</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>From Page to Stage</h1>
+      <p class="sub">writing for <span class="hl">conference talks</span></p>
+    </div>
+    <span class="badge">Unit 30</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> turn a written research text into a talk that people can follow <b>by ear</b>.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A first-year student surveyed classmates about sleep before exams <span class="small">(fictional study for practice)</span>. Here are three ways to present the same result at a student conference.</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A sheet of paper with long lines of text">
+          <g class="doodle" filter="url(#wobble)"><rect x="56" y="8" width="88" height="104" style="fill:#fffef9"/><path d="M68 24 h64 M68 36 h64 M68 48 h64 M68 60 h64 M68 72 h64 M68 84 h64 M68 96 h40"/></g></svg>
+        <p><b>The paper, read aloud</b></p>
+        <p class="msg">“In total, 31 of the 48 participants (64.6 %) stated that they had slept for less than six hours on the night preceding an examination, whereas only 7 (14.6 %) indicated eight hours or more.”</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A slide full of bullet points">
+          <g class="doodle" filter="url(#wobble)"><rect x="30" y="14" width="140" height="88" style="fill:#fffef9"/><path d="M44 30 h40 M46 48 h2 M56 48 h90 M46 62 h2 M56 62 h96 M46 76 h2 M56 76 h80 M46 90 h2 M56 90 h92"/></g></svg>
+        <p><b>Slide karaoke</b></p>
+        <p class="msg">“As you can see: 31 of 48, that is 64.6 per cent. 7 of 48, 14.6 per cent. Mean 5.4 hours …” (read from the slide, back to the audience)</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A speaker facing the audience, with sound waves">
+          <g class="doodle" filter="url(#wobble)"><circle cx="70" cy="36" r="14"/><path d="M70 50 v34 M70 60 l-18 14 M70 60 l18 10 M70 84 l-12 26 M70 84 l12 26"/><path d="M110 40 q10 14 0 28 M124 32 q16 22 0 44 M138 24 q22 30 0 60" style="stroke:var(--green)"/></g></svg>
+        <p class="ink"><b>Spoken for the ear</b></p>
+        <p class="msg">“How much do we sleep before an exam? I asked 48 classmates. Nearly two out of three slept less than six hours. And a full eight hours? Only seven students. Seven.”</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the spoken version <b>rounds</b> the numbers, uses <b>short sentences</b>, <b>asks</b> a question, <b>repeats</b> the key number and <b>talks to</b> the audience.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: say it for the ear</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">PAGE → STAGE</span><span class="link">→</span><span class="car">round the numbers</span><span class="car">one idea per sentence</span><span class="car">ask and signpost</span><span class="car">repeat the key point</span><span class="car">talk to people</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">The shape of a 3-minute talk</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine m">HOOK</span><span class="link">→</span><span class="car">a question, a number, a scene</span><span class="car">→ leads to your research question</span></div>
+      <div class="train apply"><span class="car engine s">AIM</span><span class="link">→</span><span class="car">what you studied and why</span><span class="car">+ a one-sentence roadmap</span></div>
+      <div class="train apply"><span class="car engine d">POINTS</span><span class="link">→</span><span class="car">two or three findings</span><span class="car">one key number each</span></div>
+      <div class="train apply"><span class="car engine l">MESSAGE</span><span class="link">→</span><span class="car">one sentence to remember</span><span class="car">+ invite questions</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">A slide that makes a point</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">SLIDE</span><span class="link">→</span><span class="car">headline = a sentence with the point</span><span class="car">body = a picture of the evidence</span><span class="car">you = the explanation</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Hurmatli rais! Hurmatli …!</b> → Thank you. Good morning, everyone.</p>
+        <p style="margin-top:6px"><b>Ma<span class="ap">ʼ</span>ruzamning mavzusi …</b> → My talk is about …</p>
+        <p style="margin-top:6px"><b>kesim gap oxirida</b> → I asked … Here's what I found.</p>
+        <p style="margin-top:6px"><b>7,5</b> → seven <b>point</b> five</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">reading the paper aloud</span> ✗<br>
+        <span class="strike">reading the slide aloud</span> ✗<br>
+        <span class="strike">ten numbers in one sentence</span> ✗<br>
+        <span class="strike">The theme of my report is …</span> ✗<br>
+        <span class="strike">If there are questions, please.</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Page or stage?</h2><span class="time">~3 min</span></div>
+    <p class="how">Was each sentence written for the <b>page</b> (to be read) or for the <b>stage</b> (to be heard)? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The data were subsequently analysed by means of descriptive statistics.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>2. So what did I find? Something I really didn't expect.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>3. As shown in Table 2, the mean score increased from 14.3 to 17.8 (<i>n</i> = 52).</span><span class="pw"><span class="pick" data-ans="0"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>4. Let me put that another way: one student in four.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>5. My second point is about the evenings.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>6. Participants (<i>N</i> = 40) were recruited via the faculty mailing list.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>7. Remember this number: twelve. Twelve.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+      <div class="rowpick"><span>8. These findings are consistent with previous research (see Section 2.3).</span><span class="pw"><span class="pick" data-ans="0"><button type="button">page</button><span>/</span><button type="button">stage</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Numbers for the ear</h2><span class="time">~4 min</span></div>
+    <p class="how">Which spoken version of the number is <b>honest and easy to hear</b>? Circle one. <span class="small">(fictional data for practice)</span></p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. 31 of 48 students (64.6 %)</span><span class="pw"><span class="pick" data-ans="1"><button type="button">sixty-four point six per cent</button><span>/</span><button type="button">nearly two out of three</button><span>/</span><button type="button">almost all of them</button></span></span></div>
+      <div class="rowpick"><span>2. 12 of 48 students</span><span class="pw"><span class="pick" data-ans="0"><button type="button">one in four</button><span>/</span><button type="button">one in three</button><span>/</span><button type="button">hardly anyone</button></span></span></div>
+      <div class="rowpick"><span>3. 52 % of respondents</span><span class="pw"><span class="pick" data-ans="1"><button type="button">the vast majority</button><span>/</span><button type="button">just over half</button><span>/</span><button type="button">about a third</button></span></span></div>
+      <div class="rowpick"><span>4. 19 of 60 students</span><span class="pw"><span class="pick" data-ans="0"><button type="button">nearly a third</button><span>/</span><button type="button">almost half</button><span>/</span><button type="button">nineteen point zero</button></span></span></div>
+      <div class="rowpick"><span>5. 7.9 hours compared with 4.0 hours</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a bit more</button><span>/</span><button type="button">about twice as long</button><span>/</span><button type="button">four times as long</button></span></span></div>
+      <div class="rowpick"><span>6. 248 of 1,003 visitors</span><span class="pw"><span class="pick" data-ans="0"><button type="button">about a quarter</button><span>/</span><button type="button">two hundred and forty-eight out of one thousand and three</button><span>/</span><button type="button">most visitors</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Signposts</h2><span class="time">~4 min</span></div>
+    <p class="how">What is each signpost doing? Circle its job.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. First I'll look at bedtimes, then at phones, and finally at marks.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>2. Now let's turn to the second question: phones.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>3. And here is the number that really matters.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>4. So, to sum up: sleep is the first thing students cut.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>5. Thank you. I'd love to hear your questions.</span><span class="pw"><span class="pick" data-ans="4"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>6. This brings me to my last point.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>7. What surprised me most was the weekend.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+      <div class="rowpick"><span>8. I'll begin with the problem and end with one simple suggestion.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">roadmap</button><span>/</span><button type="button">next point</button><span>/</span><button type="button">highlight</button><span>/</span><button type="button">conclude</button><span>/</span><button type="button">questions</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Build the talk</h2><span class="time">~4 min</span></div>
+    <p class="how">These parts of a short talk about students' travel time <span class="small">(fictional study for practice)</span> are mixed up. Choose a number (1–6): hook → aim → roadmap → point 1 → point 2 → message.</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o4-0" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>First, what they do. Most of the time, they scroll: about three quarters of all their travel minutes went to social media.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>Look around you on the metro tomorrow morning. How many people are reading, and how many are scrolling?</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-2" data-ans="6" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>So, if you remember one thing: short texts could turn travel time into reading time. Thank you, and I'm happy to take questions.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-3" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>I wanted to know how students use their travel time, so I asked 40 students who commute to keep a one-week diary.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-4" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>Second, what they wish. Half of them said they would like to read more, but only if the texts were short.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-5" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></span><span>I'll talk about two things: what students do on the way, and what they wish they did.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Speaker notes</h2><span class="time">~3 min</span></div>
+    <p class="how">Which speaker note fits each moment best? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. You are about to start talking about your chart.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">[PAUSE]</button><span>/</span><button type="button">[SLIDE]</button><span>/</span><button type="button">[EYE CONTACT]</button><span>/</span><button type="button">[SLOW]</button></span></span></div>
+      <div class="rowpick"><span>2. You have just said a surprising number.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">[PAUSE]</button><span>/</span><button type="button">[SLIDE]</button><span>/</span><button type="button">[EYE CONTACT]</button><span>/</span><button type="button">[SLOW]</button></span></span></div>
+      <div class="rowpick"><span>3. You say your hook, the very first sentence of the talk.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">[PAUSE]</button><span>/</span><button type="button">[SLIDE]</button><span>/</span><button type="button">[EYE CONTACT]</button><span>/</span><button type="button">[SLOW]</button></span></span></div>
+      <div class="rowpick"><span>4. You read out a long name and two numbers.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">[PAUSE]</button><span>/</span><button type="button">[SLIDE]</button><span>/</span><button type="button">[EYE CONTACT]</button><span>/</span><button type="button">[SLOW]</button></span></span></div>
+      <div class="rowpick"><span>5. You ask the audience a question and want them to think.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">[PAUSE]</button><span>/</span><button type="button">[SLIDE]</button><span>/</span><button type="button">[EYE CONTACT]</button><span>/</span><button type="button">[SLOW]</button></span></span></div>
+      <div class="rowpick"><span>6. You move on to your third finding, which has its own chart.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">[PAUSE]</button><span>/</span><button type="button">[SLIDE]</button><span>/</span><button type="button">[EYE CONTACT]</button><span>/</span><button type="button">[SLOW]</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Headlines that make a point</h2><span class="time">~6 min</span></div>
+    <p class="how">The sleep study again <span class="small">(fictional data for practice)</span>: 48 first-year students; 31 slept less than six hours before an exam; only 7 slept eight hours or more; 36 used their phones in bed; students who slept six hours or more had higher exam marks on average. Turn each <b>topic headline</b> into an <b>assertion headline</b>: one sentence that states the point.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. Sleep</p><div class="to"><span class="arrow">→</span><span class="done">Nearly two out of three students sleep less than six hours before an exam</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. Phones</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-1" data-ph="Three out of four …"></div></div></div>
+      <div class="sw"><p class="from">3. Results: marks</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-2" data-ph="Students who slept longer …"></div></div></div>
+      <div class="sw"><p class="from">4. Sample</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-3" data-ph="Forty-eight …"></div></div></div>
+      <div class="sw"><p class="from">5. Eight hours?</p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="h6-4" data-ph="Only one student in …"></div></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">Red pen time! Each line from a talk script has one problem for listeners. Rewrite it. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">Dear chairman! Dear guests! Dear teachers!</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">The theme of my report is sleeping of students before exams.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">64,6 percents of students sleep less than six hours.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">So what did I find? Most of us sleep far too little before an exam.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">As you can see on the slide: 31 of 48, 64.6 %; 7 of 48, 14.6 %; mean 5.4 hours; range 3 to 9 hours.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">If there are questions, please.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+      <div class="fixrow"><span class="n">g</span><span class="s">In my report it was shown that students sleep little.</span><label class="ok"><input type="checkbox" id="ok-g">correct</label><div class="write" contenteditable="true" id="fix-g"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> You will give a 1-minute talk at the student conference. Write the <b>script</b>: a hook, your aim, one point with evidence, and a take-home message with an invitation to questions. Add at least three speaker notes: <b>[PAUSE]</b>, <b>[SLIDE]</b>, <b>[EYE CONTACT]</b>. <b>Target: 120–160 words.</b></p>
+      <div class="task"><p><b>Phones in the reading room</b> <span class="small">(fictional study for practice)</span></p>
+      <p>On five afternoons, a student observed 120 students in the faculty reading room for 30 minutes each. 84 of them (70 %) picked up their phone at least once. Students whose phone lay on the desk picked it up 6.2 times on average; students whose phone was in a bag, 1.1 times. In a short questionnaire, 45 of the 84 phone users said they had not noticed how often they checked their phone.</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Hook</span><div class="write" contenteditable="true" id="pn-hook" data-ph="A question, a number or a scene"></div>
+          <span class="lab">Aim</span><div class="write" contenteditable="true" id="pn-aim" data-ph="What did the student want to find out?"></div>
+          <span class="lab">Key number</span><div class="write" contenteditable="true" id="pn-num" data-ph="One number, rounded for the ear"></div>
+          <span class="lab">Message</span><div class="write" contenteditable="true" id="pn-msg" data-ph="One sentence the audience will remember"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textS">
+        <div class="ptag"><b>S</b><span>My talk script (120–160 words)</span></div>
+        <p class="frame">[EYE CONTACT] How many times …</p>
+        <div class="write" style="--rows:9" contenteditable="true" id="S-text" data-wc></div>
+        <div class="wcbar" data-count="textS" data-min="120" data-max="160" data-low="Keep going: have you got a hook, one point with evidence and a take-home message?" data-high="Too long for one minute: cut numbers and extra details.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">the hook leads to the research question</label>
+        <label><input type="checkbox" id="t1">the aim is stated in one sentence</label>
+        <label><input type="checkbox" id="t2">numbers are rounded, one per sentence</label>
+        <label><input type="checkbox" id="t3">at least one question as a signpost</label>
+        <label><input type="checkbox" id="t4">the key point is repeated</label>
+        <label><input type="checkbox" id="t5">speaker notes: [PAUSE], [SLIDE], [EYE CONTACT]</label>
+        <label><input type="checkbox" id="t6">a one-sentence take-home message</label>
+        <label><input type="checkbox" id="t7">an invitation to questions at the end</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can rewrite written sentences and numbers so that listeners can follow them.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can build a short talk: hook, aim, points, take-home message, questions.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can mark a script with speaker notes and write assertion headlines for slides.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and keep the file with your IS6 presentation script, or send it to your teacher.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Page or stage?</h3><ol><li>page</li><li>stage</li><li>page</li><li>stage</li><li>stage</li><li>page</li><li>stage</li><li>page</li></ol></div>
+      <div><h3>2. Numbers for the ear</h3><ol><li>nearly two out of three</li><li>one in four</li><li>just over half</li><li>nearly a third</li><li>about twice as long</li><li>about a quarter</li></ol></div>
+      <div><h3>3. Signposts</h3><ol><li>roadmap</li><li>next point</li><li>highlight</li><li>conclude</li><li>questions</li><li>next point</li><li>highlight</li><li>roadmap</li></ol></div>
+      <div><h3>4. Build the talk</h3><p>Hook (Look around you …) → aim (I wanted to know …) → roadmap (I'll talk about two things …) → point 1 (First, what they do …) → point 2 (Second, what they wish …) → message (So, if you remember …).</p><p>Numbers in the order shown: 4, 1, 6, 2, 5, 3.</p></div>
+      <div><h3>5. Speaker notes</h3><ol><li>[SLIDE]</li><li>[PAUSE]</li><li>[EYE CONTACT]</li><li>[SLOW]</li><li>[PAUSE]</li><li>[SLIDE]</li></ol></div>
+      <div><h3>6. Assertion headlines</h3><ol start="2"><li>Three out of four students used their phones in bed</li><li>Students who slept longer tended to get higher marks (a link, not proof of a cause)</li><li>Forty-eight first-year students answered the survey</li><li>Only one student in seven slept eight hours or more</li></ol></div>
+      <div><h3>7. Red pen</h3><ol type="a"><li>Thank you for the introduction. Good morning, everyone.</li><li>My talk is about how students sleep before exams.</li><li>Nearly two out of three students sleep less than six hours. (decimal point, <i>per cent</i>, and a rounded number)</li><li>Correct ✓</li><li>As you can see, most of us sleep far too little. (one number at most; the slide shows the rest)</li><li>Thank you. I'd be happy to take your questions.</li><li>Today I've shown that many students sleep very little before exams.</li></ol></div>
+      <div><h3>8. Writing corner</h3><p>Model (135 words): [EYE CONTACT] How many times have you checked your phone since this session started? [PAUSE] Last month I counted phone use in our reading room, because I wanted to know how much phones interrupt our reading. I watched 120 students on five afternoons. [SLIDE 2] So what did I find? Seven out of ten picked up their phone at least once in half an hour. But the real difference was where the phone was. Students with the phone on the desk picked it up about six times in 30 minutes. With the phone in a bag: about once. [PAUSE] Once! And more than half of the phone users said they had not noticed how often they checked. [EYE CONTACT] So, if you remember one thing from this talk: put your phone in your bag. Thank you. I'd be happy to take your questions.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dress Code: formal academic style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u11-dress-code">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 2 · Unit 11</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Dress Code</h1>
+      <p class="sub">formal <span class="hl">academic style</span></p>
+    </div>
+    <span class="badge">Unit 11</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> keep your ideas, change their clothes: write for the <b>seminar room</b>, not for the group chat.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A student posted this before the exam session. Then two classmates tried to rewrite its last line for a seminar paper.</p>
+    <div class="task"><p><i>“Pulling all-nighters before exams?? Don't! I tried it last term and honestly my brain just shut down. Loads of my friends say the same stuff. Sleep = better marks, guys!!”</i></p></div>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A T-shirt">
+          <g class="doodle" filter="url(#wobble)"><path d="M70 22 L50 34 L40 58 L58 64 L62 50 L62 104 L138 104 L138 50 L142 64 L160 58 L150 34 L130 22 Q100 40 70 22 Z"/><path d="M84 66 q16 12 32 0" style="stroke:var(--red)"/></g>
+        </svg>
+        <p><b>Too casual</b></p>
+        <p class="msg">“Sleep = better marks, guys!!”</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A top hat">
+          <g class="doodle" filter="url(#wobble)"><path d="M70 92 L70 30 L130 30 L130 92"/><path d="M44 96 Q100 84 156 96 Q100 108 44 96 Z"/><path d="M70 80 h60" style="stroke:var(--red);stroke-width:5"/></g>
+        </svg>
+        <p><b>Overdressed</b></p>
+        <p class="msg">“It is incontrovertibly the case that nocturnal deprivation of somnolent repose engenders a deterioration in academic attainment.”</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A jacket and tie">
+          <g class="doodle" filter="url(#wobble)"><path d="M64 20 L40 36 L36 106 L164 106 L160 36 L136 20 L112 20 L100 50 L88 20 Z"/><path d="M100 50 L92 62 L100 104 L108 62 Z" style="fill:var(--sky)"/><path d="M100 50 L100 106"/></g>
+        </svg>
+        <p class="ink"><b>Seminar-ready</b></p>
+        <p class="msg">“Students who do not sleep before an examination may perform worse: in a faculty survey (fictional source for practice), 64 % of those who studied all night reported difficulty concentrating.”</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the seminar-ready line keeps the idea, drops the slang and the !!, uses clear academic words, claims carefully (<i>may</i>) and gives evidence.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: cut, keep I in its place, keep one term</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">CUT</span><span class="link">→</span><span class="car">don't → do not</span><span class="car">find out → determine</span><span class="car">loads of → 64 % of …</span><span class="car">?? and !! → statements</span><span class="car">you, guys → students</span><span class="car">honestly, amazing → (evidence)</span></div>
+      <div class="train apply"><span class="car engine m">I IS OK</span><span class="link">→</span><span class="car">for what I did: <i>I interviewed …</i></span><span class="car">to guide: <i>In Section 2, I …</i></span><span class="car">for a position + evidence: <i>I argue that …</i></span></div>
+      <div class="train apply"><span class="car engine s">ONE TERM</span><span class="link">→</span><span class="car">define it once</span><span class="car">keep the same word</span><span class="car">new word = new idea</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Ma<span class="ap">ʼ</span>lumki …</b> → <span class="strike">As is known</span> → give the evidence or the source</p>
+        <p style="margin-top:6px"><b>dolzarb</b> → <span class="strike">actual</span> → relevant, topical, timely</p>
+        <p style="margin-top:6px"><b>biz</b> (yakka muallif) → <i>I</i>; <b>ushbu satrlar muallifi</b> → <i>I</i></p>
+        <p style="margin-top:6px">Ritorik so<span class="ap">ʻ</span>roq va undov (?!) ilmiy matnda dalil o<span class="ap">ʻ</span>rnini bosmaydi.</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">isn't, can't, it's</span> ✗<br>
+        <span class="strike">stuff, things, loads of, etc.</span> ✗<br>
+        <span class="strike">Guess what?!</span> ✗<br>
+        <span class="strike">As we all know …</span> ✗<br>
+        <span class="strike">The present writer …</span> ✗<br>
+        five names for one idea ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Seminar-ready or not?</h2><span class="time">~3 min</span></div>
+    <p class="how">Could each sentence appear in a seminar paper? Circle <b>ready</b> or <b>not yet</b>.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The survey didn't include part-time students.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>2. The questionnaire was completed by 85 first-year students.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>3. Guess what? Most respondents check their phones in bed!</span><span class="pw"><span class="pick" data-ans="1"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>4. This paper investigates the link between sleep and memory.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>5. Lots of students reckon caffeine helps and stuff.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>6. Respondents who slept less than six hours reported lower concentration.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>7. You probably know that exams are stressful.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+      <div class="rowpick"><span>8. The library extended its opening hours during the examination period.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">ready</button><span>/</span><button type="button">not yet</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>One verb, please</h2><span class="time">~4 min</span></div>
+    <p class="how">Choose the verb that fits a seminar paper. <span class="red">Careful: in one sentence, the multiword verb is already academic.</span></p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The team <i>looked at</i> sleep diaries from 40 volunteers.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">watched</button><span>/</span><button type="button">examined</button><span>/</span><button type="button">saw</button></span></span></div>
+      <div class="rowpick"><span>2. Average sleep time <i>went down</i> during the exam week.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">decreased</button><span>/</span><button type="button">went off</button><span>/</span><button type="button">reduced</button></span></span></div>
+      <div class="rowpick"><span>3. The study tried to <i>find out</i> how long students slept.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">look</button><span>/</span><button type="button">find</button><span>/</span><button type="button">determine</button></span></span></div>
+      <div class="rowpick"><span>4. The university <i>set up</i> a quiet study zone.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">built up</button><span>/</span><button type="button">established</button><span>/</span><button type="button">made</button></span></span></div>
+      <div class="rowpick"><span>5. Many students tried to <i>cut down on</i> coffee.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">reduce their intake of</button><span>/</span><button type="button">cut</button><span>/</span><button type="button">lower down</button></span></span></div>
+      <div class="rowpick"><span>6. The authors <i>came up with</i> a new sleep questionnaire.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">thought</button><span>/</span><button type="button">brought</button><span>/</span><button type="button">developed</button></span></span></div>
+      <div class="rowpick"><span>7. Late-night gaming <i>makes up</i> a large part of screen time.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">constitutes</button><span>/</span><button type="button">builds</button><span>/</span><button type="button">forms up</button></span></span></div>
+      <div class="rowpick"><span>8. The researchers <i>carried out</i> interviews with 12 students.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">did up</button><span>/</span><button type="button">made out</button><span>/</span><button type="button">carried out</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>I or not I?</h2><span class="time">~3 min</span></div>
+    <p class="how">A single author wrote these sentences for a seminar paper. Is the use of <i>I</i>, <i>we</i> or the writer's presence <b>OK</b>, or should it be <b>rewritten</b>?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. I recruited 30 participants through the faculty newsletter.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+      <div class="rowpick"><span>2. I personally think that sleep is super important.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+      <div class="rowpick"><span>3. In Section 3, I discuss the limitations of the study.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+      <div class="rowpick"><span>4. We all know that young people sleep too little.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+      <div class="rowpick"><span>5. The present writer analysed the diaries.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+      <div class="rowpick"><span>6. The diary wanted to capture students' real habits.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+      <div class="rowpick"><span>7. On the basis of these data, I argue that morning exams should start later.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">OK</button><span>/</span><button type="button">rewrite</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">4</span><h2>Red pen time: dress it up</h2><span class="time">~6 min</span></div>
+    <p class="how">Rewrite each sentence for a seminar paper. Put any facts you do not have in [square brackets]. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">It's clear that students don't get enough sleep.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">Students' sleep patterns were recorded for 14 days.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">So what can universities do about this?</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">Tons of research shows that sleep helps memory.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">The results were really amazing!</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Word families</h2><span class="time">~3 min</span></div>
+    <p class="how">Choose the right member of the word family.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The researchers' ______ of the sleep diaries revealed three patterns.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">analyse</button><span>/</span><button type="button">analysis</button><span>/</span><button type="button">analytical</button></span></span></div>
+      <div class="rowpick"><span>2. The difference between the groups was not statistically ______.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">significance</button><span>/</span><button type="button">significant</button><span>/</span><button type="button">significantly</button></span></span></div>
+      <div class="rowpick"><span>3. Bedtimes ______ widely between weekdays and weekends.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">varied</button><span>/</span><button type="button">variable</button><span>/</span><button type="button">variation</button></span></span></div>
+      <div class="rowpick"><span>4. The data ______ that late sleepers miss more classes.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">indicate</button><span>/</span><button type="button">indication</button><span>/</span><button type="button">indicative</button></span></span></div>
+      <div class="rowpick"><span>5. Participants were ______ to keep a diary for 14 days.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">requirement</button><span>/</span><button type="button">required</button><span>/</span><button type="button">requiring</button></span></span></div>
+      <div class="rowpick"><span>6. Short naps were found to be ______.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">benefit</button><span>/</span><button type="button">beneficial</button><span>/</span><button type="button">benefits</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex6">
+    <div class="exhead"><span class="num">6</span><h2>One term, one meaning</h2><span class="time">~3 min</span></div>
+    <p class="how">Each first sentence defines a key term. Which next sentence <b>keeps</b> the term? Circle a, b or c.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. <i>In this paper, sleep debt refers to the difference between the sleep a person needs and the sleep they get.</i><br>a) Sleep debt was highest in the examination week.<br>b) Sleep shortage was highest in the examination week.<br>c) Tiredness was highest in the examination week.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>2. <i>Blended learning is defined here as a course that combines classroom teaching with online study.</i><br>a) Mixed teaching was popular with most respondents.<br>b) Hybrid education was popular with most respondents.<br>c) Blended learning was popular with most respondents.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>3. <i>The 85 students who returned the questionnaire are called respondents below.</i><br>a) Most informants slept fewer than seven hours.<br>b) Most respondents slept fewer than seven hours.<br>c) Most of the guys slept fewer than seven hours.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+      <div class="rowpick"><span>4. <i>Screen time means the time spent looking at a phone, tablet or computer.</i><br>a) Device use before bed was linked to later sleep.<br>b) Screen time before bed was linked to later sleep.<br>c) Gadget hours before bed were linked to later sleep.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">a</button><span>/</span><button type="button">b</button><span>/</span><button type="button">c</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex6">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Writing corner</h2><span class="time">~25 min</span></div>
+    <div class="task"><p><b>Podcast clip</b> <span class="small">(from <i>Night Owls</i>, a fictional student podcast)</span></p>
+      <p><i>“OK, so who else crams the whole night before an exam? Me! But honestly, it's a terrible idea. I did it before my phonetics exam and my mind just went blank. Our faculty survey found loads of people do it, like most of us. And the ones who slept properly felt way better in the exam. So get some sleep, guys!”</i></p>
+      <p><b>Survey notes</b> <span class="small">(faculty wellbeing survey; fictional source for practice)</span>: 210 respondents · 58 % had studied through the night before an exam at least once this year · of these, 64 % reported difficulty concentrating during the exam · respondents who slept at least seven hours before exams more often rated their preparation as effective.</p></div>
+    <div class="corner">
+      <p><b>Your turn.</b> Turn the podcast clip into <b>one paragraph for a seminar paper</b> on students' study habits. Define your key term once and keep it. Use the survey as evidence and name it. Use <i>I</i> at most once, for a position the evidence supports. <b>Target: 100–160 words.</b></p>
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Who?</span><div class="write" contenteditable="true" id="pn-who" data-ph="Who will read the seminar paper?"></div>
+          <span class="lab">Why?</span><div class="write" contenteditable="true" id="pn-why" data-ph="What should the paragraph show?"></div>
+          <span class="lab">Where?</span><div class="write" contenteditable="true" id="pn-where" data-ph="In which text, read how?"></div>
+          <span class="lab">How?</span><div class="write" contenteditable="true" id="pn-how" data-ph="Which register? What must change?"></div>
+          <span class="lab">Term</span><div class="write" contenteditable="true" id="pn-term" data-ph="My key term and its definition"></div>
+        </div>
+      </div>
+      <div class="para" id="textW">
+        <div class="ptag"><b>W</b><span>My seminar paragraph</span></div>
+        <p class="frame">In this paper, all-night studying refers to …</p>
+        <div class="write" style="--rows:8" contenteditable="true" id="W-text" data-wc></div>
+        <div class="wcbar" data-count="textW" data-min="100" data-max="160" data-low="Keep going: have you used the survey figures?" data-high="Too long: cut what the reader does not need.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0"><span>no contractions, questions or exclamations</span></label>
+        <label><input type="checkbox" id="t1"><span>no <i>you</i>, <i>guys</i>, <i>loads of</i>, <i>honestly</i></span></label>
+        <label><input type="checkbox" id="t2"><span>single-word verbs where they fit</span></label>
+        <label><input type="checkbox" id="t3"><span>figures from the survey, with the source named</span></label>
+        <label><input type="checkbox" id="t4"><span>the key term defined once and kept</span></label>
+        <label><input type="checkbox" id="t5"><span><i>I</i> at most once, with evidence</span></label>
+        <label><input type="checkbox" id="t6"><span>100–160 words</span></label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can spot and remove conversational features in academic writing.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can decide when <i>I</i> is acceptable in a seminar paper.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can define a key term once and keep it.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for your IS3 Grammar Accuracy Journal.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Seminar-ready?</h3><ol><li>not yet (contraction)</li><li>ready</li><li>not yet (question, exclamation)</li><li>ready</li><li>not yet (vague, slang)</li><li>ready</li><li>not yet (<i>you</i>)</li><li>ready</li></ol></div>
+      <div><h3>2. One verb, please</h3><ol><li>examined</li><li>decreased</li><li>determine</li><li>established</li><li>reduce their intake of</li><li>developed</li><li>constitutes</li><li>carried out (already academic)</li></ol></div>
+      <div><h3>3. I or not I?</h3><ol><li>OK (own action)</li><li>rewrite (feeling, no evidence)</li><li>OK (guiding the reader)</li><li>rewrite (<i>we</i> = everyone)</li><li>rewrite: <i>I analysed the diaries.</i></li><li>rewrite: <i>The diary was designed to capture …</i></li><li>OK (position + evidence)</li></ol></div>
+      <div><h3>4. Dress it up</h3><ol type="a"><li>Many students appear to sleep less than they need [source].</li><li>Correct ✓</li><li>This section considers how universities might respond to the problem.</li><li>Numerous studies indicate that sleep supports memory [source].</li><li>The results were unexpected: [state the finding].</li></ol></div>
+      <div><h3>5. Word families</h3><ol><li>analysis</li><li>significant</li><li>varied</li><li>indicate</li><li>required</li><li>beneficial</li></ol></div>
+      <div><h3>6. One term</h3><ol><li>a</li><li>c</li><li>b</li><li>b</li></ol></div>
+      <div><h3>7. Writing corner</h3><p>Answers vary. Example (132 words): In this paper, all-night studying refers to studying through the night before an examination without sleeping. This practice appears to be common among students. In a faculty wellbeing survey of 210 students (fictional source for practice), 58 % of respondents reported that they had studied through the night before an examination at least once this year. However, all-night studying may reduce performance rather than improve it. Of the respondents who had studied all night, 64 % reported difficulty concentrating during the examination, whereas those who slept at least seven hours more often rated their preparation as effective. Since these findings are based on self-reports, they should be interpreted with caution. Nevertheless, they suggest that all-night studying is an ineffective strategy, and I argue that study-skills advice for students should address it directly.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">4</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

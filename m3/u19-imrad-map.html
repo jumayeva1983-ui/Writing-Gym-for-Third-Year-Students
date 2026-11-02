@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IMRaD Map: structuring research papers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u19-imrad-map">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 19</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>IMRaD Map</h1>
+      <p class="sub">structuring <span class="hl">research papers</span></p>
+    </div>
+    <span class="badge">Unit 19</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> put every sentence <b>where the reader will look for it</b>: why, how, what, so what.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">Three students observed where 40 first-year students sat in six lectures <span class="small">(fictional study for practice)</span>. Read three ways of reporting it.</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A bowl of mixed letters">
+          <g class="doodle" filter="url(#wobble)"><path d="M30 50 Q100 130 170 50 Z" style="fill:var(--pink)"/><path d="M60 40 l10 -14 M95 36 l4 -16 M130 40 l-8 -14"/></g></svg>
+        <p><b>Essay soup</b></p>
+        <p class="msg">Seats matter a lot! People love habits, as everybody knows. I watched some lectures. In conclusion, 31 of the 40 students kept the same seat.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A list of numbers">
+          <g class="doodle" filter="url(#wobble)"><rect x="60" y="8" width="80" height="104" style="fill:#fffef9"/><path d="M72 28 h56 M72 48 h56 M72 68 h56 M72 88 h56"/></g></svg>
+        <p><b>Numbers only</b></p>
+        <p class="msg">31 kept the same seat. 12 sat in the front rows. 19 sat at the back. 9 moved around.</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="An hourglass with four sections">
+          <g class="doodle" filter="url(#wobble)"><path d="M40 8 H160 L112 52 V68 L160 112 H40 L88 68 V52 Z" style="fill:#fffef9"/><path d="M60 26 H140 M100 52 V68" /><path d="M70 96 H130" style="stroke:var(--red)"/></g></svg>
+        <p class="ink"><b>IMRaD map</b></p>
+        <p class="msg"><b>Why?</b> Little is known about seat choice in our faculty. <b>How?</b> Three observers noted where 40 first-year students sat in six lectures. <b>What?</b> 31 of the 40 always sat in the same area. <b>So what?</b> Seat habits may affect who asks questions, although six lectures is a short period.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the map answers the reader's four questions <b>in order</b>, and it keeps the <b>facts</b> (What?) apart from their <b>meaning</b> (So what?).</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: four questions, four sections</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">INTRODUCTION</span><span class="link">→</span><span class="car"><b>Why?</b></span><span class="car">area → gap → aim</span></div>
+      <div class="train apply"><span class="car engine s">METHODS</span><span class="link">→</span><span class="car"><b>How?</b></span><span class="car">who, what, how analysed</span></div>
+      <div class="train apply"><span class="car engine m">RESULTS</span><span class="link">→</span><span class="car"><b>What?</b></span><span class="car">facts, numbers, a table</span></div>
+      <div class="train apply"><span class="car engine d">DISCUSSION</span><span class="link">→</span><span class="car"><b>So what?</b></span><span class="car">meaning, sources, limits</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Three moves of an introduction</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine l">TERRITORY</span><span class="link">→</span><span class="car">the area matters</span><span class="car"><i>Research has shown …</i></span></div>
+      <div class="train apply"><span class="car engine s">NICHE</span><span class="link">→</span><span class="car">something is missing</span><span class="car"><i>However, little is known …</i></span></div>
+      <div class="train apply"><span class="car engine m">OCCUPY</span><span class="link">→</span><span class="car">this study fills it</span><span class="car"><i>The present study asks …</i></span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>kirish – asosiy qism – xulosa</b> → Introduction – Methods – Results – Discussion</p>
+        <p style="margin-top:6px"><b>mavzuning dolzarbligi</b> → show it with sources <span class="small">(Move 1)</span></p>
+        <p style="margin-top:6px"><b>dolzarb</b> → <span class="strike">actual</span> timely, important</p>
+        <p style="margin-top:6px"><b>obyekt va predmet</b> → the aim or research question</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">Main body</span> as a heading ✗<br>
+        <span class="strike">because … / may …</span> in the Results ✗<br>
+        a new result in the Discussion ✗<br>
+        a new source in the Conclusion ✗<br>
+        <span class="strike">No one has ever studied this</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Which section?</h2><span class="time">~4 min</span></div>
+    <p class="how">A study of <b>background music and reading speed</b> <span class="small">(fictional study for practice)</span>. In which section does each sentence belong? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Many students listen to music while they study.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>2. Thirty volunteers read two texts of similar difficulty, one in silence and one with background music.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>3. Average reading time was 6.1 minutes in silence and 6.9 minutes with music.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>4. The slower reading with music may reflect the effort of ignoring the lyrics.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>5. However, few studies have tested this with readers of a foreign language.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>6. Half of the group read with music first; the other half read in silence first.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>7. Comprehension scores were almost the same in both conditions.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+      <div class="rowpick"><span>8. Because the texts were short, the results may not apply to longer reading tasks.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">Intro</button><span>/</span><button type="button">Methods</button><span>/</span><button type="button">Results</button><span>/</span><button type="button">Discussion</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Fact or meaning?</h2><span class="time">~4 min</span></div>
+    <p class="how">A <b>result</b> says what was found. An <b>interpretation</b> says what it may mean. Which is each sentence?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Twelve of the 30 readers said that the music helped them to relax.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>2. This suggests that music affects different readers in different ways.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>3. Readers who chose music without words finished about as fast as in silence.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>4. Songs with words probably compete with the text for attention.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>5. The difference between the two conditions was less than one minute.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>6. This pattern is consistent with an earlier study of school pupils (fictional source).</span><span class="pw"><span class="pick" data-ans="1"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>7. Two participants did not finish the second text.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+      <div class="rowpick"><span>8. Teachers might therefore advise students to read long texts without lyrics.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">result</button><span>/</span><button type="button">interpretation</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Territory, niche or occupy?</h2><span class="time">~3 min</span></div>
+    <p class="how">An introduction about <b>English podcasts</b> <span class="small">(fictional study and sources)</span>. Which move is each sentence: <b>territory</b>, <b>niche</b> or <b>occupy</b>?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. English-language podcasts have become a common source of listening practice for students.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">territory</button><span>/</span><button type="button">niche</button><span>/</span><button type="button">occupy</button></span></span></div>
+      <div class="rowpick"><span>2. Studies have shown that regular listening can help learners to build vocabulary (Saliyeva, 2020).</span><span class="pw"><span class="pick" data-ans="0"><button type="button">territory</button><span>/</span><button type="button">niche</button><span>/</span><button type="button">occupy</button></span></span></div>
+      <div class="rowpick"><span>3. However, little is known about how students choose which podcasts to follow.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">territory</button><span>/</span><button type="button">niche</button><span>/</span><button type="button">occupy</button></span></span></div>
+      <div class="rowpick"><span>4. It is also unclear whether they listen with or without a transcript.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">territory</button><span>/</span><button type="button">niche</button><span>/</span><button type="button">occupy</button></span></span></div>
+      <div class="rowpick"><span>5. This study surveys 60 second-year students about their podcast habits.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">territory</button><span>/</span><button type="button">niche</button><span>/</span><button type="button">occupy</button></span></span></div>
+      <div class="rowpick"><span>6. The paper first describes the survey and then presents and discusses the results.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">territory</button><span>/</span><button type="button">niche</button><span>/</span><button type="button">occupy</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Build the funnel</h2><span class="time">~3 min</span></div>
+    <p class="how">These sentences open a paper on <b>recorded lectures</b> <span class="small">(fictional study and source)</span>, but they are mixed up. Number them 1–5 in CARS order.</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o4-0" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The present study asks how often first-year students watch recorded lectures, and why.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Recorded lectures have become a common feature of university courses.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-2" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>However, few studies have asked students in Uzbekistan how they actually use them.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-3" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Earlier research suggests that students mainly use recordings to revise before examinations (Ortiqov, 2021).</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-4" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The results show that most students watch only short parts of each recording.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Discussion moves</h2><span class="time">~3 min</span></div>
+    <p class="how">The Discussion of the music study. What does each sentence do?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>a) This study found that background music slowed reading slightly but did not affect comprehension.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">finding</button><span>/</span><button type="button">explanation</button><span>/</span><button type="button">comparison</button><span>/</span><button type="button">limitation</button><span>/</span><button type="button">implication</button></span></span></div>
+      <div class="rowpick"><span>b) One possible explanation is that readers needed extra effort to ignore the lyrics.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">finding</button><span>/</span><button type="button">explanation</button><span>/</span><button type="button">comparison</button><span>/</span><button type="button">limitation</button><span>/</span><button type="button">implication</button></span></span></div>
+      <div class="rowpick"><span>c) A similar effect was reported in an earlier study of school pupils (fictional source).</span><span class="pw"><span class="pick" data-ans="2"><button type="button">finding</button><span>/</span><button type="button">explanation</button><span>/</span><button type="button">comparison</button><span>/</span><button type="button">limitation</button><span>/</span><button type="button">implication</button></span></span></div>
+      <div class="rowpick"><span>d) However, the sample was small, and all participants were volunteers.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">finding</button><span>/</span><button type="button">explanation</button><span>/</span><button type="button">comparison</button><span>/</span><button type="button">limitation</button><span>/</span><button type="button">implication</button></span></span></div>
+      <div class="rowpick"><span>e) Students who read long texts might therefore choose silence or music without words.</span><span class="pw"><span class="pick" data-ans="4"><button type="button">finding</button><span>/</span><button type="button">explanation</button><span>/</span><button type="button">comparison</button><span>/</span><button type="button">limitation</button><span>/</span><button type="button">implication</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Wrong room</h2><span class="time">~6 min</span></div>
+    <p class="how">Wrong room! Each sentence is in the wrong section. Write where it belongs and fix it if needed. <span class="red">Careful: one line is already in the right place!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s"><i>Results:</i> Music clearly ruins concentration.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s"><i>Introduction:</i> Table 1 shows that 22 of the 30 readers were slower with music.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s"><i>Methods:</i> Each participant read two texts of about 400 words.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s"><i>Conclusion:</i> Ismoilova (2021) found the same with school pupils (fictional source).</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s"><i>Discussion:</i> Also, four readers said that they never listen to music.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s"><i>Heading:</i> Main body</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex7">
+    <div class="exhead"><span class="num">7</span><h2>Follow the thread</h2><span class="time">~4 min</span></div>
+    <p class="how">Follow the thread. Choose the <b>method</b> that can answer each research question, and the discussion point that fits the result.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. How many hours a week do students spend on social media?</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a questionnaire about weekly habits</button><span>/</span><button type="button">an analysis of 20 abstracts</button><span>/</span><button type="button">a reading-speed test</button></span></span></div>
+      <div class="rowpick"><span>2. How often do research article abstracts in applied linguistics use hedges?</span><span class="pw"><span class="pick" data-ans="1"><button type="button">interviews with students</button><span>/</span><button type="button">an analysis of a set of abstracts</button><span>/</span><button type="button">a reading-speed test</button></span></span></div>
+      <div class="rowpick"><span>3. Does background music change reading speed?</span><span class="pw"><span class="pick" data-ans="0"><button type="button">a timed reading task with and without music</button><span>/</span><button type="button">a survey of favourite songs</button><span>/</span><button type="button">interviews with music teachers</button></span></span></div>
+      <div class="rowpick"><span>4. Why do lecturers choose particular textbooks?</span><span class="pw"><span class="pick" data-ans="1"><button type="button">counting textbook pages</button><span>/</span><button type="button">interviews with lecturers</button><span>/</span><button type="button">a grammar test</button></span></span></div>
+      <div class="rowpick"><span>5. Result: two thirds of the readers were faster in silence. Which discussion point fits?</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Music is bad for everyone.</button><span>/</span><button type="button">Students should sleep more.</button><span>/</span><button type="button">Silence may help some readers to concentrate.</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex7">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">5</span>
+</section>
+
+<section class="sheet" aria-label="Page 6">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> Write the <b>Introduction</b> of a short paper for the student research bulletin (100–150 words). Use the study card and the three moves. Do not report the full results: one sentence about the main finding is enough.</p>
+      <div class="task"><p><b>Study card: the Quiet Room</b> <span class="small">(fictional study and sources for practice)</span></p>
+      <p>Last year the university library opened a silent study room. · Ismoilova (2021): noise can reduce students' concentration. · Komilov (2022): student surveys show a growing demand for silent study spaces. · No one has asked who uses the new room, or why. · <b>Study:</b> a questionnaire completed by 50 users of the room. · <b>Main finding:</b> most users came to prepare for examinations.</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Territory</span><div class="write" contenteditable="true" id="pn-terr" data-ph="Why does the area matter? Which sources?"></div>
+          <span class="lab">Niche</span><div class="write" contenteditable="true" id="pn-niche" data-ph="What is missing? (However, little is known …)"></div>
+          <span class="lab">Occupy</span><div class="write" contenteditable="true" id="pn-occ" data-ph="This study … It asks … The results show …"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textI">
+        <div class="ptag"><b>I</b><span>My introduction (100–150 words)</span></div>
+        <p class="frame">Quiet places for individual study …</p>
+        <div class="write" style="--rows:9" contenteditable="true" id="I-text" data-wc></div>
+        <div class="wcbar" data-count="textI" data-min="100" data-max="150" data-low="Keep going: have you stated the gap and the aim of the study?" data-high="Too long: the details belong in the Methods and Results.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">Move 1: the area matters, with a source</label>
+        <label><input type="checkbox" id="t1">Move 2: the gap, signalled with however / little is known</label>
+        <label><input type="checkbox" id="t2">the gap is stated carefully, not “no one has ever …”</label>
+        <label><input type="checkbox" id="t3">Move 3: the aim or question of this study</label>
+        <label><input type="checkbox" id="t4">the main finding in one sentence, no numbers</label>
+        <label><input type="checkbox" id="t5">no method details and no interpretation</label>
+        <label><input type="checkbox" id="t6">fictional sources marked as fictional</label>
+        <label><input type="checkbox" id="t7">100–150 words</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can say which question each IMRaD section answers and put a sentence in the right section.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can keep results apart from their interpretation.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can write an introduction with three moves: territory, niche, occupy.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it next to the plan of your IS5 paper.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Which section?</h3><ol><li>Intro</li><li>Methods</li><li>Results</li><li>Discussion</li><li>Intro</li><li>Methods</li><li>Results</li><li>Discussion</li></ol></div>
+      <div><h3>2. Fact or meaning?</h3><ol><li>result</li><li>interpretation</li><li>result</li><li>interpretation</li><li>result</li><li>interpretation</li><li>result</li><li>interpretation</li></ol></div>
+      <div><h3>3. CARS moves</h3><ol><li>territory</li><li>territory</li><li>niche</li><li>niche</li><li>occupy</li><li>occupy</li></ol></div>
+      <div><h3>4. Build the funnel</h3><p>Recorded lectures … (1) → Earlier research … (2) → However, few studies … (3) → The present study … (4) → The results show … (5).</p><p>Numbers in the order shown: 4, 1, 3, 2, 5.</p></div>
+      <div><h3>5. Discussion moves</h3><ol type="a"><li>finding</li><li>explanation</li><li>comparison</li><li>limitation</li><li>implication</li></ol></div>
+      <div><h3>6. Wrong room</h3><ol type="a"><li>Discussion, hedged: <i>Music may make it harder for some readers to concentrate.</i></li><li>Results (the Introduction may only announce the main finding, without numbers).</li><li>Correct ✓</li><li>Discussion: comparison with earlier studies. The Conclusion adds no new sources.</li><li>Results first; the Discussion can then interpret it.</li><li>Use Methods, Results, and Discussion instead.</li></ol></div>
+      <div><h3>7. Follow the thread</h3><ol><li>a questionnaire about weekly habits</li><li>an analysis of a set of abstracts</li><li>a timed reading task with and without music</li><li>interviews with lecturers</li><li>Silence may help some readers to concentrate.</li></ol></div>
+      <div><h3>8. Writing corner</h3><p>Model (126 words): Quiet places for individual study are an important part of a university library, and research suggests that noise can reduce students' concentration (Ismoilova, 2021). Student surveys have also reported a growing demand for silent study spaces (Komilov, 2022). However, little is known about who actually uses such spaces once they are opened, or why. Last year our library opened a silent study room, but its users have not yet been asked about their reasons. The present study addresses this question through a questionnaire completed by 50 users of the room. It asks who uses the room, how often, and for what purposes. The results show that most users came to prepare for examinations. The paper first describes the questionnaire and then presents and discusses the results. (Both sources are fictional.)</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">6</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

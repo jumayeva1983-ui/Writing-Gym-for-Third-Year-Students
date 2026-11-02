@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Source Detective: literature reviews and annotated bibliographies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u21-source-detective">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 21</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Source Detective</h1>
+      <p class="sub">literature reviews and <span class="hl">annotated bibliographies</span></p>
+    </div>
+    <span class="badge">Unit 21</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> find good sources, <b>question</b> every witness, and make the sources <b>talk to each other</b>.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A student is reviewing research on podcasts for listening practice <span class="small">(fictional sources for practice)</span>. Compare three ways of writing about the same three studies.</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A shopping list">
+          <g class="doodle" filter="url(#wobble)"><rect x="62" y="8" width="76" height="104" style="fill:#fffef9"/><path d="M74 28 h50 M74 48 h50 M74 68 h50 M74 88 h40"/><path d="M68 28 h0 M68 48 h0" style="stroke:var(--red)"/></g></svg>
+        <p><b>The shopping list</b></p>
+        <p class="msg">Halilova (2021) studied podcasts. She found good results. Turgunov (2022) also studied podcasts. Bekova (2023) studied podcasts too.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A heart">
+          <g class="doodle" filter="url(#wobble)"><path d="M100 104 L44 52 A26 26 0 0 1 100 34 A26 26 0 0 1 156 52 Z" style="fill:var(--pink)"/></g></svg>
+        <p><b>The fan letter</b></p>
+        <p class="msg">This article is very interesting and useful. The author is a famous professor, so everything in it is true!</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A magnifying glass">
+          <g class="doodle" filter="url(#wobble)"><circle cx="86" cy="54" r="34" style="fill:#fffef9"/><path d="M110 78 L150 112" style="stroke-width:7"/><path d="M70 54 l10 10 l20 -22" style="stroke:var(--green)"/></g></svg>
+        <p class="ink"><b>The detective's report</b></p>
+        <p class="msg">Two classroom studies found that weekly podcast listening improved students' listening scores (Halilova, 2021; Turgunov, 2022). In contrast, Bekova (2023) found no gain when students listened without tasks. No study has yet examined third-year students.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the report is built around an <b>idea</b>, not a list of authors. It shows <b>agreement</b>, <b>contrast</b> and what is <b>still unknown</b>, and it puts most names in brackets.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: find, judge, annotate, synthesise</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">FIND</span><span class="link">→</span><span class="car">question → keywords</span><span class="car">AND · OR · NOT</span><span class="car">"exact phrase" · (synonyms)</span></div>
+      <div class="train apply"><span class="car engine m">JUDGE</span><span class="link">→</span><span class="car">Who? Where? When?</span><span class="car">What evidence? Why written?</span><span class="car">relevant to MY question?</span></div>
+      <div class="train apply"><span class="car engine d">ANNOTATE</span><span class="link">→</span><span class="car">reference</span><span class="car">2-sentence summary</span><span class="car">reliability + relevance</span><span class="car">use in my paper</span></div>
+      <div class="train apply"><span class="car engine l">SYNTHESISE</span><span class="link">→</span><span class="car">one theme</span><span class="car">agree · contrast</span><span class="car">gap → my study</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>Maqolada … haqida so<span class="ap">ʻ</span>z boradi</b> → The article <b>examines</b> …<br><span class="small">(“In this article is told about” emas)</span></p>
+        <p style="margin-top:6px"><b>… ga to<span class="ap">ʻ</span>xtalib o<span class="ap">ʻ</span>tgan</b> → <b>discusses</b> …</p>
+        <p style="margin-top:6px"><b>juda foydali</b> → useful <b>because</b> … <span class="small">(mezon ayting)</span></p>
+        <p style="margin-top:6px"><b>X o<span class="ap">ʻ</span>z asarida …, Y esa …</b> → g<span class="ap">ʻ</span>oya atrofida yozing, ism qavs ichida</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">In this article is told …</span> ✗<br>
+        <span class="strike">very interesting and useful</span> ✗<br>
+        <span class="strike">proves that all students …</span> ✗<br>
+        <span class="strike">A says … B says … C says …</span> ✗<br>
+        <span class="strike">I will use it in my work.</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Search like a detective</h2><span class="time">~4 min</span></div>
+    <p class="how">Which search string does the job? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Sources on podcasts <i>or</i> audio files for listening practice</span><span class="pw"><span class="pick" data-ans="1"><button type="button">podcasts AND "audio files" AND listening</button><span>/</span><button type="button">(podcasts OR "audio files") AND listening</button><span>/</span><button type="button">podcasts NOT listening</button></span></span></div>
+      <div class="rowpick"><span>2. Only sources with the exact phrase <i>listening comprehension</i></span><span class="pw"><span class="pick" data-ans="1"><button type="button">listening comprehension</button><span>/</span><button type="button">"listening comprehension"</button><span>/</span><button type="button">listening OR comprehension</button></span></span></div>
+      <div class="rowpick"><span>3. Podcasts and listening, but not studies of children</span><span class="pw"><span class="pick" data-ans="0"><button type="button">podcasts AND listening NOT children</button><span>/</span><button type="button">podcasts OR listening OR children</button><span>/</span><button type="button">podcasts AND children</button></span></span></div>
+      <div class="rowpick"><span>4. You get far too many results. What helps?</span><span class="pw"><span class="pick" data-ans="1"><button type="button">add more synonyms with OR</button><span>/</span><button type="button">add another concept with AND</button><span>/</span><button type="button">delete the quotation marks</button></span></span></div>
+      <div class="rowpick"><span>5. You get almost no results. What helps?</span><span class="pw"><span class="pick" data-ans="0"><button type="button">add synonyms with OR</button><span>/</span><button type="button">add NOT</button><span>/</span><button type="button">add another concept with AND</button></span></span></div>
+      <div class="rowpick"><span>6. Which string groups the synonyms correctly?</span><span class="pw"><span class="pick" data-ans="0"><button type="button">(undergraduates OR "university students") AND podcasts</button><span>/</span><button type="button">undergraduates OR "university students" AND podcasts</button><span>/</span><button type="button">undergraduates AND "university students" AND podcasts</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Keep, care or drop?</h2><span class="time">~4 min</span></div>
+    <p class="how">The topic: <b>Do podcasts help university students improve their English listening?</b> Keep the source, use it with care, or drop it? <span class="small">(fictional sources for practice)</span></p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. A peer-reviewed journal article, 2023: 80 university students, method and test described.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+      <div class="rowpick"><span>2. A podcast company's web page: “Our listeners improve three times faster!”</span><span class="pw"><span class="pick" data-ans="2"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+      <div class="rowpick"><span>3. A short article from 15 years ago on listening to CDs in class; no data.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+      <div class="rowpick"><span>4. A master's thesis from another university: 40 students, method described, not peer-reviewed.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+      <div class="rowpick"><span>5. A personal blog with “ten podcast tips”; no references.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+      <div class="rowpick"><span>6. A rigorous peer-reviewed study of podcasts used to train hospital nurses in safety rules.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+      <div class="rowpick"><span>7. An encyclopaedia entry on podcasting with a long list of references.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">keep</button><span>/</span><button type="button">with care</button><span>/</span><button type="button">drop</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Five questions</h2><span class="time">~3 min</span></div>
+    <p class="how">Which question about a source does each note answer? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The author is a lecturer in applied linguistics.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">who?</button><span>/</span><button type="button">where?</button><span>/</span><button type="button">when?</button><span>/</span><button type="button">evidence?</button><span>/</span><button type="button">why?</button></span></span></div>
+      <div class="rowpick"><span>2. It appeared in a peer-reviewed journal.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">who?</button><span>/</span><button type="button">where?</button><span>/</span><button type="button">when?</button><span>/</span><button type="button">evidence?</button><span>/</span><button type="button">why?</button></span></span></div>
+      <div class="rowpick"><span>3. It was published 15 years ago, in a field that changes fast.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">who?</button><span>/</span><button type="button">where?</button><span>/</span><button type="button">when?</button><span>/</span><button type="button">evidence?</button><span>/</span><button type="button">why?</button></span></span></div>
+      <div class="rowpick"><span>4. It reports the test scores of 60 students and describes the test.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">who?</button><span>/</span><button type="button">where?</button><span>/</span><button type="button">when?</button><span>/</span><button type="button">evidence?</button><span>/</span><button type="button">why?</button></span></span></div>
+      <div class="rowpick"><span>5. It was written by a company to advertise its app.</span><span class="pw"><span class="pick" data-ans="4"><button type="button">who?</button><span>/</span><button type="button">where?</button><span>/</span><button type="button">when?</button><span>/</span><button type="button">evidence?</button><span>/</span><button type="button">why?</button></span></span></div>
+      <div class="rowpick"><span>6. It cites 40 earlier studies.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">who?</button><span>/</span><button type="button">where?</button><span>/</span><button type="button">when?</button><span>/</span><button type="button">evidence?</button><span>/</span><button type="button">why?</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Summary, evaluation or use?</h2><span class="time">~3 min</span></div>
+    <p class="how">Each sentence comes from an annotation. Which part is it?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Halilova tested 60 students before and after a ten-week podcast course.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+      <div class="rowpick"><span>2. Its sample of 25 students is too small for general conclusions.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+      <div class="rowpick"><span>3. I will use it in my Discussion to compare its results with mine.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+      <div class="rowpick"><span>4. The authors describe their test in detail, so the study could be repeated.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+      <div class="rowpick"><span>5. The podcast group improved more than the comparison group.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+      <div class="rowpick"><span>6. It will support the claim in my introduction that podcasts are widely used.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+      <div class="rowpick"><span>7. The study was not peer-reviewed, so its conclusions need checking.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">summary</button><span>/</span><button type="button">evaluation</button><span>/</span><button type="button">use</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Agree, contrast or gap?</h2><span class="time">~3 min</span></div>
+    <p class="how">Make the sources talk to each other. Circle the best link.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Halilova (2021) found gains in listening scores. ___, Turgunov (2022) reported higher scores after podcast lessons.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Similarly</button><span>/</span><button type="button">In contrast</button><span>/</span><button type="button">Little is known</button></span></span></div>
+      <div class="rowpick"><span>2. Most studies report gains. ___, Bekova (2023) found no improvement.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">In contrast</button><span>/</span><button type="button">Similarly</button><span>/</span><button type="button">Building on this</button></span></span></div>
+      <div class="rowpick"><span>3. ___ about how third-year students use podcasts outside class.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Little is known</button><span>/</span><button type="button">Several studies agree</button><span>/</span><button type="button">Similarly</button></span></span></div>
+      <div class="rowpick"><span>4. ___ Halilova's work, Turgunov added weekly discussion tasks.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">Building on</button><span>/</span><button type="button">In contrast to</button><span>/</span><button type="button">Little is known about</button></span></span></div>
+      <div class="rowpick"><span>5. Bekova's results ___ the earlier findings: gains appeared only when students did tasks.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">partly support</button><span>/</span><button type="button">prove</button><span>/</span><button type="button">are the same as</button></span></span></div>
+      <div class="rowpick"><span>6. Both studies used tests, but ___ asked students how they felt about podcasts.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">neither</button><span>/</span><button type="button">similarly</button><span>/</span><button type="button">both</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time</h2><span class="time">~6 min</span></div>
+    <p class="how">Each line has one problem. Correct it. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">In this article is told about podcasts for students.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">The author stops on the problem of difficult accents.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">This source is very interesting and useful.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">Turgunov (2022) proves that all students like podcasts.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">Halilova (2021) tested 60 students before and after a ten-week course.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">Bekova (2023) has found no improvement in her study.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+      <div class="fixrow"><span class="n">g</span><span class="s">I will use this article in my work.</span><label class="ok"><input type="checkbox" id="ok-g">correct</label><div class="write" contenteditable="true" id="fix-g"></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex" id="ex7">
+    <div class="exhead"><span class="num">7</span><h2>Order the review</h2><span class="time">~4 min</span></div>
+    <p class="how">Put the review paragraph in order (1–5): what is known → agreement → contrast → gap → this study. <span class="small">(fictional sources)</span></p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o7-0" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>In contrast, Bekova (2023) found no gain when students listened without follow-up tasks.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Podcasts are now a common resource for listening practice outside class.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-2" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>This study therefore asks how third-year students use podcasts on their own and whether they combine them with tasks.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-3" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Two classroom studies reported higher listening scores after weekly podcast lessons (Halilova, 2021; Turgunov, 2022).</span></div>
+      <div class="ordrow"><span class="sel"><select id="o7-4" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>However, both studies took place in class, and little is known about how senior students use podcasts on their own.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex7">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> Write a <b>critical annotation</b> of 100–130 words (not counting the reference) for this source. Use all four parts.</p>
+      <div class="task"><p><b>Source card</b> <span class="small">(fictional source for practice)</span></p>
+      <p>Halilova, N. (2021). Weekly podcasts and listening comprehension in a university EFL course. <i>Fergana Journal of Language Teaching, 6</i>(1), 33–47.</p>
+      <p class="small">Peer-reviewed. 60 first-year students in two existing groups at one university. For ten weeks, one group listened to a podcast each week and did comprehension tasks; the other group followed the usual course. Both groups took the same listening test before and after. The podcast group improved more. Limitations named by the author: one university; groups not randomly assigned; the author taught both groups.</p>
+      <p class="small"><b>Your research question:</b> How do third-year students use podcasts for listening practice outside class?</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Summary</span><div class="write" contenteditable="true" id="pn-sum" data-ph="What did the study do and find? (2 sentences)"></div>
+          <span class="lab">Reliability</span><div class="write" contenteditable="true" id="pn-rel" data-ph="One strength … however, one limitation …"></div>
+          <span class="lab">Relevance</span><div class="write" contenteditable="true" id="pn-relv" data-ph="How close is it to my question?"></div>
+          <span class="lab">Use</span><div class="write" contenteditable="true" id="pn-use" data-ph="Which section of my paper, and for what?"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textC">
+        <div class="ptag"><b>C</b><span>My critical annotation (100–130 words)</span></div>
+        <p class="frame">Halilova (2021) compared …</p>
+        <div class="write" style="--rows:8" contenteditable="true" id="C-text" data-wc></div>
+        <div class="wcbar" data-count="textC" data-min="100" data-max="130" data-low="Keep going: have you evaluated the source and said how you will use it?" data-high="Too long: keep the summary to two sentences.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">the summary has two sentences: what was done and what was found</label>
+        <label><input type="checkbox" id="t1">past simple for what the study did and found</label>
+        <label><input type="checkbox" id="t2">reliability: a strength and a limitation, with criteria, not feelings</label>
+        <label><input type="checkbox" id="t3">relevance: how close the source is to my question</label>
+        <label><input type="checkbox" id="t4">use: a section of my paper and a purpose</label>
+        <label><input type="checkbox" id="t5">no “very interesting”, no “proves”</label>
+        <label><input type="checkbox" id="t6">100–130 words</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can build a search string with <b>AND</b>, <b>OR</b>, <b>NOT</b>, quotation marks and brackets.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can judge a source with five questions and decide to keep, use with care or drop it.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can write a critical annotation and link sources by agreement, contrast and gap.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it with your IS4 search log.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Search strings</h3><ol><li>(podcasts OR "audio files") AND listening</li><li>"listening comprehension"</li><li>podcasts AND listening NOT children</li><li>add another concept with AND</li><li>add synonyms with OR</li><li>(undergraduates OR "university students") AND podcasts</li></ol></div>
+      <div><h3>2. Keep, care or drop?</h3><ol><li>keep</li><li>drop (advertisement, no method)</li><li>with care (old, no data: background only)</li><li>with care (not peer-reviewed)</li><li>drop (no evidence)</li><li>drop (reliable but irrelevant)</li><li>with care (tertiary: for orientation and references)</li></ol></div>
+      <div><h3>3. Five questions</h3><ol><li>who?</li><li>where?</li><li>when?</li><li>evidence?</li><li>why?</li><li>evidence?</li></ol></div>
+      <div><h3>4. Parts of an annotation</h3><ol><li>summary</li><li>evaluation</li><li>use</li><li>evaluation</li><li>summary</li><li>use</li><li>evaluation</li></ol></div>
+      <div><h3>5. Links</h3><ol><li>Similarly</li><li>In contrast</li><li>Little is known</li><li>Building on</li><li>partly support</li><li>neither</li></ol></div>
+      <div><h3>6. Red pen</h3><ol type="a"><li>The article examines podcasts for students.</li><li>The author discusses the problem of difficult accents.</li><li>Give a criterion: The source is useful because it reports test results from university students.</li><li>Turgunov (2022) found that most of the students he surveyed liked podcasts.</li><li>Correct ✓</li><li>Bekova (2023) found no improvement (a completed study: past simple).</li><li>Name the section and purpose: I will use this article in my introduction to show that …</li></ol></div>
+      <div><h3>7. Order</h3><p>Known (Podcasts are now …) → agreement (Two classroom studies …) → contrast (In contrast, …) → gap (However, … little is known …) → this study (This study therefore …).</p><p>Numbers in the order shown: 3, 1, 5, 2, 4.</p></div>
+      <div><h3>8. Writing corner</h3><p>Model (126 words): Halilova (2021) compared two groups of first-year university students over ten weeks: one group listened to a weekly podcast and completed comprehension tasks, while the other followed the usual course. On the same listening test, the podcast group improved more than the comparison group. The study appeared in a peer-reviewed journal and used a pre-test and a post-test, which makes its findings fairly reliable; however, the groups were not randomly assigned, and the author taught both groups. It is only partly relevant to my question, because it examines first-year students in class rather than third-year students on their own. I will use it in my introduction to show that podcasts with tasks can support listening, and in my discussion to compare classroom use with independent use.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exactly So: writing technical research papers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u27-exactly-so">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 27</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Exactly So</h1>
+      <p class="sub">writing <span class="hl">technical research papers</span></p>
+    </div>
+    <span class="badge">Unit 27</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> write it so that <b>someone else could do it again</b>: exact steps, exact numbers, exact units.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A student club tested whether the brightness of a desk lamp changes how fast people read. Read three versions of one sentence from their report.</p>
+    <div class="task"><p><b>Lamp study</b> <span class="small">(fictional study for practice)</span></p>
+      <p>Ten volunteers each read two texts aloud, once under a dim lamp and once under a bright lamp.</p></div>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A cloud of fog">
+          <g class="doodle" filter="url(#wobble)"><path d="M40 80 q-20 0 -14 -20 q4 -18 26 -12 q8 -22 34 -14 q16 -16 38 0 q26 -4 26 20 q14 6 6 24 Z" style="fill:#f1f1f4"/><path d="M70 60 h50 M64 72 h70" /></g></svg>
+        <p><b>Too vague</b></p>
+        <p class="msg">We read some texts under a bright lamp and a dim lamp and timed it.</p>
+      </div>
+      <div class="panel">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A bowl of letter soup">
+          <g class="doodle" filter="url(#wobble)"><path d="M40 56 h120 q-6 44 -60 46 q-54 -2 -60 -46 Z" style="fill:var(--pink)"/><path d="M70 40 l6 -12 M100 36 l0 -14 M128 40 l-6 -12" style="stroke:var(--red)"/></g></svg>
+        <p><b>Unit soup</b></p>
+        <p class="msg">10 volunteers read 2 texts of 400 words under 300lux and 800 Lux lamps, temp. 21°C, timed in secs.</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 200 120" role="img" aria-label="A ruler with a tick">
+          <g class="doodle" filter="url(#wobble)"><rect x="30" y="66" width="140" height="26" style="fill:#fffef9"/><path d="M46 66 v10 M62 66 v16 M78 66 v10 M94 66 v16 M110 66 v10 M126 66 v16 M142 66 v10 M158 66 v16"/><path d="M78 38 l12 12 l26 -30" style="stroke:var(--green)"/></g></svg>
+        <p class="ink"><b>Exactly so</b></p>
+        <p class="msg">Ten volunteers each read two 400-word texts aloud at a desk lit at 300 lx and at 800 lx, measured at the page with a light meter. The room temperature was 21 °C. Reading time was measured with a stopwatch to the nearest second.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: the good version says <b>who</b>, <b>with what</b>, under <b>which conditions</b> and <b>how it was measured</b>, and every number has a correct unit.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: could someone else do it again?</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">WHO / WHAT?</span><span class="link">→</span><span class="car">participants</span><span class="car">texts, materials</span></div>
+      <div class="train apply"><span class="car engine s">WITH WHAT?</span><span class="link">→</span><span class="car">equipment</span><span class="car">software version</span><span class="car">settings</span></div>
+      <div class="train apply"><span class="car engine m">CONDITIONS?</span><span class="link">→</span><span class="car">values + units</span><span class="car">how measured</span></div>
+      <div class="train apply"><span class="car engine d">IN WHAT ORDER?</span><span class="link">→</span><span class="car">first · then · once · until</span></div>
+      <div class="train apply"><span class="car engine l">HOW MEASURED?</span><span class="link">→</span><span class="car">what was counted</span><span class="car">formula, decimals</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Number · space · symbol</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">2.5 kg</span><span class="link">→</span><span class="car">decimal point</span><span class="car">space</span><span class="car">k is lower case</span></div>
+      <div class="train apply"><span class="car engine s">21 °C</span><span class="link">→</span><span class="car">a space before °C too</span></div>
+      <div class="train apply"><span class="car engine m">90°</span><span class="link">→</span><span class="car">angle: no space</span></div>
+      <div class="train apply"><span class="car engine l">40 s</span><span class="link">→</span><span class="car">no plural, no full stop</span><span class="car">not sec, not secs</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>25 sm</b> → 25 <b>cm</b></p>
+        <p style="margin-top:6px"><b>7,5 kg</b> → 7<b>.</b>5 kg</p>
+        <p style="margin-top:6px"><b>4 metr</b> → 4 <b>metres</b> / 4 m <span class="small">(not 4 ms!)</span></p>
+        <p style="margin-top:6px"><b>3 daq.</b> → 3 <b>min</b></p>
+        <p style="margin-top:6px"><b>40 sm masofaga qo<span class="ap">ʻ</span>yildi</b> → was placed <b>at a distance of</b> 40 cm</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">25cm</span> ✗ <span class="strike">40 secs</span> ✗<br>
+        <span class="strike">48 KHz</span> ✗ <span class="strike">20 Kg</span> ✗<br>
+        <span class="strike">19° C</span> ✗ <span class="strike">90 °</span> ✗<br>
+        <span class="strike">Reading Time (RT)</span> ✗<br>
+        <span class="strike">quite close, normal settings</span> ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Correct or wrong?</h2><span class="time">~3 min</span></div>
+    <style>.q,.pick .q{font-family:"Courier New",Courier,monospace;font-size:.95em;white-space:pre;color:var(--ink);font-weight:700}</style>
+    <p class="how">Is each quantity written the SI way? Circle one. <span class="small">(Quantities are in a typewriter font so that you can see every space.)</span></p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. <span class="q">2.5 kg</span></span><span class="pw"><span class="pick" data-ans="0"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>2. <span class="q">15 Kg</span></span><span class="pw"><span class="pick" data-ans="1"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>3. <span class="q">300 lx</span></span><span class="pw"><span class="pick" data-ans="0"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>4. <span class="q">12 mins</span></span><span class="pw"><span class="pick" data-ans="1"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>5. <span class="q">19 °C</span></span><span class="pw"><span class="pick" data-ans="0"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>6. a <span class="q">90 °</span> turn</span><span class="pw"><span class="pick" data-ans="1"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>7. <span class="q">0.5 m</span></span><span class="pw"><span class="pick" data-ans="0"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>8. <span class="q">25 cms</span></span><span class="pw"><span class="pick" data-ans="1"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>9. <span class="q">48 kHz</span></span><span class="pw"><span class="pick" data-ans="0"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+      <div class="rowpick"><span>10. <span class="q">7,5 cm</span></span><span class="pw"><span class="pick" data-ans="1"><button type="button">correct</button><span>/</span><button type="button">wrong</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Number, space, symbol</h2><span class="time">~4 min</span></div>
+    <p class="how">Choose the correct form.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The lamp stood ___ from the book.</span><span class="pw"><span class="pick" data-ans="1"><button type="button"><span class="q">40cm</span></button><span>/</span><button type="button"><span class="q">40 cm</span></button><span>/</span><button type="button"><span class="q">40 cms</span></button></span></span></div>
+      <div class="rowpick"><span>2. Each text took about ___ to read.</span><span class="pw"><span class="pick" data-ans="0"><button type="button"><span class="q">3 min</span></button><span>/</span><button type="button"><span class="q">3 mins.</span></button><span>/</span><button type="button"><span class="q">3 minuts</span></button></span></span></div>
+      <div class="rowpick"><span>3. The room was kept at ___.</span><span class="pw"><span class="pick" data-ans="2"><button type="button"><span class="q">20°C</span></button><span>/</span><button type="button"><span class="q">20° C</span></button><span>/</span><button type="button"><span class="q">20 °C</span></button></span></span></div>
+      <div class="rowpick"><span>4. The camera was turned through ___.</span><span class="pw"><span class="pick" data-ans="0"><button type="button"><span class="q">90°</span></button><span>/</span><button type="button"><span class="q">90 °</span></button><span>/</span><button type="button"><span class="q">90 deg</span></button></span></span></div>
+      <div class="rowpick"><span>5. The box of books weighed ___.</span><span class="pw"><span class="pick" data-ans="0"><button type="button"><span class="q">1.2 kg</span></button><span>/</span><button type="button"><span class="q">1,2 kg</span></button><span>/</span><button type="button"><span class="q">1.2 Kg</span></button></span></span></div>
+      <div class="rowpick"><span>6. The speed limit near the campus is ___.</span><span class="pw"><span class="pick" data-ans="0"><button type="button"><span class="q">30 km/h</span></button><span>/</span><button type="button"><span class="q">30 kmph</span></button><span>/</span><button type="button"><span class="q">30 Km/h</span></button></span></span></div>
+      <div class="rowpick"><span>7. The tablet screen measured ___.</span><span class="pw"><span class="pick" data-ans="1"><button type="button"><span class="q">20 x 13 cm</span></button><span>/</span><button type="button"><span class="q">20 cm × 13 cm</span></button><span>/</span><button type="button"><span class="q">20×13cm</span></button></span></span></div>
+      <div class="rowpick"><span>8. The volunteers rested for ___ between the texts.</span><span class="pw"><span class="pick" data-ans="1"><button type="button"><span class="q">five min</span></button><span>/</span><button type="button"><span class="q">5 min</span></button><span>/</span><button type="button"><span class="q">5 min.</span></button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Abbreviations and symbols</h2><span class="time">~3 min</span></div>
+    <p class="how">A report on the lamp study uses the term <i>reading time</i> many times. Choose the best form each time.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. First mention:</span><span class="pw"><span class="pick" data-ans="0"><button type="button">reading time (RT)</button><span>/</span><button type="button">Reading Time (RT)</button><span>/</span><button type="button">RT (reading time)</button></span></span></div>
+      <div class="rowpick"><span>2. Later in the same report:</span><span class="pw"><span class="pick" data-ans="1"><button type="button">the reading time (RT)</button><span>/</span><button type="button">the RT</button><span>/</span><button type="button">the R.T.</button></span></span></div>
+      <div class="rowpick"><span>3. Plural:</span><span class="pw"><span class="pick" data-ans="0"><button type="button">the RTs</button><span>/</span><button type="button">the RT's</button><span>/</span><button type="button">the RTes</button></span></span></div>
+      <div class="rowpick"><span>4. A unit symbol after a number:</span><span class="pw"><span class="pick" data-ans="0"><button type="button">40 s</button><span>/</span><button type="button">40 seconds (s)</button><span>/</span><button type="button">40 sec</button></span></span></div>
+      <div class="rowpick"><span>5. A term used only once:</span><span class="pw"><span class="pick" data-ans="1"><button type="button">light meter (LM)</button><span>/</span><button type="button">light meter</button><span>/</span><button type="button">LM</button></span></span></div>
+      <div class="rowpick"><span>6. No number, so…</span><span class="pw"><span class="pick" data-ans="0"><button type="button">measured in lux</button><span>/</span><button type="button">measured in lx</button><span>/</span><button type="button">measured in Lux</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>First, then, once, until</h2><span class="time">~3 min</span></div>
+    <p class="how">Put the steps of the lamp study in the order in which they were carried out (1–5). The small words help: <b>first, after, until, once, then</b>.</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o4-0" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Reading time was measured with a stopwatch until the volunteer read the last word.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-1" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>First, the light level at the page was set to 300 lx and checked with a light meter.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-2" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>The second text was then read at 800 lx, and the procedure was repeated.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-3" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>After a practice text of 100 words, the volunteer began to read the first test text.</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-4" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>Once the first text had been read, the volunteer rested for 5 min.</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>Accuracy, precision or uncertainty?</h2><span class="time">~3 min</span></div>
+    <p class="how">Is each sentence about <b>accuracy</b> (close to the true value), <b>precision</b> (repeated results close to each other) or <b>uncertainty</b> (the range in which the true value probably lies)?</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. Five stopwatch timings of the same recording differed by no more than 0.2 s.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">accuracy</button><span>/</span><button type="button">precision</button><span>/</span><button type="button">uncertainty</button></span></span></div>
+      <div class="rowpick"><span>2. The scale showed 1.00 kg for a reference weight of exactly 1.00 kg.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">accuracy</button><span>/</span><button type="button">precision</button><span>/</span><button type="button">uncertainty</button></span></span></div>
+      <div class="rowpick"><span>3. The light meter may read up to 3 % above or below the true value.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">accuracy</button><span>/</span><button type="button">precision</button><span>/</span><button type="button">uncertainty</button></span></span></div>
+      <div class="rowpick"><span>4. The thermometer always read 2 °C too high.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">accuracy</button><span>/</span><button type="button">precision</button><span>/</span><button type="button">uncertainty</button></span></span></div>
+      <div class="rowpick"><span>5. The temperature is reported as (21.4 ± 0.3) °C.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">accuracy</button><span>/</span><button type="button">precision</button><span>/</span><button type="button">uncertainty</button></span></span></div>
+      <div class="rowpick"><span>6. Two raters counted the same text three times and got almost identical totals.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">accuracy</button><span>/</span><button type="button">precision</button><span>/</span><button type="button">uncertainty</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time</h2><span class="time">~5 min</span></div>
+    <p class="how">Correct every unit error. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">The lamp was 45cm above the desk.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">Each session lasted 25 mins.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">The thermometer showed 22.5 °C.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">The light level was 500 Lux.</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">Volunteers sat 2 to 3 m from the board.</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">The texts were printed on 21 x 29.7 cm paper.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+      <div class="fixrow"><span class="n">g</span><span class="s">Background noise was measured in db.</span><label class="ok"><input type="checkbox" id="ok-g">correct</label><div class="write" contenteditable="true" id="fix-g"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Vague to exact</h2><span class="time">~6 min</span></div>
+    <p class="how">Make each vague note exact. Use the details in brackets, the past simple and the passive.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">We put the lamp near the book. <span class="small">[40 cm; tape measure]</span></p><div class="to"><span class="arrow">→</span><span class="done">The lamp was placed 40 cm from the book, measured with a tape measure.</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">The room was warm. <span class="small">[21 °C to 22 °C; wall thermometer]</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw7-1" data-ph="The room temperature was …"></div></div></div>
+      <div class="sw"><p class="from">We timed the reading. <span class="small">[stopwatch; nearest second; first word to last word]</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw7-2" data-ph="Reading time was measured …"></div></div></div>
+      <div class="sw"><p class="from">The texts were quite long. <span class="small">[two texts; 400 words each; from a graded reader]</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw7-3" data-ph="Each volunteer read …"></div></div></div>
+      <div class="sw"><p class="from">Bright light vs dim light. <span class="small">[300 lx and 800 lx; light meter at the page]</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="sw7-4" data-ph="The light level at the page was …"></div></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">5</span>
+</section>
+
+<section class="sheet" aria-label="Page 6">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> Two students compared typing on a phone and on a laptop (a fictional study). Turn their notes into a <b>Methods paragraph</b> of 80–120 words that another group could repeat. Fix every unit and abbreviation!</p>
+      <div class="task"><p><b>Notes</b></p>
+      <p class="small">8 vols (4 F, 4 M), 2nd-year · same text, 150 w (news report) · phone (screen 15cm) + laptop, own devices NOT used · order = coin toss · time: stopwatch, nearest sec · typing errors = wrong / missing / extra words, counted by 2 of us separately · room 21-22 C · 10 mins break between devices</p></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Who / what?</span><div class="write" contenteditable="true" id="pn-who" data-ph="Eight second-year volunteers …"></div>
+          <span class="lab">With what?</span><div class="write" contenteditable="true" id="pn-with" data-ph="phone (15 cm screen), laptop …"></div>
+          <span class="lab">Conditions + order</span><div class="write" contenteditable="true" id="pn-cond" data-ph="21 °C to 22 °C · coin toss · 10 min break …"></div>
+          <span class="lab">Measured how?</span><div class="write" contenteditable="true" id="pn-meas" data-ph="stopwatch, nearest second · errors = …"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textC">
+        <div class="ptag"><b>M</b><span>My Methods paragraph (80–120 words)</span></div>
+        <p class="frame">Eight second-year students took part …</p>
+        <div class="write" style="--rows:8" contenteditable="true" id="C-text" data-wc></div>
+        <div class="wcbar" data-count="textC" data-min="80" data-max="120" data-low="Keep going: could another group repeat it yet?" data-high="Too long: keep only what a replicating group needs.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">participants, text and devices are specified</label>
+        <label><input type="checkbox" id="t1">every condition has a value and a unit</label>
+        <label><input type="checkbox" id="t2">the order of the steps, and the reason for the coin toss, are clear</label>
+        <label><input type="checkbox" id="t3">what counted as an error is defined</label>
+        <label><input type="checkbox" id="t4">every quantity: numeral + space + SI symbol (15 cm, 21 °C, 10 min)</label>
+        <label><input type="checkbox" id="t5">past simple; passive where the agent is obvious</label>
+        <label><input type="checkbox" id="t6">80–120 words</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can write numbers and units the SI way: <b>21 °C, 40 s, 48 kHz, 90°</b>.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can define an abbreviation and tell accuracy from precision.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can write a procedure that someone else could repeat.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for the Methods section of your IS5 paper.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Correct or wrong?</h3><ol><li>correct</li><li>wrong: 15 kg</li><li>correct</li><li>wrong: 12 min</li><li>correct</li><li>wrong: 90°</li><li>correct</li><li>wrong: 25 cm</li><li>correct</li><li>wrong: 7.5 cm</li></ol></div>
+      <div><h3>2. Number, space, symbol</h3><ol><li>40 cm</li><li>3 min</li><li>20 °C</li><li>90°</li><li>1.2 kg</li><li>30 km/h</li><li>20 cm × 13 cm</li><li>5 min</li></ol></div>
+      <div><h3>3. Abbreviations</h3><ol><li>reading time (RT)</li><li>the RT</li><li>the RTs</li><li>40 s (symbols are never defined)</li><li>light meter (no abbreviation for one use)</li><li>measured in lux (no number: write the name)</li></ol></div>
+      <div><h3>4. Order</h3><p>First … (300 lx) → After a practice text … → Reading time was measured … until … → Once the first text … → The second text was then read …</p><p>Numbers in the order shown: 3, 1, 5, 2, 4.</p></div>
+      <div><h3>5. Accuracy, precision, uncertainty</h3><ol><li>precision</li><li>accuracy</li><li>uncertainty</li><li>accuracy (a lack of it)</li><li>uncertainty</li><li>precision</li></ol></div>
+      <div><h3>6. Red pen</h3><ol type="a"><li>45 cm</li><li>25 min</li><li>Correct ✓</li><li>500 lx</li><li>from 2 m to 3 m</li><li>21 cm × 29.7 cm</li><li>in decibels (dB is used only with a number)</li></ol></div>
+      <div><h3>7. Vague to exact</h3><p>Possible answers: The room temperature was 21 °C to 22 °C, measured with a wall thermometer. · Reading time was measured with a stopwatch to the nearest second, from the first word to the last. · Each volunteer read two 400-word texts from a graded reader. · The light level at the page was 300 lx in one condition and 800 lx in the other, measured with a light meter.</p></div>
+      <div><h3>8. Writing corner</h3><p>Model (98 words): Eight second-year students (four women and four men) took part. Each volunteer typed the same 150-word news report twice, once on a phone with a 15 cm screen and once on a laptop; the volunteers' own devices were not used. The order of the devices was decided by a coin toss, and there was a 10 min break between them. The room temperature was 21 °C to 22 °C. Typing time was measured with a stopwatch to the nearest second. Two researchers independently counted the typing errors, defined as wrong, missing or extra words, and compared their counts.</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">6</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>

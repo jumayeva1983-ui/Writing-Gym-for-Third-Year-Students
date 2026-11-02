@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Table Talk: presenting research data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: school notebook sheets (squared paper, red margin), pencil doodles, highlighter and red-pen marks. Single deliberate light look, printable on A4. */
+:root{
+  color-scheme: light;
+  --desk:#e9e6dc;
+  --paper:#fdfcf5;
+  --grid:#dde8f1;
+  --margin:#ec9f9f;
+  --ink:#22336b;
+  --pencil:#45464e;
+  --soft:#7d8090;
+  --red:#d2382c;
+  --green:#2f8a55;
+  --hl:#fff17a;
+  --pink:#ffd0dc;
+  --mint:#cdeed6;
+  --sky:#d6eaff;
+  --lilac:#e6dcff;
+  --line:#a9bfd2;
+  --hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",cursive;
+  --note:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --wob: 255px 18px 225px 18px / 18px 225px 18px 255px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--pencil);font-family:var(--hand);font-size:20px;line-height:1.45;padding-block:24px;padding-inline:16px}
+.book{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.sheet{
+  position:relative;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  padding:40px 36px 44px 84px;
+  box-shadow:0 1px 0 #d8d3c4,0 10px 24px rgba(60,50,30,.12);
+  display:flex;flex-direction:column;gap:30px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:60px;border-left:2px solid var(--margin)}
+.holes{position:absolute;left:18px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
+.holes i{display:block;width:16px;height:16px;border-radius:50%;background:var(--desk);box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.pgno{position:absolute;right:28px;bottom:14px;font-family:var(--note);font-size:22px;color:var(--soft)}
+
+h1,h2,h3{font-family:var(--note);color:var(--ink);margin:0;font-weight:700;line-height:1.05;text-wrap:balance}
+p{margin:0}
+.ink{color:var(--ink)}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 2px}
+.red{color:var(--red)}
+.note{font-family:var(--note);font-size:24px;line-height:1.15}
+.small{font-size:17px;color:var(--soft)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;max-width:860px;margin:0 auto 14px}
+.tool{font-family:var(--note);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:var(--wob);padding:2px 14px;cursor:pointer}
+.tool:hover{background:var(--sky)}
+.saved{font-family:var(--note);font-size:20px;color:var(--soft);align-self:center}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-end}
+.series{font-family:var(--note);font-size:24px;color:var(--soft)}
+.fields{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:18px}
+.fields label{display:flex;gap:6px;align-items:flex-end}
+.fill{display:inline-block;min-width:120px;border-bottom:2px dotted var(--soft);font-family:var(--note);font-size:24px;color:var(--ink);line-height:1;padding:0 4px;outline:none}
+.title{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.title h1{font-size:clamp(56px,10vw,92px)}
+.title .sub{font-size:26px;color:var(--pencil)}
+.badge{font-family:var(--note);font-size:26px;font-weight:700;color:var(--red);border:3px solid var(--red);border-radius:50%;padding:12px 18px;transform:rotate(-10deg);line-height:1}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--sky);padding:12px 16px;border-radius:var(--wob);max-width:640px}
+
+/* exercise heads */
+.ex{display:flex;flex-direction:column;gap:16px}
+.exhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.num{flex:none;width:46px;height:46px;display:grid;place-items:center;font-family:var(--note);font-weight:700;font-size:30px;color:var(--paper);background:var(--ink);border-radius:58% 42% 55% 45% / 45% 55% 45% 55%}
+.exhead h2{font-size:36px}
+.time{font-size:17px;color:var(--soft);border:1.5px dashed var(--soft);border-radius:20px;padding:0 10px}
+.how{font-size:19px}
+
+/* comic */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.panel{background:#fffef9;border:2.5px solid var(--pencil);border-radius:var(--wob);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.panel svg{width:100%;height:auto;max-width:200px}
+.panel p{font-size:18px;line-height:1.2}
+.panel.big{background:var(--mint)}
+
+/* trains */
+.rules{display:flex;flex-direction:column;gap:18px}
+.train{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.car{position:relative;padding:10px 16px;border:2.5px solid var(--pencil);border-radius:var(--wob);font-size:20px;line-height:1.15;margin-bottom:12px;background:#fffef9}
+.car::before,.car::after{content:"";position:absolute;bottom:-12px;width:16px;height:16px;border:2.5px solid var(--pencil);border-radius:50%;background:var(--paper)}
+.car::before{left:14px}.car::after{right:14px}
+.car.engine{background:var(--pink);font-family:var(--note);font-size:28px;font-weight:700;color:var(--ink)}
+.car.engine.d{background:var(--hl)}
+.car.engine.m{background:var(--mint)}
+.car.engine.s{background:var(--sky)}
+.car.engine.l{background:var(--lilac)}
+.car b.big{font-family:var(--note);font-size:30px;color:var(--ink);display:block;line-height:1}
+.link{font-family:var(--note);font-size:28px;color:var(--pencil);margin-bottom:12px}
+.eg{font-family:var(--note);font-size:24px;color:var(--ink);margin:0 0 12px 6px}
+.side{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sticky{background:#fff6a8;padding:14px 18px 16px;box-shadow:2px 4px 8px rgba(60,50,20,.15);transform:rotate(-1.5deg);max-width:380px;min-width:0;flex:1 1 280px}
+.sticky.pink{background:var(--pink);transform:rotate(1.2deg)}
+.sticky h3{font-size:26px;margin-bottom:4px}
+.sticky p{font-family:var(--note);font-size:23px;line-height:1.2;color:var(--pencil)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* pick (circle) */
+ol.items{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:10px}
+ol.items li{padding-left:4px}
+.pick{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
+.pick button{font:inherit;color:var(--ink);background:none;border:2.5px solid transparent;border-radius:50% 46% 52% 48%;padding:0 8px;cursor:pointer;line-height:1.25}
+.pick button:hover{background:rgba(255,241,122,.55)}
+.pick button:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.pick button.on{border-color:var(--red);transform:rotate(-4deg)}
+.pick span{color:var(--soft)}
+.mark{font-family:var(--note);font-size:28px;font-weight:700;margin-left:8px;line-height:1}
+.mark.r{color:var(--green)}
+.mark.w{color:var(--red)}
+.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.checkbtn{font-family:var(--note);font-size:24px;color:var(--red);background:#fffef9;border:2.5px solid var(--red);border-radius:var(--wob);padding:2px 16px;cursor:pointer;transform:rotate(-1deg)}
+.checkbtn:hover{background:var(--pink)}
+.score{font-family:var(--note);font-size:26px;color:var(--red)}
+
+/* tables of choices */
+.rowsgrid{display:flex;flex-direction:column;gap:8px}
+.rowpick{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 14px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+
+/* writing lines */
+.write{display:block;width:100%;min-height:calc(38px * var(--rows,1));line-height:38px;padding:0 6px;font-family:var(--note);font-size:27px;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 37px,var(--line) 37px 38px),#fffefa;outline:none;border-radius:2px;overflow-wrap:anywhere}
+.write:focus{box-shadow:0 0 0 2px var(--sky)}
+.write:empty::before{content:attr(data-ph);color:#b5bac6}
+
+/* red pen */
+.fix{display:flex;flex-direction:column;gap:14px}
+.fixrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.fixrow .n{font-family:var(--note);font-size:26px;color:var(--ink);line-height:1.2}
+.fixrow .s{line-height:1.35}
+.fixrow .write{grid-column:2 / 4}
+.ok{display:flex;align-items:center;gap:6px;font-size:17px;color:var(--soft);white-space:nowrap}
+.ok input{width:22px;height:22px;accent-color:var(--red)}
+
+/* advert notice */
+.advert{position:relative;background:#fff;border:2.5px solid var(--pencil);padding:22px 22px 18px;box-shadow:3px 5px 10px rgba(60,50,20,.15);transform:rotate(-.6deg);max-width:620px}
+.advert::before{content:"";position:absolute;top:-10px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.advert h3{font-size:30px;text-align:center;margin-bottom:6px}
+.advert .what{text-align:center;font-weight:700;color:var(--ink)}
+.advert ul{margin:6px 0;padding-left:26px}
+.task{border:2.5px dashed var(--ink);border-radius:var(--wob);padding:16px 20px;background:rgba(214,234,255,.45);display:flex;flex-direction:column;gap:6px}
+
+/* picture prompts */
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pic{border:2.5px solid var(--pencil);border-radius:var(--wob);padding:12px 14px 14px;background:#fffef9;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pichead{display:flex;align-items:center;gap:12px}
+.pichead svg{flex:none;width:96px;height:78px}
+.cue{font-size:19px;line-height:1.25}
+.use{display:inline-block;font-family:var(--note);font-weight:700;font-size:21px;padding:0 10px;border-radius:12px;margin-top:4px;color:var(--ink);background:var(--hl)}
+.use.a{background:var(--pink)}
+
+/* 3R card */
+.card3{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:start}
+.card3 .lab{font-family:var(--note);font-size:26px;font-weight:700;color:var(--ink);line-height:38px;white-space:nowrap}
+
+/* order */
+.order{display:flex;flex-direction:column;gap:12px}
+.ordrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:#fffef9;border:2px solid var(--pencil);border-radius:var(--wob);padding:10px 14px}
+.ordrow select{font-family:var(--note);font-size:26px;color:var(--ink);background:var(--hl);border:2px solid var(--ink);border-radius:10px;padding:0 6px;cursor:pointer}
+
+/* switch */
+.switch{display:flex;flex-direction:column;gap:16px}
+.sw{display:flex;flex-direction:column;gap:4px}
+.sw .from{color:var(--pencil)}
+.sw .to{display:flex;gap:10px;align-items:flex-end}
+.arrow{flex:none;font-family:var(--note);font-size:30px;color:var(--red);line-height:38px}
+.done{font-family:var(--note);font-size:27px;color:var(--ink);line-height:38px;border-bottom:1px solid var(--line);flex:1}
+
+/* letter corner */
+.corner{border:3px dashed var(--ink);border-radius:var(--wob);padding:20px 22px;display:flex;flex-direction:column;gap:14px;background:rgba(214,234,255,.45)}
+.frame{font-family:var(--note);font-size:24px;color:var(--soft);line-height:1.25}
+.para{display:flex;flex-direction:column;gap:4px}
+.ptag{display:flex;align-items:center;gap:10px}
+.ptag b{font-family:var(--note);font-size:28px;color:var(--paper);background:var(--ink);width:38px;height:38px;display:grid;place-items:center;border-radius:50% 46% 52% 48%}
+.ptag span{font-family:var(--note);font-size:26px;color:var(--ink);font-weight:700}
+.wcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--note);font-size:26px}
+.wc{font-weight:700;padding:0 10px;border-radius:12px;background:#fff}
+.wc.low{color:var(--red)} .wc.good{color:var(--green);background:var(--mint)} .wc.high{color:#b76e00;background:var(--hl)}
+.ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:18px}
+.ticks label{display:flex;gap:8px;align-items:flex-start}
+.ticks input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:3px}
+
+/* exit */
+.exit{display:flex;flex-direction:column;gap:10px}
+.can{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;color:#c8c3b1;cursor:pointer;padding:0 2px}
+.stars button.on{color:#f0b429}
+.stars button:focus-visible{outline:2px dashed var(--ink)}
+
+/* key */
+details.key{border-top:2px solid var(--margin);padding-top:12px}
+details.key summary{font-family:var(--note);font-size:26px;color:var(--red);cursor:pointer}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px;margin-top:10px;font-size:18px;line-height:1.35}
+.keygrid h3{font-size:24px;margin-bottom:2px}
+.keygrid ol{margin:0;padding-left:22px}
+.keygrid p{margin-bottom:6px}
+
+.doodle{stroke:var(--pencil);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .sheet{padding:28px 16px 40px 44px}
+  .sheet::before{left:32px}
+  .holes{display:none}
+  .strip{grid-template-columns:minmax(0,1fr)}
+  .panel svg{max-width:170px}
+  .pics{grid-template-columns:minmax(0,1fr)}
+  .fixrow{grid-template-columns:24px minmax(0,1fr)}
+  .fixrow .ok{grid-column:2}
+  .fixrow .write{grid-column:2}
+  .ticks{grid-template-columns:minmax(0,1fr)}
+  .card3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pick button{transition:transform .15s,border-color .15s}
+}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff;padding:0;font-size:17px}
+  .tools,.checkbtn{display:none}
+  .book{max-width:none;gap:0}
+  .sheet{box-shadow:none;break-after:page;padding:20px 18px 26px 64px;gap:22px}
+  .sheet::before{left:44px}
+  .holes{display:none}
+  .write:empty::before{content:""}
+  .pick button:hover{background:none}
+  details.key:not([open]){display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.sel{display:flex;align-items:center;gap:2px}
+.pw{display:inline-flex;align-items:center}
+.train.apply{gap:6px}
+.train.apply .car.engine{font-size:22px;padding:8px 14px}
+.train.apply .link{font-size:24px}
+.egs{display:flex;flex-direction:column;gap:2px}
+.egs .eg{margin-bottom:0}
+.train.apply .car:not(.engine){font-size:18px;padding:8px 12px}
+.train.apply .car.engine .small{font-family:var(--hand);font-size:14px}
+
+
+/* Writing Gym additions */
+.tools a.tool{text-decoration:none;display:inline-block}
+.tools .home{margin-right:auto}
+.panel .msg{font-family:var(--note);font-size:21px;line-height:1.15;color:var(--ink);text-align:left;align-self:stretch}
+.rowpick .pick button{text-align:left}
+.ap{margin:0 -.12em 0 -.04em}
+</style>
+</head>
+<body data-store="gym-u23-table-talk">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="tools">
+  <a class="tool home" href="../index.html">← Writing Gym</a>
+  <span class="saved" id="saved"></span>
+  <button class="tool" type="button" id="print">Print / save as PDF</button>
+  <button class="tool" type="button" id="clear">Start again</button>
+</div>
+
+<main class="book">
+
+<section class="sheet" aria-label="Page 1">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="top">
+    <span class="series">Writing Gym · Module 3 · Unit 23</span>
+    <div class="fields">
+      <label>Name <span class="fill" contenteditable="true" id="f-name"></span></label>
+      <label>Group <span class="fill" contenteditable="true" id="f-group" style="min-width:70px"></span></label>
+      <label>Date <span class="fill" contenteditable="true" id="f-date" style="min-width:90px"></span></label>
+    </div>
+  </div>
+  <div class="title">
+    <div>
+      <h1>Table Talk</h1>
+      <p class="sub">presenting <span class="hl">research data</span></p>
+    </div>
+    <span class="badge">Unit 23</span>
+  </div>
+  <div class="goal">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g class="doodle" filter="url(#wobble)"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><circle cx="17" cy="17" r="1.5" style="fill:var(--red);stroke:var(--red)"/></g></svg>
+    <p><b class="ink">Today's one job:</b> choose the right display, label it the APA way, and keep it <b>honest</b>.</p>
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">0</span><h2>Look!</h2><span class="time">~3 min</span></div>
+    <p class="how">A (fictional) town voted on a name for its new park: <b>Oak Park 412</b> votes, <b>River Park 398</b>, <b>Sun Park 120</b>. Two posters showed the result.</p>
+    <div class="strip">
+      <div class="panel">
+        <svg viewBox="0 0 260 250" role="img" aria-label="Bar chart of two park names with the axis starting at 390" style="width:100%;height:auto;max-width:230px;font-family:var(--hand)"><line x1="52" y1="196.0" x2="250" y2="196.0" style="stroke:var(--line);stroke-width:1"/><text x="46" y="201.0" font-size="15" text-anchor="end" fill="#45464e">390</text><line x1="52" y1="162.8" x2="250" y2="162.8" style="stroke:var(--line);stroke-width:1"/><text x="46" y="167.8" font-size="15" text-anchor="end" fill="#45464e">395</text><line x1="52" y1="129.6" x2="250" y2="129.6" style="stroke:var(--line);stroke-width:1"/><text x="46" y="134.6" font-size="15" text-anchor="end" fill="#45464e">400</text><line x1="52" y1="96.4" x2="250" y2="96.4" style="stroke:var(--line);stroke-width:1"/><text x="46" y="101.4" font-size="15" text-anchor="end" fill="#45464e">405</text><line x1="52" y1="63.19999999999999" x2="250" y2="63.19999999999999" style="stroke:var(--line);stroke-width:1"/><text x="46" y="68.19999999999999" font-size="15" text-anchor="end" fill="#45464e">410</text><line x1="52" y1="30.0" x2="250" y2="30.0" style="stroke:var(--line);stroke-width:1"/><text x="46" y="35.0" font-size="15" text-anchor="end" fill="#45464e">415</text><g class="doodle" filter="url(#wobble)"><path d="M52 22 V196 H250"/></g><rect x="79.5" y="49.91999999999999" width="44" height="146.08" style="fill:var(--ink)"/><text x="101.5" y="42.91999999999999" font-size="16" text-anchor="middle" fill="#22336b">412</text><text x="101.5" y="218" font-size="16" text-anchor="middle" fill="#45464e">Oak</text><rect x="178.5" y="142.88" width="44" height="53.120000000000005" style="fill:var(--ink)"/><text x="200.5" y="135.88" font-size="16" text-anchor="middle" fill="#22336b">398</text><text x="200.5" y="218" font-size="16" text-anchor="middle" fill="#45464e">River</text><text x="254" y="242" font-size="13" text-anchor="end" fill="#7d8090">fictional data for practice</text></svg>
+        <p><b>Poster 1</b></p>
+        <p class="msg">“Oak Park wins by a mile!” Only two names are shown, and the axis starts at 390.</p>
+      </div>
+      <div class="panel big">
+        <svg viewBox="0 0 260 250" role="img" aria-label="Bar chart of three park names with the axis starting at zero" style="width:100%;height:auto;max-width:230px;font-family:var(--hand)"><line x1="52" y1="196.0" x2="250" y2="196.0" style="stroke:var(--line);stroke-width:1"/><text x="46" y="201.0" font-size="15" text-anchor="end" fill="#45464e">0</text><line x1="52" y1="140.66666666666669" x2="250" y2="140.66666666666669" style="stroke:var(--line);stroke-width:1"/><text x="46" y="145.66666666666669" font-size="15" text-anchor="end" fill="#45464e">150</text><line x1="52" y1="85.33333333333334" x2="250" y2="85.33333333333334" style="stroke:var(--line);stroke-width:1"/><text x="46" y="90.33333333333334" font-size="15" text-anchor="end" fill="#45464e">300</text><line x1="52" y1="30.0" x2="250" y2="30.0" style="stroke:var(--line);stroke-width:1"/><text x="46" y="35.0" font-size="15" text-anchor="end" fill="#45464e">450</text><g class="doodle" filter="url(#wobble)"><path d="M52 22 V196 H250"/></g><rect x="63.0" y="44.01777777777778" width="44" height="151.98222222222222" style="fill:var(--ink)"/><text x="85.0" y="37.01777777777778" font-size="16" text-anchor="middle" fill="#22336b">412</text><text x="85.0" y="218" font-size="16" text-anchor="middle" fill="#45464e">Oak</text><rect x="129.0" y="49.18222222222221" width="44" height="146.8177777777778" style="fill:var(--ink)"/><text x="151.0" y="42.18222222222221" font-size="16" text-anchor="middle" fill="#22336b">398</text><text x="151.0" y="218" font-size="16" text-anchor="middle" fill="#45464e">River</text><rect x="195.0" y="151.73333333333335" width="44" height="44.26666666666665" style="fill:var(--ink)"/><text x="217.0" y="144.73333333333335" font-size="16" text-anchor="middle" fill="#22336b">120</text><text x="217.0" y="218" font-size="16" text-anchor="middle" fill="#45464e">Sun</text><text x="254" y="242" font-size="13" text-anchor="end" fill="#7d8090">fictional data for practice</text></svg>
+        <p class="ink"><b>Poster 2</b></p>
+        <p class="msg">Figure 1 shows the votes for the three names. Oak Park and River Park received almost the same number of votes, while Sun Park received far fewer.</p>
+      </div>
+    </div>
+    <p class="how">Spot it: Poster 1 hides a name <b>and</b> cuts the axis, so a difference of 14 votes looks huge. Poster 2 starts at <b>zero</b>, shows <b>all</b> the data, and its sentence says what to notice.</p>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">!</span><h2>The rule: pick the display from the message</h2></div>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">SENTENCE</span><span class="link">→</span><span class="car">one to three numbers</span><span class="car">“18 of 20 finished”</span></div>
+      <div class="train apply"><span class="car engine m">TABLE</span><span class="link">→</span><span class="car">exact values to look up</span><span class="car">many values, different units</span></div>
+      <div class="train apply"><span class="car engine d">FIGURE</span><span class="link">→</span><span class="car">a pattern at a glance</span><span class="car">bar · line · scatter</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">Which chart?</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine ">BAR</span><span class="link">→</span><span class="car">compare categories</span><span class="car">start at 0, sort by size</span></div>
+      <div class="train apply"><span class="car engine s">LINE</span><span class="link">→</span><span class="car">change over time</span></div>
+      <div class="train apply"><span class="car engine m">SCATTER</span><span class="link">→</span><span class="car">two measures together</span><span class="car">one dot = one person</span></div>
+      <div class="train apply"><span class="car engine l">PIE</span><span class="link">→</span><span class="car">parts of one whole</span><span class="car">few parts, total 100 %</span></div>
+    </div>
+    <h3 class="ink" style="font-size:28px">The APA label</h3>
+    <div class="rules">
+      <div class="train apply"><span class="car engine s">ABOVE</span><span class="link">→</span><span class="car"><b>Table 2</b> (bold)</span><span class="car"><i>Title in Italic Title Case</i></span></div>
+      <div class="train apply"><span class="car engine l">BELOW</span><span class="link">→</span><span class="car"><i>Note.</i> <i>N</i> = 50. …</span></div>
+    </div>
+    <div class="side">
+      <div class="sticky">
+        <h3>Think in Uzbek</h3>
+        <p><b>3-jadval</b> → Table 3 <span class="small">(“3-table” emas)</span></p>
+        <p style="margin-top:6px"><b>4-rasm</b> → Figure 4 <span class="small">(“Picture 4” emas)</span></p>
+        <p style="margin-top:6px"><b>Masofa, km</b> → Distance (km)</p>
+        <p style="margin-top:6px"><b>talabalar soni</b> → Number of Students</p>
+      </div>
+      <div class="sticky pink">
+        <h3>Danger zone</h3>
+        <p><span class="strike">Table №2</span> ✗<br>
+        <span class="strike">bar chart starting at 390</span> ✗<br>
+        <span class="strike">3D pie</span> ✗<br>
+        <span class="strike">same numbers in a table AND a chart</span> ✗<br>
+        <span class="strike">“Everyone LOVES Oak!”</span> as a title ✗</p>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="pgno">1</span>
+</section>
+
+<section class="sheet" aria-label="Page 2">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex1">
+    <div class="exhead"><span class="num">1</span><h2>Sentence, table, or figure?</h2><span class="time">~3 min</span></div>
+    <p class="how">Sentence, table, or figure? Circle the best way to present each result.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. 18 of the 20 volunteers finished the training course.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>2. The temperature in a city on every day of one year.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>3. The opening hours, prices, and capacity of six sports halls.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>4. Ten school subjects ranked by how many pupils chose each as their favourite.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>5. The average age of the participants.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>6. The exact scores of five teams in six rounds of a quiz, for the organisers' records.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>7. Whether taller basketball players score more points (40 players).</span><span class="pw"><span class="pick" data-ans="2"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+      <div class="rowpick"><span>8. Three of the 45 questionnaires were returned empty.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">sentence</button><span>/</span><button type="button">table</button><span>/</span><button type="button">figure</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex1">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex2">
+    <div class="exhead"><span class="num">2</span><h2>Which chart?</h2><span class="time">~4 min</span></div>
+    <p class="how">Which chart fits the message best? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. A theatre's ticket sales in each month of two years.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>2. The number of books borrowed in five genres.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>3. How a family's monthly budget (100 %) is divided between three items.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>4. Hours of sleep and test scores of 50 pupils.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>5. The number of visitors to four museums last year.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>6. The population of a town every ten years since 1950.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>7. Distance from home and number of late arrivals for 60 employees.</span><span class="pw"><span class="pick" data-ans="3"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+      <div class="rowpick"><span>8. The share of a (fictional) shop's customers who paid by card or in cash (two parts, 100 %).</span><span class="pw"><span class="pick" data-ans="2"><button type="button">bar</button><span>/</span><button type="button">line</button><span>/</span><button type="button">pie</button><span>/</span><button type="button">scatter</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex2">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">2</span>
+</section>
+
+<section class="sheet" aria-label="Page 3">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex3">
+    <div class="exhead"><span class="num">3</span><h2>Spot the trick</h2><span class="time">~5 min</span></div>
+    <p class="how">Each chart is described in words. Is it honest, or what is the trick? Circle one.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. A bar chart compares two bakeries' sales (500 and 520 loaves); its axis starts at 490.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">cut axis</button><span>/</span><button type="button">3D effect</button><span>/</span><button type="button">honest</button></span></span></div>
+      <div class="rowpick"><span>2. A line graph shows a café's sales only in the holiday weeks, although the café has data for the whole year.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">chartjunk</button><span>/</span><button type="button">cherry-picking</button><span>/</span><button type="button">honest</button></span></span></div>
+      <div class="rowpick"><span>3. A tilted 3D pie chart in which the front slice looks the biggest.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">3D effect</button><span>/</span><button type="button">colour only</button><span>/</span><button type="button">honest</button></span></span></div>
+      <div class="rowpick"><span>4. A chart shows two teams only as red and green bars, with no labels.</span><span class="pw"><span class="pick" data-ans="1"><button type="button">cherry-picking</button><span>/</span><button type="button">colour only</button><span>/</span><button type="button">honest</button></span></span></div>
+      <div class="rowpick"><span>5. A bar chart starts at zero, its bars are sorted, and each bar has a label.</span><span class="pw"><span class="pick" data-ans="2"><button type="button">cut axis</button><span>/</span><button type="button">chartjunk</button><span>/</span><button type="button">honest</button></span></span></div>
+      <div class="rowpick"><span>6. A bar chart has pictures of coins, a glittering background, and a heavy grid.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">chartjunk</button><span>/</span><button type="button">cut axis</button><span>/</span><button type="button">honest</button></span></span></div>
+      <div class="rowpick"><span>7. A line graph of a river's water level has a clearly labelled axis from 2.0 m to 3.0 m.</span><span class="pw"><span class="pick" data-ans="0"><button type="button">acceptable</button><span>/</span><button type="button">misleading cut axis</button><span>/</span><button type="button">chartjunk</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex3">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex" id="ex4">
+    <div class="exhead"><span class="num">4</span><h2>Build an APA table</h2><span class="time">~2 min</span></div>
+    <p class="how">Put the parts of an APA table in order from top (1) to bottom (5).</p>
+    <div class="order">
+      <div class="ordrow"><span class="sel"><select id="o4-0" data-ans="4" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>the rows of data (the body)</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-1" data-ans="2" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>the title in italic title case</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-2" data-ans="5" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>the note: <i>Note.</i> <i>N</i> = 80. …</span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-3" data-ans="1" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>the number in bold: <b>Table 2</b></span></div>
+      <div class="ordrow"><span class="sel"><select id="o4-4" data-ans="3" aria-label="position"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></span><span>the column headings</span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex4">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <span class="pgno">3</span>
+</section>
+
+<section class="sheet" aria-label="Page 4">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex" id="ex5">
+    <div class="exhead"><span class="num">5</span><h2>APA or not?</h2><span class="time">~3 min</span></div>
+    <p class="how">APA style or not? Circle the correct choice.</p>
+    <div class="rowsgrid">
+      <div class="rowpick"><span>1. The label of the first table in a paper:</span><span class="pw"><span class="pick" data-ans="0"><button type="button"><b>Table 1</b>, above the table</button><span>/</span><button type="button">table 1, below the table</button><span>/</span><button type="button">Table №1</button></span></span></div>
+      <div class="rowpick"><span>2. A photograph in a research paper is labelled</span><span class="pw"><span class="pick" data-ans="2"><button type="button">Picture 3</button><span>/</span><button type="button">Photo 3</button><span>/</span><button type="button">Figure 3</button></span></span></div>
+      <div class="rowpick"><span>3. The best title for a scatter plot:</span><span class="pw"><span class="pick" data-ans="1"><button type="button"><i>Results</i></button><span>/</span><button type="button"><i>Hours of Sleep and Test Scores of 50 Pupils</i></button><span>/</span><button type="button"><i>Sleep Is Amazing!</i></button></span></span></div>
+      <div class="rowpick"><span>4. A note below a table starts with</span><span class="pw"><span class="pick" data-ans="0"><button type="button"><i>Note.</i></button><span>/</span><button type="button">Comment:</button><span>/</span><button type="button">P.S.</button></span></span></div>
+      <div class="rowpick"><span>5. Figure 2 is mentioned in the text before Figure 1. What do you do?</span><span class="pw"><span class="pick" data-ans="0"><button type="button">renumber them</button><span>/</span><button type="button">leave it</button><span>/</span><button type="button">delete Figure 1</button></span></span></div>
+      <div class="rowpick"><span>6. The best reference in the text:</span><span class="pw"><span class="pick" data-ans="0"><button type="button">As Figure 2 shows, …</button><span>/</span><button type="button">As the graph below shows, …</button><span>/</span><button type="button">As it is shown on picture 2, …</button></span></span></div>
+    </div>
+    <div class="checkrow"><button class="checkbtn" type="button" data-check="ex5">Red pen check ✎</button><span class="score"></span></div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">6</span><h2>Red pen time</h2><span class="time">~5 min</span></div>
+    <p class="how">Each line has one problem with a table or figure. Correct it. <span class="red">Careful: one line is already correct!</span></p>
+    <div class="fix">
+      <div class="fixrow"><span class="n">a</span><span class="s">In the 2-table are shown the results of the quiz.</span><label class="ok"><input type="checkbox" id="ok-a">correct</label><div class="write" contenteditable="true" id="fix-a"></div></div>
+      <div class="fixrow"><span class="n">b</span><span class="s">Picture 1 shows the number of visitors to each museum.</span><label class="ok"><input type="checkbox" id="ok-b">correct</label><div class="write" contenteditable="true" id="fix-b"></div></div>
+      <div class="fixrow"><span class="n">c</span><span class="s">Table 3 presents the opening hours of the six sports halls.</span><label class="ok"><input type="checkbox" id="ok-c">correct</label><div class="write" contenteditable="true" id="fix-c"></div></div>
+      <div class="fixrow"><span class="n">d</span><span class="s">An axis label: Distance, km</span><label class="ok"><input type="checkbox" id="ok-d">correct</label><div class="write" contenteditable="true" id="fix-d"></div></div>
+      <div class="fixrow"><span class="n">e</span><span class="s">Below a line graph: Figure 4. weekly ticket sales</span><label class="ok"><input type="checkbox" id="ok-e">correct</label><div class="write" contenteditable="true" id="fix-e"></div></div>
+      <div class="fixrow"><span class="n">f</span><span class="s">The answers are given in Table №2.</span><label class="ok"><input type="checkbox" id="ok-f">correct</label><div class="write" contenteditable="true" id="fix-f"></div></div>
+    </div>
+
+  </div>
+
+  <span class="pgno">4</span>
+</section>
+
+<section class="sheet" aria-label="Page 5">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">7</span><h2>Alt text makeover</h2><span class="time">~5 min</span></div>
+    <p class="how">Weak alt text tells a screen-reader user almost nothing. Rewrite it: type of chart + what it shows + the main message.</p>
+    <div class="switch">
+      <div class="sw"><p class="from">1. <i>Chart.</i> <span class="small">(bar chart: visitors to four museums last year; the History Museum had about 52,000, more than twice as many as any other)</span></p><div class="to"><span class="arrow">→</span><span class="done">Bar chart of visitors to four museums last year. The History Museum had the most visitors (about 52,000), more than twice as many as any other museum.</span></div><p class="small" style="padding-left:34px">(example)</p></div>
+      <div class="sw"><p class="from">2. <i>Image of a nice blue graph with lines.</i> <span class="small">(line graph: a theatre's monthly ticket sales over two years; peaks of about 9,000 every December, lows of about 2,000 every July)</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="a7-1" data-ph="Line graph of …"></div></div></div>
+      <div class="sw"><p class="from">3. <i>Pie chart, 3 colours, see legend.</i> <span class="small">(a family's monthly budget: rent 45 %, food 35 %, other 20 %)</span></p><div class="to"><span class="arrow">→</span><div class="write" contenteditable="true" id="a7-2" data-ph="Pie chart of …"></div></div></div>
+    </div>
+
+  </div>
+
+  <div class="ex">
+    <div class="exhead"><span class="num">8</span><h2>Writing corner</h2><span class="time">~20 min</span></div>
+    <div class="corner">
+      <p><b>Your turn.</b> A (fictional) sports centre asked its 50 members: <i>Which class do you attend most often?</i> (one answer each). It also found that <b>38 of the 50 members</b> would like more evening classes. Present the results in a short <b>Results</b> paragraph (80–120 words) around Figure 1. Give the figure an APA title and note, and write its alt text.</p>
+      <div class="task"><p><b>Figure 1</b> <span class="small">(draft: your title goes below)</span></p>
+      <svg viewBox="0 0 500 310" role="img" aria-label="Horizontal bar chart of classes attended most often" style="width:100%;height:auto;max-width:560px;font-family:var(--hand)"><line x1="150.0" y1="20" x2="150.0" y2="226" style="stroke:var(--line);stroke-width:1"/><text x="150.0" y="248" font-size="16" text-anchor="middle" fill="#45464e">0</text><line x1="214.0" y1="20" x2="214.0" y2="226" style="stroke:var(--line);stroke-width:1"/><text x="214.0" y="248" font-size="16" text-anchor="middle" fill="#45464e">5</text><line x1="278.0" y1="20" x2="278.0" y2="226" style="stroke:var(--line);stroke-width:1"/><text x="278.0" y="248" font-size="16" text-anchor="middle" fill="#45464e">10</text><line x1="342.0" y1="20" x2="342.0" y2="226" style="stroke:var(--line);stroke-width:1"/><text x="342.0" y="248" font-size="16" text-anchor="middle" fill="#45464e">15</text><line x1="406.0" y1="20" x2="406.0" y2="226" style="stroke:var(--line);stroke-width:1"/><text x="406.0" y="248" font-size="16" text-anchor="middle" fill="#45464e">20</text><line x1="470.0" y1="20" x2="470.0" y2="226" style="stroke:var(--line);stroke-width:1"/><text x="470.0" y="248" font-size="16" text-anchor="middle" fill="#45464e">25</text><g class="doodle" filter="url(#wobble)"><path d="M150 14 V226"/></g><text x="140" y="51" font-size="18" text-anchor="end" fill="#22336b">Swimming</text><rect x="150" y="28" width="268.8" height="32" style="fill:var(--ink)"/><text x="426.8" y="51" font-size="17" fill="#22336b">21</text><text x="140" y="101" font-size="18" text-anchor="end" fill="#22336b">Yoga</text><rect x="150" y="78" width="153.60000000000002" height="32" style="fill:var(--ink)"/><text x="311.6" y="101" font-size="17" fill="#22336b">12</text><text x="140" y="151" font-size="18" text-anchor="end" fill="#22336b">Football</text><rect x="150" y="128" width="128.0" height="32" style="fill:var(--ink)"/><text x="286.0" y="151" font-size="17" fill="#22336b">10</text><text x="140" y="201" font-size="18" text-anchor="end" fill="#22336b">Chess</text><rect x="150" y="178" width="89.60000000000002" height="32" style="fill:var(--ink)"/><text x="247.60000000000002" y="201" font-size="17" fill="#22336b">7</text><text x="310.0" y="270" font-size="16" text-anchor="middle" fill="#45464e">Number of members</text><text x="496" y="306" font-size="13" text-anchor="end" fill="#7d8090">fictional data for practice</text></svg></div>
+
+      <div class="para">
+        <div class="ptag"><b>P</b><span>Planning note</span></div>
+        <div class="card3">
+          <span class="lab">Who?</span><div class="write" contenteditable="true" id="pn-who" data-ph="Who reads the report? What do they need?"></div>
+          <span class="lab">Message</span><div class="write" contenteditable="true" id="pn-msg" data-ph="The one thing the reader should see in Figure 1: …"></div>
+          <span class="lab">Sentence or figure?</span><div class="write" contenteditable="true" id="pn-where" data-ph="In the figure: … In a sentence: …"></div>
+          <span class="lab">Numbers</span><div class="write" contenteditable="true" id="pn-num" data-ph="Only 2–3 numbers in the text: …"></div>
+        </div>
+      </div>
+
+      <div class="para">
+        <div class="ptag"><b>L</b><span>APA title and note</span></div>
+        <div class="card3">
+          <span class="lab">Title</span><div class="write" contenteditable="true" id="lb-title" data-ph="Italic Title Case: what the figure shows"></div>
+          <span class="lab">Note.</span><div class="write" contenteditable="true" id="lb-note" data-ph="N = … Each member …"></div>
+        </div>
+      </div>
+
+      <div class="para" id="textC">
+        <div class="ptag"><b>R</b><span>My Results paragraph (80–120 words)</span></div>
+        <p class="frame">The questionnaire was answered by …</p>
+        <div class="write" style="--rows:8" contenteditable="true" id="C-text" data-wc></div>
+        <div class="wcbar" data-count="textC" data-min="80" data-max="120" data-low="Keep going: have you introduced Figure 1 and told the reader what to notice?" data-high="Too long: cut numbers the reader can already see in Figure 1.">Word count: <span class="wc">0 words</span><span class="small wctip"></span></div>
+      </div>
+
+      <div class="para">
+        <div class="ptag"><b>A</b><span>Alt text (1–2 sentences)</span></div>
+        <div class="write" style="--rows:3" contenteditable="true" id="alt-text" data-ph="Horizontal bar chart of …"></div>
+      </div>
+      <div class="ticks">
+        <label><input type="checkbox" id="t0">Figure 1 is mentioned by number before the reader needs it</label>
+        <label><input type="checkbox" id="t1">the text says what to notice, with only two or three numbers</label>
+        <label><input type="checkbox" id="t2">the 38 members are reported in a sentence, not in the figure</label>
+        <label><input type="checkbox" id="t3">the title is in italic title case and says what the figure shows</label>
+        <label><input type="checkbox" id="t4">the note gives N and explains that each member chose one class</label>
+        <label><input type="checkbox" id="t5">past simple for the results, present for “Figure 1 shows”</label>
+        <label><input type="checkbox" id="t6">no opinions or explanations: they belong in the Discussion</label>
+        <label><input type="checkbox" id="t7">the alt text gives the chart type, the topic, and the main message</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ex exit">
+    <div class="exhead"><span class="num">✓</span><h2>Before you go</h2><span class="time">~1 min</span></div>
+    <p class="how">Colour the stars. How sure are you?</p>
+    <div class="can"><span>I can decide between a sentence, a table, and a figure, and choose the right chart.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can label tables and figures the APA way: bold number, italic title, note.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <div class="can"><span>I can spot misleading charts and write useful alt text.</span><span class="stars"><button type="button" aria-label="1 star">★</button><button type="button" aria-label="2 stars">★</button><button type="button" aria-label="3 stars">★</button></span></div>
+    <p class="small">Finished? Press “Print / save as PDF” and send the file to your teacher, or keep it for the Results section of your IS5 paper.</p>
+  </div>
+
+  <details class="key">
+    <summary>Teacher's corner: answers</summary>
+    <div class="keygrid">
+      <div><h3>1. Sentence, table, or figure?</h3><ol><li>sentence</li><li>figure (line graph)</li><li>table</li><li>figure (bar chart)</li><li>sentence</li><li>table</li><li>figure (scatter plot)</li><li>sentence</li></ol></div>
+      <div><h3>2. Which chart?</h3><ol><li>line</li><li>bar</li><li>pie (three parts of 100 %; a stacked bar is also fine)</li><li>scatter</li><li>bar</li><li>line</li><li>scatter</li><li>pie (two parts of 100 %; a bar is also fine)</li></ol></div>
+      <div><h3>3. Spot the trick</h3><ol><li>cut axis (start at zero)</li><li>cherry-picking (show the whole year)</li><li>3D effect (use a flat chart)</li><li>colour only (add labels)</li><li>honest</li><li>chartjunk</li><li>acceptable: a line graph may start above zero if the axis is clearly labelled</li></ol></div>
+      <div><h3>4. APA table</h3><p>Number (1) → title (2) → column headings (3) → body (4) → note (5).</p><p>Numbers in the order shown: 4, 2, 5, 1, 3.</p></div>
+      <div><h3>5. APA or not?</h3><ol><li><b>Table 1</b>, above the table</li><li>Figure 3</li><li><i>Hours of Sleep and Test Scores of 50 Pupils</i></li><li><i>Note.</i></li><li>renumber them in order of first mention</li><li>As Figure 2 shows, …</li></ol></div>
+      <div><h3>6. Red pen</h3><ol type="a"><li>Table 2 shows the results of the quiz. (<i>2-jadval</i>; Uzbek word order)</li><li>Figure 1 shows … (<i>rasm</i> is not “picture”)</li><li>Correct ✓</li><li>Distance (km)</li><li><b>Figure 4</b> above the graph, then the title in italics: <i>Weekly Ticket Sales</i></li><li>Table 2 (no №)</li></ol></div>
+      <div><h3>7. Alt text</h3><p>2: Line graph of a theatre's monthly ticket sales over two years. Sales peaked at about 9,000 every December and fell to about 2,000 every July.</p><p>3: Pie chart of a family's monthly budget: rent takes 45 %, food 35 %, and other costs 20 %.</p></div>
+      <div><h3>8. Writing corner</h3><p><b>Figure 1</b> / <i>Classes Attended Most Often by Members of the Sports Centre</i> / <i>Note.</i> <i>N</i> = 50. Each member chose one class. Fictional data for practice.</p><p>Model (86 words): The questionnaire was answered by all 50 members of the sports centre. Figure 1 shows the class that each member attended most often. Swimming was clearly the most popular class, named by 21 members (42%), almost twice as many as yoga, the second most popular class (12 members). Together, these two classes accounted for two thirds of the answers. Football was named by 10 members and chess by only seven. In addition, 38 of the 50 members (76%) said that they would like more evening classes.</p><p>Alt text: Horizontal bar chart of the classes that 50 sports centre members attended most often. Swimming was the most popular (21 members), followed by yoga (12), football (10), and chess (7).</p></div>
+    </div>
+  </details>
+
+  <span class="pgno">5</span>
+</section>
+
+</main>
+
+<script>
+(function(){
+var KEY = document.body.getAttribute('data-store') || 'writing-gym';
+var store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { store = {}; }
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try {
+      var s = {t:{}, p:{}, o:{}, c:{}, st:{}};
+      document.querySelectorAll('[contenteditable][id]').forEach(function(el){ if(el.innerText.trim()) s.t[el.id] = el.innerText; });
+      document.querySelectorAll('.pick[id]').forEach(function(g){ var i = [].indexOf.call(g.querySelectorAll('button'), g.querySelector('button.on')); if(i > -1) s.p[g.id] = i; });
+      document.querySelectorAll('select[id]').forEach(function(el){ if(el.value) s.o[el.id] = el.value; });
+      document.querySelectorAll('input[type=checkbox][id]').forEach(function(el){ if(el.checked) s.c[el.id] = 1; });
+      document.querySelectorAll('.stars[id]').forEach(function(g){ s.st[g.id] = g.querySelectorAll('button.on').length; });
+      localStorage.setItem(KEY, JSON.stringify(s));
+      var m = document.getElementById('saved'); if(m) m.textContent = 'saved on this device ✓';
+    } catch(e) {}
+  }, 400);
+}
+function load(){
+  var s = store;
+  if(s.t) Object.keys(s.t).forEach(function(id){ var el = document.getElementById(id); if(el) el.innerText = s.t[id]; });
+  if(s.p) Object.keys(s.p).forEach(function(id){ var g = document.getElementById(id); if(g){ var b = g.querySelectorAll('button')[s.p[id]]; if(b){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); } } });
+  if(s.o) Object.keys(s.o).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = s.o[id]; });
+  if(s.c) Object.keys(s.c).forEach(function(id){ var el = document.getElementById(id); if(el) el.checked = true; });
+  if(s.st) Object.keys(s.st).forEach(function(id){ var g = document.getElementById(id); if(g) g.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on', j < s.st[id]); }); });
+}
+
+// give every pick group an id so it can be saved
+document.querySelectorAll('.pick').forEach(function(g, i){ if(!g.id) g.id = 'pk' + i; });
+
+document.querySelectorAll('.pick').forEach(function(g){
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var was = b.classList.contains('on');
+    g.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); });
+    if(!was){ b.classList.add('on'); b.setAttribute('aria-pressed','true'); }
+    var m = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(m) m.remove();
+    save();
+  });
+});
+document.querySelectorAll('.stars').forEach(function(g, i){
+  if(!g.id) g.id = 'st' + i;
+  var bs = [].slice.call(g.querySelectorAll('button'));
+  bs.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      var n = (b.classList.contains('on') && (i === bs.length - 1 || !bs[i+1].classList.contains('on'))) ? i : i + 1;
+      bs.forEach(function(x, j){ x.classList.toggle('on', j < n); });
+      save();
+    });
+  });
+});
+
+// red-pen check for closed tasks
+function mark(after, ok, forId){
+  var old = after.parentNode.querySelector('.mark[data-for="' + forId + '"]'); if(old) old.remove();
+  var m = document.createElement('span');
+  m.className = 'mark ' + (ok ? 'r' : 'w'); m.setAttribute('data-for', forId);
+  m.textContent = ok ? '✓' : '✗';
+  m.setAttribute('aria-label', ok ? 'correct' : 'try again');
+  after.insertAdjacentElement('afterend', m);
+}
+document.querySelectorAll('.checkbtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.getAttribute('data-check'));
+    var total = 0, right = 0, empty = 0;
+    box.querySelectorAll('.pick[data-ans]').forEach(function(g){
+      total++;
+      var on = g.querySelector('button.on');
+      if(!on){ empty++; var o = g.parentNode.querySelector('.mark[data-for="' + g.id + '"]'); if(o) o.remove(); return; }
+      var ok = [].indexOf.call(g.querySelectorAll('button'), on) === +g.getAttribute('data-ans');
+      if(ok) right++;
+      mark(g, ok, g.id);
+    });
+    box.querySelectorAll('select[data-ans]').forEach(function(s){
+      total++;
+      if(!s.value){ empty++; return; }
+      var ok = s.value === s.getAttribute('data-ans');
+      if(ok) right++;
+      mark(s, ok, s.id);
+    });
+    var sc = btn.parentNode.querySelector('.score');
+    if(sc) sc.textContent = right + ' / ' + total + (empty ? '  (' + empty + ' not answered yet)' : (right === total ? '  Excellent!' : '  Fix the ✗ and check again.'));
+  });
+});
+document.querySelectorAll('select').forEach(function(s){ s.addEventListener('change', function(){ var m = s.parentNode.querySelector('.mark[data-for="' + s.id + '"]'); if(m) m.remove(); save(); }); });
+document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.addEventListener('change', save); });
+
+// word counter for the letter corner
+function countWords(){
+  document.querySelectorAll('.wcbar').forEach(function(bar){
+    var box = document.getElementById(bar.getAttribute('data-count'));
+    var n = 0;
+    box.querySelectorAll('.write[data-wc]').forEach(function(w){ var t = w.innerText.trim(); if(t) n += t.split(/\s+/).length; });
+    var min = +bar.getAttribute('data-min'), max = +bar.getAttribute('data-max');
+    var el = bar.querySelector('.wc'); el.textContent = n + ' words';
+    el.className = 'wc ' + (n < min ? 'low' : n > max ? 'high' : 'good');
+    var tip = bar.querySelector('.wctip');
+    if(tip) tip.textContent = n < min ? (bar.getAttribute('data-low') || 'Keep going: add more detail.') : n > max ? (bar.getAttribute('data-high') || 'A little too long: cut what the reader does not need.') : 'Good length!';
+  });
+}
+document.querySelectorAll('[contenteditable]').forEach(function(el){
+  el.addEventListener('input', function(){ countWords(); save(); });
+  el.addEventListener('paste', function(e){ e.preventDefault(); var t = (e.clipboardData || window.clipboardData).getData('text'); document.execCommand('insertText', false, t); });
+});
+
+var pr = document.getElementById('print'); if(pr) pr.addEventListener('click', function(){ window.print(); });
+var cl = document.getElementById('clear'); if(cl) cl.addEventListener('click', function(){
+  if(!confirm('Clear all your answers in this trainer?')) return;
+  try { localStorage.removeItem(KEY); } catch(e) {}
+  location.reload();
+});
+
+load(); countWords();
+})();
+
+</script>
+</body>
+</html>
